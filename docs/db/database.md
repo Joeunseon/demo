@@ -27,6 +27,7 @@ erDiagram
         text profile_img "프로필이미지(base64)"
         yn active_yn "활성화여부(Y:활성/N:탈퇴)"
         timestamp join_dt "가입일시"
+        timestamp last_pwd_dt "마지막비밀번호변경일시"
         timestamp last_login_dt "마지막로그인일시"
         timestamp upd_dt "수정일시"
         int upd_seq "수정자SEQ"

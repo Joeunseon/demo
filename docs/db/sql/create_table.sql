@@ -37,6 +37,7 @@ CREATE TABLE public.users (
 	profile_img text NULL,
 	active_yn public."yn" NOT NULL DEFAULT 'Y'::yn,
 	join_dt timestamp NOT NULL DEFAULT now(),
+	last_pwd_dt timestamp  NOT NULL DEFAULT now(),
 	last_login_dt timestamp NULL,
 	upd_dt timestamp NULL,
 	upd_seq int8 NULL,
@@ -56,6 +57,7 @@ COMMENT ON COLUMN public.users.user_email IS '사용자이메일';
 COMMENT ON COLUMN public.users.profile_img IS '프로필이미지(base64)';
 COMMENT ON COLUMN public.users.active_yn IS '활성화여부(Y/N)';
 COMMENT ON COLUMN public.users.join_dt IS '가입일시';
+COMMENT ON COLUMN public.users.last_pwd_dt IS '마지막비밀번호변경일시';
 COMMENT ON COLUMN public.users.last_login_dt IS '마지막로그인일시';
 COMMENT ON COLUMN public.users.upd_dt IS '수정일시';
 COMMENT ON COLUMN public.users.upd_seq IS '수정자SEQ';
