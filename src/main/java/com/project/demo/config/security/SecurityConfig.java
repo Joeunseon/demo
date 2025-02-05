@@ -32,7 +32,6 @@ public class SecurityConfig {
                 .permitAll()
             )
             .sessionManagement(session -> session
-                .invalidSessionUrl("/error/sessionTimeOut")
                 .maximumSessions(1)
                 .expiredSessionStrategy(new CustomSessionExpiredHandler())
             )

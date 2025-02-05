@@ -14,7 +14,7 @@ public class CustomSessionExpiredHandler implements SessionInformationExpiredStr
 
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
-        HttpServletRequest request = event.getRequest();
+        //HttpServletRequest request = event.getRequest();
         HttpServletResponse response = event.getResponse();
 
         response.sendRedirect("/error/sessionTimeOut");
