@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/error-layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container">
+                <div id="error">
+                    <div class="error">
+                        <div class="error-content">
+                            <h3>Oops! SESSION TIME OUT</h3>
+                            <h1>
+                                <span>T</span><span>I</span><span>M</span><span>E</span><span>O</span><span>U</span><span>T</span>
+                            </h1>
+                        </div>
+                        <h2>로그인 세션이 만료되었습니다.</h2>
+                        <a href="/" class="retry-button">Main</a>
+                        <a href="/login" class="retry-button">Login</a>
+                    </div>
+                </div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>
