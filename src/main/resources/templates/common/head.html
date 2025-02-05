@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <th:block th:fragment="commonMetaAndTitle">
+    <th:block th:fragment="commonMetaAndTitle(title)">
         <meta charset="UTF-8">
         <meta http-equiv="x-ua-Compatible" content="IE=edge">
-        <title>DEMO</title>
+        <title th:text="${title} ?: 'DEMO'">DEMO</title>
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, viewport-fit=cover'">
         <meta name="format-detection" content="telephone=no">
-        <link rel="icon" type="image/svg+xml" href="/images/favicon-dark.svg" sizes="32x32">
+        <link rel="icon" type="image/svg+xml" href="/images/favicon-dark.svg">
     </th:block>
 
     <th:block th:fragment="commonAssets">
@@ -22,6 +22,13 @@
         <!-- jQuery UI JS -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <!-- Common 개발자 JS  -->
-         <script src="/js/common.js"></script>
+        <script src="/js/common.js"></script>
+    </th:block>
+
+    <th:block th:fragment="errorAssets">
+        <!-- 에러 페이지 전용 CSS 및 폰트 -->
+        <link rel="stylesheet" href="/css/error.css">
+        <link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
     </th:block>
 </html>

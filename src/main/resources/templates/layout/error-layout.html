@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <th:block th:include="common/head :: commonMetaAndTitle('DEMO')" />
-    <th:block th:include="common/head :: commonAssets" />
+    <th:block th:include="common/head :: commonMetaAndTitle('DEMO | ERROR')" />
+    <th:block th:include="common/head :: errorAssets" />
     <th:block layout:fragment="head" th:remove="tag" />
 </head>
 <body>
     <div class="wrap">
         <!-- Content Wrapper. Contains page content -->
         <th:block layout:fragment="contents" />
-
-        <div th:include="common/javascript :: common" th:remove="tag"></div>
     </div>
 </body>
 </html>
