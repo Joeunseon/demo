@@ -12,5 +12,11 @@ public class CommonConstant {
 
         /** 에러 */
         public final static boolean ERR = false;
+
+        /** 결과 */
+        public final static String RESULT = "result";
+
+        /** 메시지 */
+        public final static String MSG = "message";
     }
 }

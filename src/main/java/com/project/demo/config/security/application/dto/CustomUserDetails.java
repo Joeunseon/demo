@@ -1,5 +1,6 @@
 package com.project.demo.config.security.application.dto;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -29,6 +30,7 @@ public class CustomUserDetails implements UserDetails {
     private String userNm;
     private String profileImg;
     private ActiveYn activeYn;
+    private LocalDateTime lastPwdDt;
 
     public static CustomUserDetails of(UserEntity user) {
         return CustomUserDetails.builder()
@@ -39,6 +41,7 @@ public class CustomUserDetails implements UserDetails {
                     .userNm(user.getUserNm())
                     .profileImg(user.getProfileImg())
                     .activeYn(user.getActiveYn())
+                    .lastPwdDt(user.getLastPwdDt())
                     .build();
     }
     

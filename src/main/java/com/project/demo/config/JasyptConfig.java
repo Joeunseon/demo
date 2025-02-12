@@ -1,11 +1,11 @@
 package com.project.demo.config;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ public class JasyptConfig {
 
         // 암호화 키 설정: 환경 변수 또는 시스템 속성에서 읽음
         String encryptionKey = System.getenv("JASYPT_ENCRYPTOR_PASSWORD");
-        if ( StringUtils.isBlank(encryptionKey) ) {
+        if ( !StringUtils.hasText(encryptionKey) ) {
             throw new IllegalStateException("JASYPT_ENCRYPTOR_PASSWORD 환경변수가 설정되지 않았습니다.");
         }
 
