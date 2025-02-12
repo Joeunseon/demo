@@ -22,7 +22,7 @@ erDiagram
         int role_seq FK "권한SEQ"
         varchar user_id "사용자ID"
         varchar user_pwd "사용자비밀번호(암호화)"
-        varchar user_nm "사용자이름(암호화)"
+        varchar user_nm "사용자이름"
         varchar user_email "사용자이메일"
         text profile_img "프로필이미지(base64)"
         yn active_yn "활성화여부(Y:활성/N:탈퇴)"

@@ -32,7 +32,7 @@ CREATE TABLE public.users (
 	role_seq int4 NOT NULL,
 	user_id varchar(50) NOT NULL,
 	user_pwd varchar(255) NOT NULL,
-	user_nm varchar(255) NOT NULL,
+	user_nm varchar(50) NOT NULL,
 	user_email varchar(100) NULL,
 	profile_img text NULL,
 	active_yn public."yn" NOT NULL DEFAULT 'Y'::yn,
@@ -52,7 +52,7 @@ COMMENT ON COLUMN public.users.user_seq IS '사용자SEQ';
 COMMENT ON COLUMN public.users.role_seq IS '권한SEQ';
 COMMENT ON COLUMN public.users.user_id IS '사용자ID';
 COMMENT ON COLUMN public.users.user_pwd IS '사용자비밀번호(암호화)';
-COMMENT ON COLUMN public.users.user_nm IS '사용자이름(암호화)';
+COMMENT ON COLUMN public.users.user_nm IS '사용자이름';
 COMMENT ON COLUMN public.users.user_email IS '사용자이메일';
 COMMENT ON COLUMN public.users.profile_img IS '프로필이미지(base64)';
 COMMENT ON COLUMN public.users.active_yn IS '활성화여부(Y/N)';
