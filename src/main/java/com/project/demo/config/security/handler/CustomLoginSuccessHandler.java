@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.project.demo.api.user.application.UserService;
 import com.project.demo.common.constant.Login;
 import com.project.demo.common.util.MsgUtil;
 import com.project.demo.config.security.application.dto.CustomUserDetails;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    private final UserService userService;
     private final MsgUtil msgUtil;
 
     @Override
@@ -36,6 +38,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         session.setAttribute("user", UserSessionDTO.of(userDetails.toEntity()));
 
         log.info(msgUtil.getMessage(Login.SUCCUESS.getKey(), userDetails.getUserNm()));
+
+        // 마지막 로그인시간 업데이트
+        userService.updateLastLoginDt(userDetails.getUserSeq());
         
         /** 비밀번호 변경 필요 여부 확인(3개월 후) */
         if ( userDetails.getLastPwdDt() == null || userDetails.getLastPwdDt().isBefore(LocalDateTime.now().minusMonths(3)) ) {

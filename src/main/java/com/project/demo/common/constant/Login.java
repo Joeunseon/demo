@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 public enum Login {
 
     SUCCUESS("success.login"),
+    SUCCUESS_LAST_LOGIN("success.login.last_login_dt"),
     FAILED("error.login.failed"),
     USER_NOT_FOUND("error.login.user_not_found"),
-    BAD_CREDENTIALS("error.login.bad_credentials");
+    BAD_CREDENTIALS("error.login.bad_credentials"),
+    FAILED_LAST_LOGIN("error.login.last_login_dt");
 
     private final String key;
 }
