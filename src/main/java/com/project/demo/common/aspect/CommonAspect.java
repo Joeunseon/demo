@@ -1,12 +1,25 @@
 package com.project.demo.common.aspect;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 
+import com.project.demo.common.BaseDTO;
+import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.constant.CommonConstant.RESULT;
+import com.project.demo.common.util.CommonUtil;
+import com.project.demo.common.util.MsgUtil;
+import com.project.demo.config.security.application.dto.UserSessionDTO;
+
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Aspect
@@ -14,12 +27,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CommonAspect {
 
+    private CommonUtil commonUtil;
+    private MsgUtil msgUtil;
+
     /**
      * 로딩할 자바스크립트 명을 설정
      * @param joinPoint
      * @param viewName
      */
-    @AfterReturning(value = "execution(public String com.project.demo..*Controller.*(..))", returning = "viewName")
+    @AfterReturning(value = "execution(public String com.project.demo.web..*Controller.*(..))", returning = "viewName")
     public void afterReturning(JoinPoint joinPoint, String viewName) {
         if ( viewName == null || !StringUtils.hasText(viewName) )
             return;
@@ -98,5 +114,49 @@ public class CommonAspect {
             jsObjName = StringUtils.capitalize(jsObjName);
         
         return jsObjName;
+    }
+
+    /**
+     * 사용자 세션을 BaseDTO에 설정
+     * @param ProceedingJoinPoint
+     * @return Object
+     * @throws Throwable
+     */
+    @Around("execution(public * com.project.demo..*Controller.*(..))")
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        
+        HttpServletRequest request = null;
+        BaseDTO baseDTO = null;
+        UserSessionDTO userSessionDTO = null;
+
+        for ( Object obj : pjp.getArgs() ) {
+            log.info(">>> " + obj);
+            if ( obj instanceof HttpServletRequest ) {
+                request = (HttpServletRequest) obj;
+                commonUtil.getRequestParmeter(request);
+
+                Map<String, Object> dataMap = new HashMap<>();
+                dataMap.put(RESULT.RESULT, RESULT.OK);
+                dataMap.put(RESULT.MSG, msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey(), request.getRequestURI()));
+
+            } else if ( obj instanceof BaseDTO ) {
+                baseDTO = (BaseDTO) obj;
+            }
+        }
+
+        /** HttpServletRequest 분기 */
+        if ( request != null ) {
+            /** 사용자 세션 취득 */
+            log.info(">>> userDTO 취득");
+            userSessionDTO = (UserSessionDTO) request.getSession().getAttribute("user");
+        }
+
+        if ( userSessionDTO != null && baseDTO != null ) {
+            log.info(">>> 사용자 세션 정보 설정: {}", userSessionDTO);
+            /** 설정: 사용자 세션 */
+            baseDTO.setUserSession(userSessionDTO);
+        }
+
+        return pjp.proceed();
     }
 }

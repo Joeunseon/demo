@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Login {
+public enum LoginMsgKey {
 
     SUCCUESS("success.login"),
     SUCCUESS_LAST_LOGIN("success.login.last_login_dt"),

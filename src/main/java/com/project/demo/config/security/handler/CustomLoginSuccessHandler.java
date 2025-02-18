@@ -8,7 +8,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.project.demo.api.user.application.UserService;
-import com.project.demo.common.constant.Login;
+import com.project.demo.common.constant.LoginMsgKey;
 import com.project.demo.common.util.MsgUtil;
 import com.project.demo.config.security.application.dto.CustomUserDetails;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
@@ -37,7 +37,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
         session.setAttribute("user", UserSessionDTO.of(userDetails.toEntity()));
 
-        log.info(msgUtil.getMessage(Login.SUCCUESS.getKey(), userDetails.getUserNm()));
+        log.info(msgUtil.getMessage(LoginMsgKey.SUCCUESS.getKey(), userDetails.getUserNm()));
 
         // 마지막 로그인시간 업데이트
         userService.updateLastLoginDt(userDetails.getUserSeq());

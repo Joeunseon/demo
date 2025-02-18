@@ -13,7 +13,12 @@
                         </ul>
                     </div>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
+                        <th:block th:if="${session.user}">
+                            <li class="nav-item"><a class="nav-link" href="/api/logout">로그아웃</a></li>
+                        </th:block>
+                        <th:block th:unless="${session.user}">
+                            <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
+                        </th:block>
                     </ul>
                 </div>
             </nav>
