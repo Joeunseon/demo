@@ -59,4 +59,8 @@ public class BaseDTO implements Serializable {
     public void calculateOffSet() {
         this.offSet = (this.page - 1) * this.pageScale;
     }
+
+    public void setUserSession(UserSessionDTO userSessionDTO) {
+        this.userSessionDTO = userSessionDTO;
+    }
 }

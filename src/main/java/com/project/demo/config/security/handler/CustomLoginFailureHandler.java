@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.demo.common.constant.Login;
+import com.project.demo.common.constant.LoginMsgKey;
 import com.project.demo.common.constant.CommonConstant.RESULT;
 import com.project.demo.common.util.MsgUtil;
 
@@ -47,11 +47,11 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
         
         /** 로그인 실패 분기 */
         if ( exception instanceof UsernameNotFoundException ) {
-            dataMap.put(RESULT.MSG, msgUtil.getMessage(Login.USER_NOT_FOUND.getKey()));
+            dataMap.put(RESULT.MSG, msgUtil.getMessage(LoginMsgKey.USER_NOT_FOUND.getKey()));
         } else if ( exception instanceof BadCredentialsException ) {
-            dataMap.put(RESULT.MSG, msgUtil.getMessage(Login.BAD_CREDENTIALS.getKey()));
+            dataMap.put(RESULT.MSG, msgUtil.getMessage(LoginMsgKey.BAD_CREDENTIALS.getKey()));
         } else {
-            dataMap.put(RESULT.MSG, msgUtil.getMessage(Login.FAILED.getKey()));
+            dataMap.put(RESULT.MSG, msgUtil.getMessage(LoginMsgKey.FAILED.getKey()));
         }
 
         /** JSON 응답 출력 */
