@@ -18,7 +18,7 @@ public class UserSessionDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long userSeq;
-    private Long roleSeq;
+    private Integer roleSeq;
     private String userId;
     private String userNm;
     private String profileImg;

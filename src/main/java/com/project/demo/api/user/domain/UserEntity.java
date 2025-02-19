@@ -2,8 +2,12 @@ package com.project.demo.api.user.domain;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import com.project.demo.api.user.value.ActiveYn;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,33 +29,46 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
 
-    private Long roleSeq;
+    @Column(name = "role_seq")
+    private Integer roleSeq;
 
+    @Column(name = "user_id", length = 50)
     private String userId;
 
+    @Column(name = "user_pwd", length = 255)
     private String userPwd;
 
+    @Column(name = "user_nm", length = 50)
     private String userNm;
 
+    @Column(name = "user_email", length = 100)
     private String userEmail;
 
+    @Column(name = "profile_img", columnDefinition = "TEXT")
     private String profileImg;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "active_yn", columnDefinition = "yn")
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private ActiveYn activeYn;
 
+    @Column(name = "join_dt")
     private LocalDateTime joinDt;
 
+    @Column(name = "last_pwd_dt")
     private LocalDateTime lastPwdDt;
 
+    @Column(name = "last_login_dt")
     private LocalDateTime lastLoginDt;
 
+    @Column(name = "upd_dt")
     private LocalDateTime updDt;
 
+    @Column(name = "upd_seq")
     private Long updSeq;
 
     @Builder
-    public UserEntity(Long userSeq, Long roleSeq, String userId, String userPwd, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime joninDt, LocalDateTime lastPwdDt, LocalDateTime lastLoginDt, LocalDateTime updDt, Long updSeq) {
+    public UserEntity(Long userSeq, Integer roleSeq, String userId, String userPwd, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime joninDt, LocalDateTime lastPwdDt, LocalDateTime lastLoginDt, LocalDateTime updDt, Long updSeq) {
 
         this.userSeq = userSeq;
         this.roleSeq = roleSeq;

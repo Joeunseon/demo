@@ -23,7 +23,7 @@ public class MenuRoleService {
     private final AntPathMatcher pathMatcher = new AntPathMatcher(); // URL 패턴 매칭
 
     @Transactional(readOnly = true)
-    public boolean hasAccess(Long roleSeq, String url) {
+    public boolean hasAccess(Integer roleSeq, String url) {
         
         List<String> menuUrlPatterns = menuRoleRepository.findByRole_RoleSeqAndMenu_ActiveYn(roleSeq, ActiveYn.Y)
                                         .stream()
