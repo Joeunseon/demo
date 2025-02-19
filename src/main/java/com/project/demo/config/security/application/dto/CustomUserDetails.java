@@ -24,7 +24,7 @@ public class CustomUserDetails implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private Long userSeq;
-    private Long roleSeq;
+    private Integer roleSeq;
     private String userId;
     private String userPwd;
     private String userNm;

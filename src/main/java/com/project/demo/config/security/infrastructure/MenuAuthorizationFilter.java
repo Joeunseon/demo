@@ -27,7 +27,7 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
     private final MenuService menuService;
     private final MenuRoleService menuRoleService;
 
-    private static final Long GEUST_ROLE = 4L;
+    private static final Integer GEUST_ROLE = 4;
     private static final List<String> STATIC_RESOURCES = List.of("/css/**", "/images/**", "/js/**");
 
     @Override
@@ -53,7 +53,7 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            Long roleSeq = Optional.ofNullable(userSessionDTO)
+            Integer roleSeq = Optional.ofNullable(userSessionDTO)
                                 .map(UserSessionDTO::getRoleSeq)
                                 .orElse(GEUST_ROLE);
 

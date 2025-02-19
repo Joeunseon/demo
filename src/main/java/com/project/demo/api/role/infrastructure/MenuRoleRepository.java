@@ -11,5 +11,5 @@ import com.project.demo.api.role.domain.MenuRoleEntity;
 @Repository
 public interface MenuRoleRepository extends JpaRepository<MenuRoleEntity, Long> {
 
-    List<MenuRoleEntity> findByRole_RoleSeqAndMenu_ActiveYn(Long roleseq, ActiveYn activeYn);
+    List<MenuRoleEntity> findByRole_RoleSeqAndMenu_ActiveYn(Integer roleSeq, ActiveYn activeYn);
 }
