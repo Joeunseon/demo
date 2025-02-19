@@ -1,6 +1,7 @@
 package com.project.demo.api.role.application;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -11,9 +12,11 @@ import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.api.role.infrastructure.MenuRoleRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MenuRoleService {
 
     private final MenuRoleRepository menuRoleRepository;
@@ -25,6 +28,7 @@ public class MenuRoleService {
         List<String> menuUrlPatterns = menuRoleRepository.findByRole_RoleSeqAndMenu_ActiveYn(roleSeq, ActiveYn.Y)
                                         .stream()
                                         .map(menuRole -> menuRole.getMenu().getMenuUrl())
+                                        .filter(Objects::nonNull)
                                         .distinct()
                                         .collect(Collectors.toList());
 

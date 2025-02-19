@@ -23,7 +23,9 @@ public class CustomErrorController {
                 return "/error/404";
             } else if ( statusCode == 500 ) {
                 return "/error/500";
-            } 
+            } else if ( statusCode == 403 ) {
+                return "/error/403";
+            }
         }
         return "/error/default";
     }
