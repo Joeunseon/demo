@@ -5,14 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.project.demo.config.security.application.CustomUserDetailsService;
 import com.project.demo.config.security.handler.CustomLoginFailureHandler;
 import com.project.demo.config.security.handler.CustomLoginSuccessHandler;
 import com.project.demo.config.security.handler.CustomLogoutSuccessHandler;
 import com.project.demo.config.security.handler.CustomSessionExpiredHandler;
+import com.project.demo.config.security.infrastructure.MenuAuthorizationFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,11 +29,13 @@ public class SecurityConfig {
     private final CustomLoginFailureHandler loginFailureHandler;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
     private final CustomSessionExpiredHandler sessionExpiredHandler;
+    private final MenuAuthorizationFilter menuAuthorizationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
+            .addFilterBefore(menuAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/login", "/join").permitAll()
                 .requestMatchers("/error/**").permitAll()
@@ -47,6 +52,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .maximumSessions(1)
                 .expiredSessionStrategy(sessionExpiredHandler)
             )
