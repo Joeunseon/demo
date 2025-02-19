@@ -192,12 +192,13 @@ COMMENT ON COLUMN public.cmm_cd.upd_seq IS '수정자SEQ';
 -- DROP TABLE public.err_log;
 CREATE TABLE public.err_log (
 	log_seq int8 NOT NULL DEFAULT nextval('err_log_sequence'::regclass),
-	err_cd varchar(50) NOT NULL,
+	err_cd varchar(50) NULL,
 	err_msg text NULL,
 	stack_trace text NULL,
-	"level" public."err_level" NOT NULL,
+	"err_level" public."err_level" NULL,
 	occurred_dt timestamp NOT NULL DEFAULT now(),
-	request_url varchar(200) NULL,
+	request_url varchar(255) NULL,
+	request_method varchar(10) NULL,
 	request_seq int8 NULL,
 	resolved_dt timestamp NULL,
 	CONSTRAINT err_log_pk PRIMARY KEY (log_seq)
@@ -213,6 +214,7 @@ COMMENT ON COLUMN public.err_log.stack_trace IS '스택트레이스';
 COMMENT ON COLUMN public.err_log."level" IS '에러 심각도';
 COMMENT ON COLUMN public.err_log.occurred_dt IS '발생일시';
 COMMENT ON COLUMN public.err_log.request_url IS '발생URL';
+COMMENT ON COLUMN public.err_log.request_method IS '발생Method';
 COMMENT ON COLUMN public.err_log.request_seq IS '연관된사용자SEQ';
 COMMENT ON COLUMN public.err_log.resolved_dt IS '해결일시';
 
