@@ -13,7 +13,7 @@ import com.project.demo.api.user.domain.UserEntity;
 import com.project.demo.api.user.value.ActiveYn;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long>, UserRepositoryCustom {
 
     Optional<UserEntity> findByUserIdAndActiveYn(String userId, ActiveYn activeYn);
 
