@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.project.demo.api.user.application.UserService;
 import com.project.demo.common.constant.LoginMsgKey;
+import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.util.MsgUtil;
 import com.project.demo.config.security.application.dto.CustomUserDetails;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
@@ -35,7 +36,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         HttpSession session = request.getSession();
-        session.setAttribute("user", UserSessionDTO.of(userDetails.toEntity()));
+        session.setAttribute(SESSION_KEY.FRONT, UserSessionDTO.of(userDetails.toEntity()));
 
         log.info(msgUtil.getMessage(LoginMsgKey.SUCCUESS.getKey(), userDetails.getUserNm()));
 

@@ -9,6 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.project.demo.api.menu.application.MenuService;
 import com.project.demo.api.role.application.MenuRoleService;
+import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
 
 import jakarta.servlet.FilterChain;
@@ -42,7 +43,7 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
         }
 
         HttpSession session = request.getSession(false);
-        UserSessionDTO userSessionDTO = (session != null) ? (UserSessionDTO) session.getAttribute("user") : null;
+        UserSessionDTO userSessionDTO = (session != null) ? (UserSessionDTO) session.getAttribute(SESSION_KEY.FRONT) : null;
 
         // /error URL은 검증 하지 않음
         if ( !requestURI.contains("/error") ) {

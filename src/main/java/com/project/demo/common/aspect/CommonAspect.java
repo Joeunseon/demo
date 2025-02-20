@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.CommonConstant.RESULT;
+import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.util.CommonUtil;
 import com.project.demo.common.util.MsgUtil;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
@@ -148,7 +149,7 @@ public class CommonAspect {
         if ( request != null ) {
             /** 사용자 세션 취득 */
             log.info(">>> userDTO 취득");
-            userSessionDTO = (UserSessionDTO) request.getSession().getAttribute("user");
+            userSessionDTO = (UserSessionDTO) request.getSession().getAttribute(SESSION_KEY.FRONT);
         }
 
         if ( userSessionDTO != null && baseDTO != null ) {
