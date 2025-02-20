@@ -19,4 +19,10 @@ public class CommonConstant {
         /** 메시지 */
         public final static String MSG = "message";
     }
+
+    /** 세션키 */
+    public static class SESSION_KEY {
+        /** 프런트 */
+        public final static String FRONT = "SESSION_KEY_FRONT";
+    }
 }

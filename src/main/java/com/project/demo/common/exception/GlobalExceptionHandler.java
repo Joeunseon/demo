@@ -14,6 +14,7 @@ import com.project.demo.api.log.domain.ErrLogEntity;
 import com.project.demo.api.log.infrastructure.ErrLogRepositroy;
 import com.project.demo.api.log.value.ErrLevel;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class GlobalExceptionHandler {
 
         // 로그인 사용자 userSeq 취득
         Long userSeq = null;
-        UserSessionDTO userSessionDTO = (UserSessionDTO) httpServletRequest.getSession().getAttribute("user");
+        UserSessionDTO userSessionDTO = (UserSessionDTO) httpServletRequest.getSession().getAttribute(SESSION_KEY.FRONT);
         if (userSessionDTO != null) {
             userSeq = userSessionDTO.getUserSeq();
         }
