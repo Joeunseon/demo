@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
     <!-- 로그 파일이 저장될 경로 -->
-    <property name="LOG_PATH" value="${logging.file.path:-C:/data/demo/local/log/}" />
+    <springProperty name="logPath" source="logging.file.path"/>
+    <property name="LOG_PATH" value="${logPath:-C:/data/demo/local/log/}" />
     <!-- 로그 레벨 프로퍼티 -->
     <property name="LOG_LEVEL_ROOT" value="${logging.level.root:INFO}" />
     <property name="LOG_LEVEL_SPRING" value="${logging.level.org.springframework:INFO}" />
     <property name="LOG_LEVEL_HIBERNATE_SQL" value="${logging.level.org.hibernate.SQL:INFO}" />
     <!-- Hibernate Binder 로그 레벨: 기본값은 비활성화 -->
-    <property name="LOG_LEVEL_HIBERNATE_BINDER" value="${logging.level.org.hibernate.type.descriptor.sql:NONE}" />
+    <property name="LOG_LEVEL_HIBERNATE_BINDER" value="${logging.level.org.hibernate.orm.jdbc.bind:NONE}" />
 
     <!-- 패턴 색상 적용 %clr(pattern){color} -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
@@ -41,7 +42,7 @@
     <logger name="org.springframework" level="${LOG_LEVEL_SPRING}" />
     <logger name="org.hibernate.SQL" level="${LOG_LEVEL_HIBERNATE_SQL}" />
     <!-- Hibernate Binder 로깅 설정 (local만 TRACE, 다른 환경에서는 NONE) -->
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="${LOG_LEVEL_HIBERNATE_BINDER}" />
+    <logger name="org.hibernate.orm.jdbc.bind" level="${LOG_LEVEL_HIBERNATE_BINDER}" />
 
     <!-- 로그 전역 설정 -->
     <root level="${LOG_LEVEL_ROOT}">
