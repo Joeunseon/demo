@@ -129,7 +129,6 @@ public class CommonAspect {
         UserSessionDTO userSessionDTO = null;
 
         for ( Object obj : pjp.getArgs() ) {
-            log.info(">>> " + obj);
             if ( obj instanceof HttpServletRequest ) {
                 request = (HttpServletRequest) obj;
                 commonUtil.getRequestParmeter(request);
