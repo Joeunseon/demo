@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.AntPathMatcher;
 
+import com.project.demo.api.menu.application.dto.MenuDisplayDTO;
 import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.api.role.infrastructure.MenuRoleRepository;
+import com.project.demo.common.constant.CommonConstant.EXCLUDE_URL;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,5 +35,14 @@ public class MenuRoleService {
                                         .collect(Collectors.toList());
 
         return menuUrlPatterns.stream().anyMatch(pattern -> pathMatcher.match(pattern, url));
+    }
+
+    public List<MenuDisplayDTO> getDisplayMenus(Integer roleSeq) {
+
+        return menuRoleRepository.findDisplayMenus(roleSeq).stream()
+                .filter(menuDisplay -> !menuDisplay.getMenuUrl().startsWith(EXCLUDE_URL.LOGIN))
+                .filter(menuDisplay -> !menuDisplay.getMenuUrl().startsWith(EXCLUDE_URL.JOIN))
+                .distinct()
+                .collect(Collectors.toList());
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.constant.CommonConstant.EXCLUDE_URL;
 import com.project.demo.common.constant.CommonConstant.RESULT;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.util.CommonUtil;
@@ -42,7 +43,7 @@ public class CommonAspect {
             return;
 
         // 제외 항목 확인
-        if (isExcludedRequest(joinPoint, viewName)) {
+        if ( isExcludedRequest(viewName) ) {
             return;
         }
 
@@ -67,12 +68,9 @@ public class CommonAspect {
      * @param viewName
      * @return true: 제외 대상 요청, false: 적용 대상 요청
      */
-    public boolean isExcludedRequest(JoinPoint joinPoint, String viewName) {
-        // 메서드 시그니처 확인
-        String methodSignature = joinPoint.getSignature().toString();
-
-        // API 요청(`.api.` 포함) 또는 `/error/`로 시작하는 경우 제외
-        return methodSignature.contains(".api.") || viewName.startsWith("/error/");
+    public boolean isExcludedRequest(String viewName) {
+        
+        return EXCLUDE_URL.EXCLUDE_URL_LIST.stream().anyMatch(viewName::startsWith);
     }
 
     /**
