@@ -9,7 +9,7 @@ import com.project.demo.api.menu.domain.MenuEntity;
 import com.project.demo.api.menu.value.ActiveYn;
 
 @Repository
-public interface MenuRepository extends JpaRepository<MenuEntity, Long> {
+public interface MenuRepository extends JpaRepository<MenuEntity, Long>, MenuRepositoryCustom {
 
     List<MenuEntity> findByActiveYn(ActiveYn activeYn);
 }
