@@ -9,6 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.project.demo.api.menu.application.MenuService;
 import com.project.demo.api.role.application.MenuRoleService;
+import com.project.demo.common.constant.CommonConstant.EXCLUDE_URL;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
 
@@ -46,7 +47,7 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
         UserSessionDTO userSessionDTO = (session != null) ? (UserSessionDTO) session.getAttribute(SESSION_KEY.FRONT) : null;
 
         // /error URL은 검증 하지 않음
-        if ( !requestURI.contains("/error") ) {
+        if ( !requestURI.startsWith(EXCLUDE_URL.ERROR) ) {
             // 메뉴 존재 여부 확인
             if ( !menuService.isMenuExist(requestURI) ) {
                 log.warn(">>> 존재하지 않는 URL 요청: {}", requestURI);
