@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="alert">
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <!-- 모달 헤더 -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalLabel">알림</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                </div>
+                <!-- 모달 본문 -->
+                <div class="modal-body">
+                    모달 본문 내용입니다.
+                </div>
+                <!-- 모달 푸터 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="confirm">
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- 모달 헤더 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalLabel">알림</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                    </div>
+                    <!-- 모달 본문 -->
+                    <div class="modal-body">
+                        모달 본문 내용입니다.
+                    </div>
+                    <!-- 모달 푸터 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-dark">저장하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
