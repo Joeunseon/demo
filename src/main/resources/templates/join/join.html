@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid d-flex flex-column px-0 py-5">
+                <div class="flex-grow-1 d-flex align-items-center justify-content-center pt-5">
+                    <div class="login-box border rounded p-4 shadow-sm bg-white w-25">
+                        <h2 class="text-center mb-4">회원가입</h2>
+                        
+                        <form id="joinForm">
+                            <div class="mb-3">
+                                <label for="userId" class="form-label">아이디 <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="userId" name="userId" class="form-control" maxlength="50" required="required" autocomplete="off" >
+                                    <button type="button" class="btn btn-outline-secondary" id="checkUserIdBtn">중복 체크</button>
+                                </div>
+                                <div class="text-danger small">
+                                    <p id="idPattern" th:text="#{error.join.id_pattern}" style="display: none;"></p>
+                                    <p id="idWords" th:text="#{error.join.id_forbidden_words}" style="display: none;"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="userPwd" class="form-label">비밀번호 <span class="text-danger">*</span></label>
+                                <input type="password" id="userPwd" name="userPwd" class="form-control" maxlength="16" required="required" autocomplete="new-password">
+                                <div class="text-danger small">
+                                    <p id="pwdPattern" th:text="#{error.join.pwd_pattern}" style="display: none;"></p>
+                                    <p id="pwdContains" th:text="#{error.join.pwd_contains_id}" style="display: none;"></p>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">비밀번호 확인 <span class="text-danger">*</span></label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" maxlength="16" required="required" autocomplete="new-password">
+                                <div class="text-danger small">
+                                    <p id="pwdCredentials" th:text="#{error.join.pwd_bad_credentials}" style="display: none;"></p>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="userNm" class="form-label">이름 <span class="text-danger">*</span></label>
+                                <input type="text" id="userNm" name="userNm" class="form-control" maxlength="50" required="required" autocomplete="off" >
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="userEmail" class="form-label">이메일 <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="email" id="userEmail" name="userEmail" class="form-control" maxlength="100" required="required" autocomplete="off" >
+                                    <button type="button" class="btn btn-outline-secondary" id="checkUserEmailBtn">중복 체크</button>
+                                </div>
+                                <div class="text-danger small">
+                                    <p id="emailPattern" th:text="#{error.join.email_pattern}" style="display: none;"></p>
+                                </div>
+                            </div>
+
+                            <!-- 회원가입 버튼 -->
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-dark" onclick="joinConfrim();">회원가입</button>
+                            </div>
+                        </form>
+                        <input type="hidden" id="saveConfrimMsg" th:value="#{join.save.confrim}" >
+
+                        <div class="text-center mt-3">
+                            <a th:href="@{/login}" class="text-decoration-none">이미 계정이 있으신가요? 로그인</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- modal -->
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>

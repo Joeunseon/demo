@@ -75,13 +75,3 @@ tasks.named('test') {
 tasks.withType(Test).configureEach { 
 	enabled = false 
 }
-
-// QueryDSL이 Q클래스를 자동 생성하도록 설정
-tasks.withType(JavaCompile).configureEach {
-    options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated/sources/annotationProcessor/java/main")
-}
-
-// Q클래스를 소스 디렉토리에 포함시켜 빌드시 사용 가능하게 설정
-sourceSets {
-    main.java.srcDirs += "$buildDir/generated/sources/annotationProcessor/java/main"
-}

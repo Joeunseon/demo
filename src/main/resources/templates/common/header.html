@@ -14,10 +14,11 @@
                     </div>
                     <ul class="navbar-nav ms-auto">
                         <th:block th:if="${loginInfo}">
-                            <li class="nav-item"><a class="nav-link" href="/api/logout">로그아웃</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/api/logout">LOGOUT</a></li>
                         </th:block>
                         <th:block th:unless="${loginInfo}">
-                            <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/login">LOGIN</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/join">SIGNUP</a></li>
                         </th:block>
                     </ul>
                 </div>
