@@ -6,16 +6,15 @@
                 <div class="modal-content">
                 <!-- 모달 헤더 -->
                 <div class="modal-header">
-                    <h5 class="modal-title" id="alertModalLabel">알림</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                    <h5 class="modal-title" id="alertModalLabel" th:text="#{title.alert}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" th:aria-label="#{button.close}"></button>
                 </div>
                 <!-- 모달 본문 -->
                 <div class="modal-body">
-                    모달 본문 내용입니다.
                 </div>
                 <!-- 모달 푸터 -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal" th:text="#{button.confirm}"></button>
                 </div>
                 </div>
             </div>
@@ -28,17 +27,16 @@
                 <div class="modal-content">
                     <!-- 모달 헤더 -->
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalLabel">알림</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                        <h5 class="modal-title" id="confirmModalLabel" th:text="#{title.alert}"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" th:aria-label="#{button.close}"></button>
                     </div>
                     <!-- 모달 본문 -->
                     <div class="modal-body">
-                        모달 본문 내용입니다.
                     </div>
                     <!-- 모달 푸터 -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-dark">저장하기</button>
+                        <button type="button" class="btn btn-dark saveBtn" data-bs-dismiss="modal" th:text="#{button.save}"></button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{button.cancel}"></button>
                     </div>
                 </div>
             </div>

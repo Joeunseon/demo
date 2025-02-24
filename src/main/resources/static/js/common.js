@@ -97,3 +97,80 @@ function fn_fetchPatchData(url, body, headers = {}) {
 function fn_fetchDeleteData(url) {
     return fn_fetchRequest(url, { method: 'DELETE' }).then(response => response.json());
 }
+
+/**
+ * id 패턴 유효성 검사
+ * @param {*} id 
+ * @returns {boolean}
+ */
+function validateId(id) {
+    const idPattern = /^[a-zA-Z0-9_-]{4,20}$/;
+
+    if (!idPattern.test(id)) 
+        return false;
+
+    if (id.includes(" "))
+        return false;
+
+    return true;
+}
+
+/**
+ * id 유효성 검사 (금지단어)
+ * @param {*} id 
+ * @returns {boolean}
+ */
+function validateIdWords(id) {
+    const forbiddenWords = ["admin", "system", "root"];
+    
+    for ( const word of forbiddenWords ) {
+        if ( id.toLowerCase().includes(word) )
+            return false;
+    }
+
+    return true;
+}
+
+/**
+ * password 패턴 유효성 검사
+ * @param {*} pwd 
+ * @returns {boolean}
+ */
+function validatePwd(pwd) {
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}[\]:;"'<>,.?/~`]).{8,16}$/;
+
+    if (!passwordPattern.test(pwd)) 
+        return false;
+
+    if (pwd.includes(" "))
+        return false;
+    
+    return true;
+}
+
+/**
+ * password 유효성 검사 (id 포함 4자 이상 여부)
+ * @param {*} id 
+ * @param {*} pwd 
+ * @returns {boolean}
+ */
+function validatePwdContains(id, pwd) {
+    for (let i = 0; i <= id.length - 4; i++) {
+        const substring = id.substring(i, i + 4);
+        if (substring && pwd.includes(substring)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * 이메일 유효성 검사
+ * @param {*} email 
+ * @returns {boolean}
+ */
+function validateEmail(email) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+}
