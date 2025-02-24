@@ -20,6 +20,9 @@ public class CommonConstant {
 
         /** 메시지 */
         public static final String MSG = "message";
+
+        /** 메시지 키 */
+        public static final String MSG_KEY = "msgKey";
     }
 
     /** 세션키 */

@@ -24,3 +24,12 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* modal */
+.modal-header {
+    border-bottom: none !important;
+}
+
+.modal-footer {
+    border-top: none !important;
+}
