@@ -4,7 +4,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,6 +20,7 @@ import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +37,11 @@ public class GlobalExceptionHandler {
 
         // HTTP 상태 코드 취득
         HttpStatus status = getHttpStatus(ex);
+
+        // 예외 타입인 경우 로그 테이블에 저장하지 않음 (유효성 검사)
+        if (ex instanceof ValidationException) {
+            return ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
 
         // 스택 트레이스 변환
         StringWriter sw = new StringWriter();
@@ -63,7 +71,7 @@ public class GlobalExceptionHandler {
 
         log.info(errLog.toString());
 
-        // err log 저장
+        // err log 저장 (서버 내부 오류만 저장)
         errLogRepositroy.save(errLog);
 
         return ApiResponse.error(status, ex.getMessage());
