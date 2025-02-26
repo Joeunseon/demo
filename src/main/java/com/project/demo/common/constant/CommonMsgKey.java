@@ -10,6 +10,7 @@ public enum CommonMsgKey {
     SUCCUESS("success.basic"),
     FAILED("error.basic"),
     FAILED_VALIDATION("error.validation"),
+    FAILED_LENGTH("error.length"),
     FAILED_DUPLICATION("error.duplication");
 
     private final String key;

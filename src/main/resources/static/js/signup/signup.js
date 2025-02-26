@@ -31,6 +31,7 @@ function checkDuplicateId() {
             $('#alertModal').modal('show');
 
             $('#checkUserIdBtn').data('flag', data.result);
+            $('#idCheck').toggle(!data.result);
         });
 }
 
@@ -47,18 +48,8 @@ function checkDuplicateEmail() {
             $('#alertModal').modal('show');
 
             $('#checkUserEmailBtn').data('flag', data.result);
+            $('#emailCheck').toggle(!data.result);
         });
-}
-
-function signupConfrim() {
-    const confirmMsg = $('#saveConfrimMsg').val();
-
-    if ( confirmMsg && confirmMsg.trime !== '' ) {
-
-        $('#confirmModal .modal-body').text(confirmMsg);
-        $('#confirmModal .saveBtn').off('click').on('click', signupValidity);
-        $('#confirmModal').modal('show');
-    } 
 }
 
 function signupValidity() {
@@ -70,7 +61,7 @@ function signupValidity() {
     if ( !signupValidate() ) 
         return;
 
-    signup();
+    signupConfrim();
 }
 
 function signupValidate() {
@@ -99,6 +90,17 @@ function signupValidate() {
     return isValid;
 }
 
+function signupConfrim() {
+    const confirmMsg = $('#saveConfrimMsg').val();
+
+    if ( confirmMsg && confirmMsg.trime !== '' ) {
+
+        $('#confirmModal .modal-body').text(confirmMsg);
+        $('#confirmModal .saveBtn').off('click').on('click', signup);
+        $('#confirmModal').modal('show');
+    } 
+}
+
 function signup() {
     const formDataArray = $(form).serializeArray();
     const data = {};
@@ -112,7 +114,10 @@ function signup() {
             $('#alertModal').find('.modal-body').text(data.message);
             $('#alertModal').modal('show');
             
-            if (data.result) {
+            if ( data.result ) {
+                $('#alertModal').on('hidden.bs.modal', function () {
+                    location.href = '/login';
+                });
             }
         });
 }
