@@ -41,7 +41,7 @@ public class MenuRoleService {
 
         return menuRoleRepository.findDisplayMenus(roleSeq).stream()
                 .filter(menuDisplay -> !menuDisplay.getMenuUrl().startsWith(EXCLUDE_URL.LOGIN))
-                .filter(menuDisplay -> !menuDisplay.getMenuUrl().startsWith(EXCLUDE_URL.JOIN))
+                .filter(menuDisplay -> !menuDisplay.getMenuUrl().startsWith(EXCLUDE_URL.SIGNUP))
                 .distinct()
                 .collect(Collectors.toList());
     }

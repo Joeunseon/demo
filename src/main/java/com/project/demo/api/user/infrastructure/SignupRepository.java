@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.project.demo.api.user.domain.UserEntity;
 
 @Repository
-public interface JoinRepository extends JpaRepository<UserEntity, Long> {
+public interface SignupRepository extends JpaRepository<UserEntity, Long> {
 
     Integer countByUserId(String userId);
 

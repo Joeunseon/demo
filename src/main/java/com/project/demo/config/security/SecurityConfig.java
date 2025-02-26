@@ -37,7 +37,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
             .addFilterBefore(menuAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/join", "/api/join", "/api/join/**").permitAll()
+                .requestMatchers("/", "/login", "/signup", "/api/signup", "/api/signup/**").permitAll()
                 .requestMatchers("/error/**").permitAll()
                 .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
                 .anyRequest().authenticated()

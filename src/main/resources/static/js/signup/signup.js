@@ -1,12 +1,12 @@
 /**
- * Join.js 
+ * Signup.js 
  */
 
 const API_ENDPOINTS = {
-    join: '/api/join',
-    check: '/api/join/check-duplicate'
+    signup: '/api/signup',
+    check: '/api/signup/check-duplicate'
 };
-const form = document.getElementById('joinForm');
+const form = document.getElementById('signupForm');
 
 $(document).ready(function () {
     $('#userId').on('focusout', function () {
@@ -50,30 +50,30 @@ function checkDuplicateEmail() {
         });
 }
 
-function joinConfrim() {
+function signupConfrim() {
     const confirmMsg = $('#saveConfrimMsg').val();
 
     if ( confirmMsg && confirmMsg.trime !== '' ) {
 
         $('#confirmModal .modal-body').text(confirmMsg);
-        $('#confirmModal .saveBtn').off('click').on('click', joinValidity);
+        $('#confirmModal .saveBtn').off('click').on('click', signupValidity);
         $('#confirmModal').modal('show');
     } 
 }
 
-function joinValidity() {
+function signupValidity() {
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
     }
 
-    if ( !joinValidate() ) 
+    if ( !signupValidate() ) 
         return;
 
-    join();
+    signup();
 }
 
-function joinValidate() {
+function signupValidate() {
     let isValid = true;
     
     const userId = $('#userId').val();
@@ -99,7 +99,7 @@ function joinValidate() {
     return isValid;
 }
 
-function join() {
+function signup() {
     const formDataArray = $(form).serializeArray();
     const data = {};
     formDataArray.forEach(item => {
@@ -107,7 +107,7 @@ function join() {
             data[item.name] = item.value;
     });
 
-    fn_fetchPostData(API_JOIN_URL.join, data)
+    fn_fetchPostData(API_ENDPOINTS.signup, data)
         .then(data => {
             $('#alertModal').find('.modal-body').text(data.message);
             $('#alertModal').modal('show');

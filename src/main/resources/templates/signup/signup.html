@@ -11,7 +11,7 @@
                     <div class="login-box border rounded p-4 shadow-sm bg-white w-25">
                         <h2 class="text-center mb-4">회원가입</h2>
                         
-                        <form id="joinForm">
+                        <form id="signupForm">
                             <div class="mb-3">
                                 <label for="userId" class="form-label">아이디 <span class="text-danger">*</span></label>
                                 <div class="input-group">
@@ -19,8 +19,8 @@
                                     <button type="button" class="btn btn-outline-secondary" id="checkUserIdBtn" onclick="checkDuplicateId();">중복 체크</button>
                                 </div>
                                 <div class="text-danger small">
-                                    <p id="idPattern" th:text="#{error.join.id_pattern}" style="display: none;"></p>
-                                    <p id="idWords" th:text="#{error.join.id_forbidden_words}" style="display: none;"></p>
+                                    <p id="idPattern" th:text="#{error.signup.id_pattern}" style="display: none;"></p>
+                                    <p id="idWords" th:text="#{error.signup.id_forbidden_words}" style="display: none;"></p>
                                     <p id="idCheck" th:text="#{error.duplication('아이디')}" style="display: none;"></p>
                                 </div>
                             </div>
@@ -29,8 +29,8 @@
                                 <label for="userPwd" class="form-label">비밀번호 <span class="text-danger">*</span></label>
                                 <input type="password" id="userPwd" name="userPwd" class="form-control" maxlength="16" required="required" autocomplete="new-password">
                                 <div class="text-danger small">
-                                    <p id="pwdPattern" th:text="#{error.join.pwd_pattern}" style="display: none;"></p>
-                                    <p id="pwdContains" th:text="#{error.join.pwd_contains_id}" style="display: none;"></p>
+                                    <p id="pwdPattern" th:text="#{error.signup.pwd_pattern}" style="display: none;"></p>
+                                    <p id="pwdContains" th:text="#{error.signup.pwd_contains_id}" style="display: none;"></p>
                                 </div>
                             </div>
 
@@ -38,7 +38,7 @@
                                 <label for="confirmPassword" class="form-label">비밀번호 확인 <span class="text-danger">*</span></label>
                                 <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" maxlength="16" required="required" autocomplete="new-password">
                                 <div class="text-danger small">
-                                    <p id="pwdCredentials" th:text="#{error.join.pwd_bad_credentials}" style="display: none;"></p>
+                                    <p id="pwdCredentials" th:text="#{error.signup.pwd_bad_credentials}" style="display: none;"></p>
                                 </div>
                             </div>
 
@@ -54,17 +54,17 @@
                                     <button type="button" class="btn btn-outline-secondary" id="checkUserEmailBtn" onclick="checkDuplicateEmail();">중복 체크</button>
                                 </div>
                                 <div class="text-danger small">
-                                    <p id="emailPattern" th:text="#{error.join.email_pattern}" style="display: none;"></p>
+                                    <p id="emailPattern" th:text="#{error.signup.email_pattern}" style="display: none;"></p>
                                     <p id="emailCheck" th:text="#{error.duplication('이메일')}" style="display: none;"></p>
                                 </div>
                             </div>
 
                             <!-- 회원가입 버튼 -->
                             <div class="d-grid">
-                                <button type="button" class="btn btn-dark" onclick="joinConfrim();">회원가입</button>
+                                <button type="button" class="btn btn-dark" onclick="signupConfrim();">회원가입</button>
                             </div>
                         </form>
-                        <input type="hidden" id="saveConfrimMsg" th:value="#{join.save.confrim}" >
+                        <input type="hidden" id="saveConfrimMsg" th:value="#{signup.save.confrim}" >
                         <input type="hidden" id="validation" th:value="#{error.validation}" >
 
                         <div class="text-center mt-3">

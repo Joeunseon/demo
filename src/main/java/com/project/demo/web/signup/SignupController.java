@@ -1,15 +1,15 @@
-package com.project.demo.web.join;
+package com.project.demo.web.signup;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class JoinController {
+public class SignupController {
 
-    @GetMapping("/join")
-    public String join(ModelMap model) {
+    @GetMapping("/signup")
+    public String signup(ModelMap model) {
 
-        return "/join/join";
+        return "/signup/signup";
     }
 }
