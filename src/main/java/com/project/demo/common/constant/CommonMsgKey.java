@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 public enum CommonMsgKey {
 
     SUCCUESS("success.basic"),
-    FAILED("error.basic");
+    FAILED("error.basic"),
+    FAILED_VALIDATION("error.validation"),
+    FAILED_DUPLICATION("error.duplication");
 
     private final String key;
 }

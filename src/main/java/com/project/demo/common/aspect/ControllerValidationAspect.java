@@ -1,6 +1,7 @@
 package com.project.demo.common.aspect;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.aspectj.lang.JoinPoint;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
+import jakarta.validation.executable.ExecutableValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,9 +30,11 @@ public class ControllerValidationAspect {
 
     @Before("execution(public * com.project.demo.api..*Controller.*(..))")
     public void validateControllerParameters(JoinPoint joinPoint) {
-        
+        log.info(">>>> validateControllerParameters");
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
+        Object target = joinPoint.getTarget();
+        Object[] args = joinPoint.getArgs();
 
         boolean isValidated = method.isAnnotationPresent(Validated.class) ||
                                 method.getDeclaringClass().isAnnotationPresent(Validated.class);
@@ -39,20 +43,26 @@ public class ControllerValidationAspect {
         if ( !isValidated )
             return;
         
-        Object[] args = joinPoint.getArgs();
+        // 1. 메서드 파라미터에 적용된 제약 조건 검증 (예: @Pattern, @Email 등)
+        ExecutableValidator executableValidator = validator.forExecutables();
+        Set<ConstraintViolation<Object>> parameterViolations = executableValidator.validateParameters(target, method, args);
+
+        // 2. 각 인자(객체) 내부의 제약 조건 검증 (객체의 필드 등에 선언된 제약조건)
+        Set<ConstraintViolation<Object>> beanViolations = new HashSet<>();
         for (Object arg : args) {
-            // null인 경우 스킵
-            if ( arg == null ) continue;
+            if (arg == null) continue;
+            beanViolations.addAll(validator.validate(arg));
+        }
 
-            // Bean Validation API를 통해 유효성 검사
-            Set<ConstraintViolation<Object>> violations = validator.validate(arg);
-            if ( !violations.isEmpty() ) {
-                ConstraintViolation<Object> violation = violations.iterator().next();
+        // 두 검증 결과를 모두 취합
+        Set<ConstraintViolation<Object>> allViolations = new HashSet<>();
+        allViolations.addAll(parameterViolations);
+        allViolations.addAll(beanViolations);
 
-                log.info(">>>> 유효성 검사 실패: ", violation.getMessage());
-                // 유효성 검사 실패 시 예외 발생
-                throw new ValidationException(violation.getMessage());
-            }
+        if (!allViolations.isEmpty()) {
+            ConstraintViolation<Object> violation = allViolations.iterator().next();
+            log.info(">>>> 유효성 검사 실패: {}", violation.getMessage());
+            throw new ValidationException(violation.getMessage());
         }
     }
 }

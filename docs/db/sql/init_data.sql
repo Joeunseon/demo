@@ -106,6 +106,10 @@ VALUES
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('회원가입 API', '/api/join', 5, 3, 1, 'CREATE', 1);
+-- 회원가입 중복체크 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('회원가입 중복체크 API', '/api/join/check-duplicate', 5, 3, 2, 'READ', 1);
 
 -- 게시판
 INSERT INTO menus
@@ -324,12 +328,12 @@ SELECT m.menu_seq, 1, 1
 FROM menus m
 ORDER BY m.menu_seq;
 
--- 메뉴 관리자 메뉴 권한 등록
+-- 관리자 메뉴 권한 등록
 INSERT INTO menu_role 
 (menu_seq, role_seq, reg_seq)
 SELECT m.menu_seq, 2, 1
 FROM menus m
-WHERE m.menu_seq < 50
+WHERE m.menu_seq < 51
 ORDER BY m.menu_seq;
 
 -- 사용자(로그인) 메뉴 권한 등록
@@ -337,12 +341,12 @@ INSERT INTO menu_role
 (menu_seq, role_seq, reg_seq)
 SELECT m.menu_seq, 3, 1
 FROM menus m
-WHERE m.menu_seq < 20
+WHERE m.menu_seq < 21
 ORDER BY m.menu_seq;
 
 -- 사용자(비로그인) 메뉴 권한 등록
 INSERT INTO menu_role (menu_seq, role_seq, reg_seq)
 SELECT m.menu_seq, 4, 1
 FROM menus m
-WHERE m.menu_seq IN (1,2,3,5,6,7,8,10,12,14,17,18,19)
+WHERE m.menu_seq IN (1,2,3,5,6,7,8,9,13,15,18,19,20)
 ORDER BY m.menu_seq;
