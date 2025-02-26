@@ -49,7 +49,7 @@ public class CommonConstant {
         public static final String API = "/api";
 
         /** 회원가입 */
-        public static final String JOIN = "/join";
+        public static final String SIGNUP = "/signup";
 
         /** 로그인 */
         public static final String LOGIN = "/login";

@@ -52,8 +52,8 @@ public class UserEntity {
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private ActiveYn activeYn;
 
-    @Column(name = "join_dt")
-    private LocalDateTime joinDt;
+    @Column(name = "signup_dt")
+    private LocalDateTime signupDt;
 
     @Column(name = "last_pwd_dt")
     private LocalDateTime lastPwdDt;
@@ -68,7 +68,7 @@ public class UserEntity {
     private Long updSeq;
 
     @Builder
-    public UserEntity(Long userSeq, Integer roleSeq, String userId, String userPwd, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime joinDt, LocalDateTime lastPwdDt, LocalDateTime lastLoginDt, LocalDateTime updDt, Long updSeq) {
+    public UserEntity(Long userSeq, Integer roleSeq, String userId, String userPwd, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime signupDt, LocalDateTime lastPwdDt, LocalDateTime lastLoginDt, LocalDateTime updDt, Long updSeq) {
 
         this.userSeq = userSeq;
         this.roleSeq = roleSeq;
@@ -78,7 +78,7 @@ public class UserEntity {
         this.userEmail = userEmail;
         this.profileImg = profileImg;
         this.activeYn = activeYn;
-        this.joinDt = joinDt;
+        this.signupDt = signupDt;
         this.lastPwdDt = lastPwdDt;
         this.lastLoginDt = lastLoginDt;
         this.updDt = updDt;

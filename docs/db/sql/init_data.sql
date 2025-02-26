@@ -101,15 +101,15 @@ VALUES('로그아웃 API', '/api/loginout', 2, 3, 2, 'READ', 1);
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES
-('회원가입', '/join', 1, 2, 20, 'PAGE', 1);
+('회원가입', '/signup', 1, 2, 20, 'PAGE', 1);
 -- 회원가입 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('회원가입 API', '/api/join', 5, 3, 1, 'CREATE', 1);
+VALUES('회원가입 API', '/api/signup', 5, 3, 1, 'CREATE', 1);
 -- 회원가입 중복체크 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('회원가입 중복체크 API', '/api/join/check-duplicate', 5, 3, 2, 'READ', 1);
+VALUES('회원가입 중복체크 API', '/api/signup/check-duplicate', 5, 3, 2, 'READ', 1);
 
 -- 게시판
 INSERT INTO menus

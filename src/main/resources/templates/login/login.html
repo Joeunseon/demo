@@ -27,7 +27,7 @@
                         <input type="hidden" id="errorMsg" th:value="${not #strings.isEmpty(msgKey) ? #messages.msgOrNull(msgKey) : ''}" >
                         
                         <div class="text-center mt-3">
-                            <a th:href="@{/join}" class="text-black text-decoration-none">회원가입</a> |
+                            <a th:href="@{/signup}" class="text-black text-decoration-none">회원가입</a> |
                             <a th:href="@{/forgot-password}" class="text-black text-decoration-none">비밀번호 찾기</a>
                         </div>
                     </div>
