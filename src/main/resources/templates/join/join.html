@@ -16,11 +16,12 @@
                                 <label for="userId" class="form-label">아이디 <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="text" id="userId" name="userId" class="form-control" maxlength="50" required="required" autocomplete="off" >
-                                    <button type="button" class="btn btn-outline-secondary" id="checkUserIdBtn">중복 체크</button>
+                                    <button type="button" class="btn btn-outline-secondary" id="checkUserIdBtn" onclick="checkDuplicateId();">중복 체크</button>
                                 </div>
                                 <div class="text-danger small">
                                     <p id="idPattern" th:text="#{error.join.id_pattern}" style="display: none;"></p>
                                     <p id="idWords" th:text="#{error.join.id_forbidden_words}" style="display: none;"></p>
+                                    <p id="idCheck" th:text="#{error.duplication('아이디')}" style="display: none;"></p>
                                 </div>
                             </div>
                             
@@ -50,10 +51,11 @@
                                 <label for="userEmail" class="form-label">이메일 <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="email" id="userEmail" name="userEmail" class="form-control" maxlength="100" required="required" autocomplete="off" >
-                                    <button type="button" class="btn btn-outline-secondary" id="checkUserEmailBtn">중복 체크</button>
+                                    <button type="button" class="btn btn-outline-secondary" id="checkUserEmailBtn" onclick="checkDuplicateEmail();">중복 체크</button>
                                 </div>
                                 <div class="text-danger small">
                                     <p id="emailPattern" th:text="#{error.join.email_pattern}" style="display: none;"></p>
+                                    <p id="emailCheck" th:text="#{error.duplication('이메일')}" style="display: none;"></p>
                                 </div>
                             </div>
 
@@ -63,6 +65,7 @@
                             </div>
                         </form>
                         <input type="hidden" id="saveConfrimMsg" th:value="#{join.save.confrim}" >
+                        <input type="hidden" id="validation" th:value="#{error.validation}" >
 
                         <div class="text-center mt-3">
                             <a th:href="@{/login}" class="text-decoration-none">이미 계정이 있으신가요? 로그인</a>

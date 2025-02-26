@@ -104,7 +104,7 @@ function fn_fetchDeleteData(url) {
  * @returns {boolean}
  */
 function validateId(id) {
-    const idPattern = /^[a-zA-Z0-9_-]{4,20}$/;
+    const idPattern = /^[a-zA-Z0-9_-]{5,20}$/;
 
     if (!idPattern.test(id)) 
         return false;
