@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SignupMsgKey {
 
+    SUCCESS("success.signup.register"),
     SUCCUESS_ID("success.signup.id"),
     SUCCUESS_EMAIL("success.signup.email"),
     FAILED_ID("error.signup.id"),
