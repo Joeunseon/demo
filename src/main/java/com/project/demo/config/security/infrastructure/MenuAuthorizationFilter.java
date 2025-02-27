@@ -36,6 +36,7 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
+        String requestMethod = request.getMethod();
 
         // 정적 리소스 URL은 필터링 제외
         if (isStaticResource(requestURI)) {
@@ -60,7 +61,7 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
                                 .orElse(GEUST_ROLE);
 
             // 권한 확인
-            if ( !menuRoleService.hasAccess(roleSeq, requestURI) ) {
+            if ( !menuRoleService.hasAccess(roleSeq, requestURI, requestMethod) ) {
                 log.warn(">>> 접근 불가 (권한 없음): {} (roleSeq={})", requestURI, roleSeq);
                 response.sendRedirect("/error/403");
                 return;

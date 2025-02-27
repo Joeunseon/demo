@@ -8,6 +8,7 @@ import com.project.demo.api.menu.domain.QMenuEntity;
 import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.api.menu.value.MenuType;
 import com.project.demo.api.role.domain.QMenuRoleEntity;
+import com.project.demo.common.constant.DelYn;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -52,6 +53,7 @@ public class MenuRoleRepositoryImpl implements MenuRoleRepositoryCustom {
                 .from(menuRole)
                 .join(menuRole.menu, menu)
                 .where(menuRole.role.roleSeq.eq(roleSeq)
+                    .and(menuRole.delYn.eq(DelYn.N))
                     .and(menu.activeYn.eq(ActiveYn.Y))
                     .and(menu.menuType.eq(MenuType.PAGE))
                     .and(menu.parentSeq.eq(1L)))
