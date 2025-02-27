@@ -30,17 +30,18 @@ public class GlobalExceptionHandler {
 
     private final ErrLogRepositroy errLogRepositroy;
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(ValidationException.class)
     @ResponseBody
+    public ApiResponse<?> handleValidationException(ValidationException ex) {
+
+        return ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
     public ApiResponse<Void> handlerException(Exception ex, WebRequest request, HttpServletRequest httpServletRequest) {
         
         // HTTP 상태 코드 취득
         HttpStatus status = getHttpStatus(ex);
-        
-        // 예외 타입인 경우 로그 테이블에 저장하지 않음 (유효성 검사)
-        if (ex instanceof ValidationException) {
-            return ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage());
-        }
         
         log.error("예외 발생: ", ex);
 
