@@ -5,7 +5,7 @@ create type yn as enum('Y', 'N');
 
 
 -- DROP TYPE public.menu;
-create type menu as enum('PAGE', 'CREATE', 'READ', 'UPDATE', 'DELETE');
+create type menu as enum('PAGE', 'CREATE', 'READ', 'UPDATE', 'DELETE', 'TOOL');
 
 
 
