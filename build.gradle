@@ -36,6 +36,9 @@ dependencies {
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// Swagger WebMVC UI
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5'
+
 	// QueryDSL 의존성
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	implementation 'com.querydsl:querydsl-core'
