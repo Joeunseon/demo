@@ -114,7 +114,7 @@ VALUES('회원가입 중복체크 API', '/api/signup/check-duplicate', (SELECT m
 -- 게시판
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('게시판', NULL, 1, 2, 30, 'PAGE', 1);
+VALUES('게시판', NULL, 1, 2, 30, 'MENU', 1);
 -- 게시판 목록
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -155,7 +155,7 @@ VALUES('게시판 삭제 API', '/api/board/{boardSeq}', (SELECT menu_seq FROM me
 -- 암호화 관리
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('암호화 관리', '/encryption', 1, 2, 40, 'PAGE', 1);
+VALUES('암호화 관리', '/encryption', 1, 2, 40, 'MENU', 1);
 -- 암호화 API 
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -168,7 +168,7 @@ VALUES('암호화 API', '/api/decryption', (SELECT menu_seq FROM menus WHERE men
 -- 메뉴 관리
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('메뉴 관리', NULL, 1, 2, 50, 'PAGE', 1);
+VALUES('메뉴 관리', NULL, 1, 2, 50, 'MENU', 1);
 -- 메뉴 목록
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -209,7 +209,7 @@ VALUES('메뉴 순서 변경 API', '/api/order', (SELECT menu_seq FROM menus WHE
 -- 권한 관리
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('권한 관리', NULL, 1, 2, 60, 'PAGE', 1);
+VALUES('권한 관리', NULL, 1, 2, 60, 'MENU', 1);
 -- 권한 목록
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -250,7 +250,7 @@ VALUES('권한 삭제 API', '/api/role/{roleSeq}', (SELECT menu_seq FROM menus W
 -- 사용자 관리
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('사용자 관리', NULL, 1, 2, 70, 'PAGE', 1);
+VALUES('사용자 관리', NULL, 1, 2, 70, 'MENU', 1);
 -- 사용자 목록
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -291,7 +291,7 @@ VALUES('사용자 삭제 API', '/api/user/{userSeq}', (SELECT menu_seq FROM menu
 -- 로그 관리
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('로그 관리', NULL, 1, 2, 80, 'PAGE', 1);
+VALUES('로그 관리', NULL, 1, 2, 80, 'MENU', 1);
 -- 로그 목록
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
