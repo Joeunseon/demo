@@ -9,6 +9,7 @@ import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.api.menu.value.MenuType;
 import com.project.demo.api.role.domain.QMenuRoleEntity;
 import com.project.demo.common.constant.DelYn;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,6 +21,8 @@ public class MenuRoleRepositoryImpl implements MenuRoleRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    private static final Integer SYSTEM_ROLE = 1;
+
     @Override
     public List<MenuDisplayDTO> findDisplayMenus(Integer roleSeq) {
 
@@ -27,19 +30,32 @@ public class MenuRoleRepositoryImpl implements MenuRoleRepositoryCustom {
         QMenuEntity menu = QMenuEntity.menuEntity;
         QMenuEntity subMenu = new QMenuEntity("subMenu");
         QMenuEntity minSubMenu = new QMenuEntity("minSubMenu");
+        BooleanBuilder builder = new BooleanBuilder();
+        BooleanBuilder subBuilder = new BooleanBuilder();
+        BooleanBuilder minBuilder = new BooleanBuilder();
+
+        if ( roleSeq != null && roleSeq == SYSTEM_ROLE ) {
+            builder.and(menu.menuType.eq(MenuType.MENU).or(menu.menuType.eq(MenuType.TOOL)));
+            subBuilder.and(subMenu.menuType.eq(MenuType.PAGE).or(subMenu.menuType.eq(MenuType.TOOL)));
+            minBuilder.and(minSubMenu.menuType.eq(MenuType.PAGE).or(minSubMenu.menuType.eq(MenuType.TOOL)));
+        } else {
+            builder.and(menu.menuType.eq(MenuType.MENU));
+            subBuilder.and(subMenu.menuType.eq(MenuType.PAGE));
+            minBuilder.and(minSubMenu.menuType.eq(MenuType.PAGE));
+        }
 
         var subQuery = JPAExpressions
                         .select(subMenu.menuUrl)
                         .from(subMenu)
                         .where(subMenu.parentSeq.eq(menu.menuSeq)
                             .and(subMenu.activeYn.eq(ActiveYn.Y))
-                            .and(subMenu.menuType.eq(MenuType.PAGE))
+                            .and(subBuilder)
                             .and(subMenu.menuOrder.eq(
                                     JPAExpressions.select(minSubMenu.menuOrder.min())
                                                 .from(minSubMenu)
                                                 .where(minSubMenu.parentSeq.eq(subMenu.parentSeq)
                                                 .and(minSubMenu.activeYn.eq(ActiveYn.Y))
-                                                .and(minSubMenu.menuType.eq(MenuType.PAGE)))
+                                                .and(minBuilder))
                                     )
                                 ));
 
@@ -55,7 +71,7 @@ public class MenuRoleRepositoryImpl implements MenuRoleRepositoryCustom {
                 .where(menuRole.role.roleSeq.eq(roleSeq)
                     .and(menuRole.delYn.eq(DelYn.N))
                     .and(menu.activeYn.eq(ActiveYn.Y))
-                    .and(menu.menuType.eq(MenuType.PAGE))
+                    .and(builder)
                     .and(menu.parentSeq.eq(1L)))
                 .orderBy(menu.menuOrder.asc())
                 .fetch();

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MenuType {
 
-    PAGE("페이지"), CREATE("등록"), READ("조회"), UPDATE("수정"), DELETE("삭제"), TOOL("도구");
+    MENU("메뉴"), PAGE("페이지"), CREATE("등록"), READ("조회"), UPDATE("수정"), DELETE("삭제"), TOOL("도구");
 
     private final String description;
 }
