@@ -9,6 +9,7 @@ import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.api.menu.value.MenuType;
 import com.project.demo.api.role.domain.QMenuRoleEntity;
 import com.project.demo.common.constant.DelYn;
+import com.project.demo.common.constant.CommonConstant.ROLE_KEY;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
@@ -21,8 +22,6 @@ public class MenuRoleRepositoryImpl implements MenuRoleRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    private static final Integer SYSTEM_ROLE = 1;
-
     @Override
     public List<MenuDisplayDTO> findDisplayMenus(Integer roleSeq) {
 
@@ -34,7 +33,7 @@ public class MenuRoleRepositoryImpl implements MenuRoleRepositoryCustom {
         BooleanBuilder subBuilder = new BooleanBuilder();
         BooleanBuilder minBuilder = new BooleanBuilder();
 
-        if ( roleSeq != null && roleSeq == SYSTEM_ROLE ) {
+        if ( roleSeq != null && roleSeq == ROLE_KEY.SYSTEM ) {
             builder.and(menu.menuType.eq(MenuType.MENU).or(menu.menuType.eq(MenuType.TOOL)));
             subBuilder.and(subMenu.menuType.eq(MenuType.PAGE).or(subMenu.menuType.eq(MenuType.TOOL)));
             minBuilder.and(minSubMenu.menuType.eq(MenuType.PAGE).or(minSubMenu.menuType.eq(MenuType.TOOL)));
