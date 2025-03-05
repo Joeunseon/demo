@@ -12,6 +12,7 @@ import com.project.demo.api.menu.application.dto.MenuDisplayDTO;
 import com.project.demo.api.role.application.MenuRoleService;
 import com.project.demo.common.constant.CommonConstant.EXCLUDE_URL;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
+import com.project.demo.common.constant.CommonConstant.ROLE_KEY;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
 
@@ -27,7 +28,6 @@ public class GlobalControllerAdvice {
 
     private final MenuRoleService menuRoleService;
 
-    private static final Integer GEUST_ROLE = 4;
     private final Map<Integer, List<MenuDisplayDTO>> menuCache = new ConcurrentHashMap<>();
 
     @ModelAttribute
@@ -42,7 +42,7 @@ public class GlobalControllerAdvice {
 
         HttpSession session = request.getSession(false);
         UserSessionDTO userSessionDTO = (session != null) ? (UserSessionDTO) session.getAttribute(SESSION_KEY.FRONT) : null;
-        Integer roleSeq = (userSessionDTO != null) ? userSessionDTO.getRoleSeq() : GEUST_ROLE;
+        Integer roleSeq = (userSessionDTO != null) ? userSessionDTO.getRoleSeq() : ROLE_KEY.GUEST;
 
         // 메뉴 리스트 캐싱 (같은 roleSeq에 대해 중복 조회 방지)
         menuCache.computeIfAbsent(roleSeq, menuRoleService::getDisplayMenus);

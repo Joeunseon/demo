@@ -10,6 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.project.demo.api.menu.application.MenuService;
 import com.project.demo.api.role.application.MenuRoleService;
 import com.project.demo.common.constant.CommonConstant.EXCLUDE_URL;
+import com.project.demo.common.constant.CommonConstant.ROLE_KEY;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.config.security.application.dto.UserSessionDTO;
 
@@ -29,7 +30,6 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
     private final MenuService menuService;
     private final MenuRoleService menuRoleService;
 
-    private static final Integer GEUST_ROLE = 4;
     private static final List<String> STATIC_RESOURCES = List.of("/css/**", "/images/**", "/js/**");
 
     @Override
@@ -58,7 +58,7 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
 
             Integer roleSeq = Optional.ofNullable(userSessionDTO)
                                 .map(UserSessionDTO::getRoleSeq)
-                                .orElse(GEUST_ROLE);
+                                .orElse(ROLE_KEY.GUEST);
 
             // 권한 확인
             if ( !menuRoleService.hasAccess(roleSeq, requestURI, requestMethod) ) {

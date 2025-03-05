@@ -1,5 +1,7 @@
 package com.project.demo.config.security;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StringUtils;
 
+import com.project.demo.api.role.application.MenuRoleService;
 import com.project.demo.config.security.application.CustomUserDetailsService;
 import com.project.demo.config.security.handler.CustomLoginFailureHandler;
 import com.project.demo.config.security.handler.CustomLoginSuccessHandler;
@@ -25,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final MenuRoleService menuRoleService;
     private final CustomLoginSuccessHandler loginSuccessHandler;
     private final CustomLoginFailureHandler loginFailureHandler;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
@@ -33,15 +38,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        List<String> guestUrls = menuRoleService.getGuestAccessibleUrls();
+        
         http
             .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
             .addFilterBefore(menuAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/signup", "/api/signup", "/api/signup/**").permitAll()
-                .requestMatchers("/error/**").permitAll()
-                .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
-            )
+            .authorizeHttpRequests(auth -> {
+                auth.requestMatchers("/error/**").permitAll();
+                auth.requestMatchers("/css/**", "/images/**", "/js/**").permitAll();
+
+                // GUEST_ROLE 접근 URL 동적 추가
+                guestUrls.forEach(url -> {
+                    if ( StringUtils.hasText(url) )
+                        auth.requestMatchers(url).permitAll();
+                });
+
+                auth.anyRequest().authenticated();
+            })
             .formLogin(login -> login 
                 .loginPage("/login")
                 .loginProcessingUrl("/api/login")

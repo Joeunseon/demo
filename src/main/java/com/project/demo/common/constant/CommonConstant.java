@@ -31,6 +31,27 @@ public class CommonConstant {
         public static final String FRONT = "SESSION_KEY_FRONT";
     }
 
+    /** Cache 키 */
+    public static class CACHE_KEY {
+        /** 시큐리티 */
+        public static final String SECURITY = "permitAllUrls";
+    }
+
+    /** ROLE 키 */
+    public static class ROLE_KEY {
+        /** 시스템 */
+        public static final Integer SYSTEM = 1;
+
+        /** 관리자 */
+        public static final Integer ADMIN = 2;
+
+        /** 사용자 */
+        public static final Integer USER = 3;
+
+        /** 게스트 */
+        public static final Integer GUEST = 4;
+    }
+
     /** Model 속성 키 */
     public static class MODEL_KEY {
         /** 메뉴 리스트 */
