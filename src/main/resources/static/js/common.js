@@ -2,6 +2,52 @@
  * Common.js - 공통
  */
 
+$(document).ready(function() {
+    ui.init();
+});
+
+let ui = {
+    init: function init() {
+        this.datePicker();
+    },
+    datePicker: function datePicker() {
+        $(document).on('focus', '.form-datepicker', function () {
+          $(this).datepicker({
+            defaultDate: new Date(),
+            changeMonth: true,
+            changeYear: true,
+            monthNames: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+            monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+            dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+            showMonthAfterYear: true,
+            showOtherMonths: true,
+            dateFormat: "yy-mm-dd",
+            gotoCurrent: true,
+            showButtonPanel: true,
+            closeText: "삭제",
+            beforeShow: function (input, inst) {
+                setTimeout(function () {
+                    $('#ui-datepicker-div').addClass('datepicker-box');
+
+                    // current button hide 처리
+                    $(".ui-datepicker-current").hide();
+            
+                    // close button (삭제버튼) 처리
+                    $('.ui-datepicker-close').on('click', function () {
+                        $(input).val('');
+                    });
+                }, 10);
+            },
+          });
+        });
+        $(document).on('focusout', '.form-datepicker', function () {
+          setTimeout(function(){
+            $(this).datepicker('destroy');
+          }, 500);
+        })
+    }
+}
+
 /**
  * Fetch 요청 공통 처리
  * @param {string} url - 요청 URL
