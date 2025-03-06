@@ -7,76 +7,48 @@
         <div id="container-block" layout:fragment="contents" th:remove="tag">
             <!-- container -->
             <div class="container-fluid custom-container">
-                <h3 class="mb-3 ms-3">게시판</h3>
-
-                <!-- 검색 폼 -->
-                <form class="p-3 mb-3 ms-3 me-3 border rounded-3" name="searchForm" action="" method="GET">
-                    <div class="row g-2 align-items-center gap-3">
-                        <div class="col-auto d-flex align-items-center gap-2">
-                            <label for="searchStartDt" class="form-label mb-0 fw-bold" style="white-space: nowrap;">일자</label>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="position-relative">
-                                    <input type="text" class="form-control form-datepicker" id="searchStartDt" name="searchStartDt" readonly="readonly" style="width: 126px;">
-                                    <i class="bi bi-calendar position-absolute end-0 top-50 translate-middle-y me-2" style="font-size: 0.85rem;"></i>
-                                </div>
-                                <span>~</span>
-                                <div class="position-relative">
-                                    <input type="text" class="form-control form-datepicker" id="searchEndDt" name="searchEndDt" readonly="readonly" style="width: 126px;">
-                                    <i class="bi bi-calendar position-absolute end-0 top-50 translate-middle-y me-2" style="font-size: 0.85rem;"></i>
+                <main>
+                    <h3 class="mb-3 ms-3">게시판</h3>
+    
+                    <!-- 검색 폼 -->
+                    <form class="p-3 mb-3 ms-3 me-3 border rounded-3" name="searchForm" action="" method="GET">
+                        <div class="row g-2 align-items-center gap-3">
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="searchStartDt" class="form-label mb-0 fw-bold" style="white-space: nowrap;">일자</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-datepicker" id="searchStartDt" name="searchStartDt" readonly="readonly" style="width: 126px;">
+                                        <i class="bi bi-calendar position-absolute end-0 top-50 translate-middle-y me-2" style="font-size: 0.85rem;"></i>
+                                    </div>
+                                    <span>~</span>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-datepicker" id="searchEndDt" name="searchEndDt" readonly="readonly" style="width: 126px;">
+                                        <i class="bi bi-calendar position-absolute end-0 top-50 translate-middle-y me-2" style="font-size: 0.85rem;"></i>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="searchCondition" class="form-label mb-0 fw-bold" style="white-space: nowrap;">구분</label>
+                                <select id="searchCondition" name="searchCondition" class="form-select">
+                                    <option value="ALL">전체</option>
+                                    <option value="TITLE">제목</option>
+                                    <option value="CONTENT">내용</option>
+                                    <option value="WRITER">작성자</option>
+                                </select>
+                                <input type="text" class="form-control w-auto" id="searchKeyword" name="searchKeyword" maxlength="50">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-dark">검색</button>
+                            </div>
                         </div>
-                        <div class="col-auto d-flex align-items-center gap-2">
-                            <label for="searchCondition" class="form-label mb-0 fw-bold" style="white-space: nowrap;">구분</label>
-                            <select id="searchCondition" name="searchCondition" class="form-select">
-                                <option value="ALL">전체</option>
-                                <option value="TITLE">제목</option>
-                                <option value="CONTENT">내용</option>
-                                <option value="WRITER">작성자</option>
-                            </select>
-                            <input type="text" class="form-control w-auto" id="searchKeyword" name="searchKeyword" maxlength="50">
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-dark">검색</button>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="p-3">
-                    <div class="row align-items-center mb-2">
-                        <div class="col-auto">
-                            <strong>총 3건</strong>
-                        </div>
-                    </div>
+                    </form>
+    
                     <!-- 목록 -->
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">번호</th>
-                                <th scope="col">제목</th>
-                                <th scope="col">작성자</th>
-                                <th scope="col">작성일</th>
-                                <th scope="col">조회수</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="#" class="text-decoration-none">첫 번째 게시글</a></td>
-                                <td>관리자</td>
-                                <td>2024-03-04</td>
-                                <td>100</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#" class="text-decoration-none">두 번째 게시글</a></td>
-                                <td>사용자1</td>
-                                <td>2024-03-03</td>
-                                <td>45</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="p-3" id="listFragment"></div>
+
+                    <div id="actionBtn">
+                    </div>
+                </main>
             </div>
             <!-- ./ container -->
         </div>

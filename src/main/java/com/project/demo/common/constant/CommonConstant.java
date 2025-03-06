@@ -59,6 +59,12 @@ public class CommonConstant {
 
         /** 로그인 정보 */
         public static final String LOGIN_INFO = "loginInfo";
+
+        /** 결과 리스트 */
+        public static final String RESULT_LIST = "resultList";
+
+        /** total count */
+        public static final String TOTAL_CNT = "totalCnt";
     }
 
     /** 제외할 URL 목록 */

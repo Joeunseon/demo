@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div class="d-flex justify-content-end mt-3 me-4">
+        <th:block th:if="info : ${resultList}">
+            <th:block th:if="${info.menuType eq 'CREATE'}">
+                <a th:href="${info.menuUrl}" class="btn btn-dark rounded-pill px-4 py-2" th:text="#{button.regist}"></a>
+            </th:block>
+            <th:block th:if="${info.menuType eq 'UPDATE'}">
+                <a th:href="${info.menuUrl}" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.edit}"></a>
+            </th:block>
+            <th:block th:if="${info.menuType eq 'DELETE'}">
+                <a th:href="${info.menuUrl}" class="btn btn-dark rounded-pill px-4 py-2" th:text="#{button.delete}"></a>
+            </th:block>
+        </th:block>
+    </div>
+</html>
