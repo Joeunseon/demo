@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!-- listFragment : 게시판 리스트 -->
+    <div class="row align-items-center mb-2">
+        <div class="col-auto">
+            <strong>총 <span th:text="${totalCnt}"></span>건</strong>
+        </div>
+    </div>
+    <!-- 목록 -->
+    <table class="table table-hover">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일</th>
+                <th scope="col">조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:if="${#lists.size(resultList) == 0}">
+                <tr>
+                    <td colspan="5">리스트가 없습니다.</td>
+                </tr>
+            </th:block>
+            <th:block th:if="info : ${resultList}">
+                <tr>
+                    <td></td>
+                    <td th:text="${info.title}"></td>
+                    <td th:text="${info.userNm}"></td>
+                    <td th:text="${info.regDt}"></td>
+                    <td th:text="${info.viewCnt}"></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+    <!-- paging -->
+    <th:block th:include="common/paging :: paging_Fragment(fnc=*{'fn_go_page(this)'}, pageId=*{'pageName'})" />
+</html>
