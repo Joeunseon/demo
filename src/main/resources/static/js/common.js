@@ -220,3 +220,28 @@ function validateEmail(email) {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
 }
+
+function fn_resultList(formId, callback) {
+    const targetForm = $('#'+formId);
+
+    if (!targetForm.length) {
+        console.error(`Form ID "${formId}"를 찾을 수 없습니다.`);
+        return;
+    }
+
+    const queryString = targetForm.serialize();
+    let url = targetForm.attr('action');
+    if (queryString) {
+        url += `?${queryString}`;
+    } else {
+        url += '?page=1';
+    }
+
+    fn_fetchGetData(url).then(data => {
+        if ( callback ) callback(data);
+    });
+}
+
+function calculatePagination(page, pageScale, totalCnt) {
+    
+}

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.project.demo.api.board.domain.BoardEntity;
 
 @Repository
-public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
+public interface BoardRepository extends JpaRepository<BoardEntity, Long>, BoardRepositoryCustom {
 
 }
