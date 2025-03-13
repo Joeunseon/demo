@@ -84,8 +84,11 @@
                         </table>
                     </div>
 
-                    <div>
-                    </div>
+                    <th:block th:if="${loginInfo}">
+                        <div class="d-flex justify-content-end mt-3 me-4">
+                            <a href="/board/regist" class="btn btn-dark rounded-pill px-4 py-2" th:text="#{button.regist}"></a>
+                        </div>
+                    </th:block>
                 </main>
             </div>
             <!-- ./ container -->

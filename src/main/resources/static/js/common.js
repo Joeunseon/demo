@@ -9,6 +9,7 @@ $(document).ready(function() {
 let ui = {
     init: function init() {
         this.datePicker();
+        this.toastEditor();
     },
     datePicker: function datePicker() {
         $(document).on('focus', '.form-datepicker', function () {
@@ -45,6 +46,23 @@ let ui = {
             $(this).datepicker('destroy');
           }, 500);
         })
+    },
+    toastEditor: function toastEditor() {
+        $('.toast-editor').each(function () {
+            let $this = $(this);
+
+            if ( $this.data('toastEditor') )
+                return;
+
+            let editor = new toastui.Editor({
+                el: this,
+                height: '500px',
+                initialEditType: 'wysiwyg', // 'markdown' or 'wysiwyg'
+                previewStyle: 'vertical',       // 'tab' or 'vertical'
+            });
+
+            $this.data('toastEditor', editor);
+        });
     }
 }
 

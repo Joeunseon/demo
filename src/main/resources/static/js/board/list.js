@@ -1,5 +1,5 @@
 /**
- * List.js
+ * List.js (board)
  */
 
 const elements = {

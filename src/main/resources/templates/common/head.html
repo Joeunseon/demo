@@ -20,6 +20,17 @@
         <!-- Common 퍼블 css -->
         <link rel="stylesheet" href="/css/style.css">
 
+        <!-- 특정 페이지 플러그인 -->
+        <th:block  th:each="plugin : ${pagePlugin}">
+            <th:block th:switch="${plugin.name()}">
+                <th:block th:case="'EDITOR'">
+                    <!-- TOAST EDITOR CSS, JS -->
+                    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
+                    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+                </th:block>
+            </th:block>
+        </th:block>
+
         <!-- 플러그인 script -->
         <!-- jQuery JS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

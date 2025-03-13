@@ -60,6 +60,9 @@ public class CommonConstant {
         /** 로그인 정보 */
         public static final String LOGIN_INFO = "loginInfo";
 
+        /** 페이지 플러그인 */
+        public static final String PAGE_PLUGIN = "pagePlugin";
+
         /** 결과 리스트 */
         public static final String RESULT_LIST = "resultList";
 
