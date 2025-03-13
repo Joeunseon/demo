@@ -65,6 +65,12 @@ public class CommonConstant {
 
         /** total count */
         public static final String TOTAL_CNT = "totalCnt";
+
+        /** 현재 페이지 */
+        public static final String CURRENT_PAGE = "currentPage";
+
+        /** 페이지 스케일 */
+        public static final String PAGE_SCALE = "pageScale";
     }
 
     /** 제외할 URL 목록 */

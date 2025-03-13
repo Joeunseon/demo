@@ -9,8 +9,10 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class BaseDTO implements Serializable {
 
@@ -57,6 +59,7 @@ public class BaseDTO implements Serializable {
     private String searchKeyword;
 
     public void calculateOffSet() {
+        this.page = (this.page == null ? PAGE : this.page);
         this.offSet = (this.page - 1) * this.pageScale;
     }
 

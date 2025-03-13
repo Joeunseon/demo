@@ -11,7 +11,7 @@
                     <h3 class="mb-3 ms-3">게시판</h3>
     
                     <!-- 검색 폼 -->
-                    <form class="p-3 mb-3 ms-3 me-3 border rounded-3" name="searchForm" action="" method="GET">
+                    <form class="p-3 mb-3 ms-3 me-3 border rounded-3" id="searchForm" name="searchForm" action="/api/boards" method="GET">
                         <div class="row g-2 align-items-center gap-3">
                             <div class="col-auto d-flex align-items-center gap-2">
                                 <label for="searchStartDt" class="form-label mb-0 fw-bold" style="white-space: nowrap;">일자</label>
@@ -41,12 +41,50 @@
                                 <button type="submit" class="btn btn-dark">검색</button>
                             </div>
                         </div>
+                        <input type="hidden" name="page" id="page">
                     </form>
     
                     <!-- 목록 -->
-                    <div class="p-3" id="listFragment"></div>
+                    <div class="p-3 listFragment">
+                        <div class="row align-items-center mb-2">
+                            <div class="col-auto">
+                                <strong>총 <span class="totalCnt">0</span>건</strong>
+                            </div>
+                        </div>
 
-                    <div id="actionBtn">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 10%;">
+                                <col style="width: 50%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                            </colgroup>
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">제목</th>
+                                    <th scope="col">작성자</th>
+                                    <th scope="col">작성일</th>
+                                    <th scope="col">조회수</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tr_none">
+                                    <td colspan="5" class="text-center">리스트가 없습니다.</td>
+                                </tr>
+                                <tr class="tr_info">
+                                    <td class="rownum"></td>
+                                    <td class="title"></td>
+                                    <td class="writerNm"></td>
+                                    <td class="regDt"></td>
+                                    <td class="viewCnt"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
                     </div>
                 </main>
             </div>
