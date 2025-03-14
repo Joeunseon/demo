@@ -97,7 +97,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         }
         
         return queryFactory.select(Projections.constructor(BoardListDTO.class,
-                                Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} DESC)", board.regDt),
+                                Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} ASC)", board.regDt),
                                 board.boardSeq,
                                 board.title,
                                 JPAExpressions.select(user.userNm)
@@ -108,7 +108,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                             ))
                             .from(board)
                             .where(builder)
-                            .orderBy(Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} DESC)", board.regDt).desc())
+                            .orderBy(Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} ASC)", board.regDt).desc())
                             .limit(dto.getPageScale())
                             .offset(dto.getOffSet())
                             .fetch();

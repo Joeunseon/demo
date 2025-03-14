@@ -22,7 +22,7 @@ function drawResultList(data) {
     if ( data.totalCnt > 0 ) {
         data.resultList.forEach(info => {
             let infoClone =  ELEMENTS.trInfo.clone();
-            infoClone.find('.rownum').text(info.row);
+            infoClone.find('.rownum').text(info.rownum);
             infoClone.find('.title').text(info.title);
             infoClone.find('.writerNm').text(info.writerNm);
             infoClone.find('.regDt').text(info.regDt);
