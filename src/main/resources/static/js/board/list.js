@@ -2,7 +2,7 @@
  * List.js (board)
  */
 
-const elements = {
+const ELEMENTS = {
     trNone: $('.tr_none').detach(),
     trInfo: $('.tr_info').detach()
 }
@@ -21,7 +21,7 @@ function drawResultList(data) {
 
     if ( data.totalCnt > 0 ) {
         data.resultList.forEach(info => {
-            let infoClone =  elements.trInfo.clone();
+            let infoClone =  ELEMENTS.trInfo.clone();
             infoClone.find('.rownum').text(info.row);
             infoClone.find('.title').text(info.title);
             infoClone.find('.writerNm').text(info.writerNm);
@@ -31,6 +31,6 @@ function drawResultList(data) {
             $('.listFragment').find('tbody').append(infoClone);
         });
     } else {
-        $('.listFragment').find('tbody').append(elements.trNone.clone());
+        $('.listFragment').find('tbody').append(ELEMENTS.trNone.clone());
     }
 }

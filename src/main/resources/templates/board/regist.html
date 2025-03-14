@@ -20,7 +20,7 @@
 
                             <!-- TOAST UI Editor -->
                             <label for="content" class="form-label fw-bold">내용</label>
-                            <input type="hidden" id="content" required="required">
+                            <textarea id="content" name="content" style="display: none;"></textarea>
                             <div class="toast-editor"></div>
                         </form>
                     </div>
@@ -34,6 +34,8 @@
                 </main>
 
                 <!-- modal -->
+                <input type="hidden" id="validation" th:value="#{error.validation}">
+                <input type="hidden" id="saveConfrimMsg" th:value="#{save.confrim}" >
                 <div th:include="common/modal :: alert" th:remove="tag"></div>
                 <div th:include="common/modal :: confirm" th:remove="tag"></div>
             </div>

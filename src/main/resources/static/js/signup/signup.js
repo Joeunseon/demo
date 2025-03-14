@@ -2,7 +2,7 @@
  * Signup.js 
  */
 
-const API_ENDPOINTS = {
+const ENDPOINTS = {
     signup: '/api/signup',
     check: '/api/signup/check-duplicate'
 };
@@ -25,7 +25,7 @@ function checkDuplicateId() {
         return;
     }
         
-    fn_fetchGetData(`${API_ENDPOINTS.check}?userId=${$('#userId').val()}`)
+    fn_fetchGetData(`${ENDPOINTS.check}?userId=${$('#userId').val()}`)
         .then(data => {
             $('#alertModal .modal-body').text(data.message);
             $('#alertModal').modal('show');
@@ -42,7 +42,7 @@ function checkDuplicateEmail() {
         return;
     }
         
-    fn_fetchGetData(`${API_ENDPOINTS.check}?userEmail=${$('#userEmail').val()}`)
+    fn_fetchGetData(`${ENDPOINTS.check}?userEmail=${$('#userEmail').val()}`)
         .then(data => {
             $('#alertModal .modal-body').text(data.message);
             $('#alertModal').modal('show');
@@ -109,7 +109,7 @@ function signup() {
             data[item.name] = item.value;
     });
 
-    fn_fetchPostData(API_ENDPOINTS.signup, data)
+    fn_fetchPostData(ENDPOINTS.signup, data)
         .then(data => {
             $('#alertModal').find('.modal-body').text(data.message);
             $('#alertModal').modal('show');
