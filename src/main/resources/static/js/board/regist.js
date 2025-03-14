@@ -51,7 +51,7 @@ function board() {
             
             if ( data.result ) {
                 $('#alertModal').on('hidden.bs.modal', function () {
-                    location.href = `${ENDPOINTS.check}?boardSeq=${data.data}`;
+                    location.href = `${ENDPOINTS.info}?boardSeq=${data.data}`;
                 });
             }
         });

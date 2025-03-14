@@ -256,7 +256,7 @@ function fn_resultList(formId, callback) {
     }
 
     fn_fetchGetData(url).then(data => {
-        if ( callback ) callback(data);
+        if ( callback ) callback(data.data);
     });
 }
 
