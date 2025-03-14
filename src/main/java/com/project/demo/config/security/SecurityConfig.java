@@ -44,7 +44,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
             .addFilterBefore(menuAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> {
-                auth.requestMatchers("/error/**").permitAll();
+                auth.requestMatchers("/error/**", "/pagination").permitAll();
                 auth.requestMatchers("/css/**", "/images/**", "/js/**").permitAll();
 
                 // GUEST_ROLE 접근 URL 동적 추가

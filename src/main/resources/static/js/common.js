@@ -101,7 +101,8 @@ function fn_fetchRequest(url, options = {}) {
  */
 function fn_handleError(err) {
     console.error('Error occurred:', err.message);
-    alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    $('#alertModal').find('.modal-body').text(err.message);
+    $('#alertModal').modal('show');
     throw err; // 재처리를 위해 에러를 다시 던짐
 }
 
@@ -121,6 +122,15 @@ function fn_fetchGetData(url) {
  */
 function fn_fetchGetBlob(url) {
     return fn_fetchRequest(url, { method: 'GET' }).then(response => response.blob());
+}
+
+/**
+ * GET Text 요청
+ * @param {string} url - 요청 URL
+ * @returns {Promise} - text 데이터를 반환
+ */
+function fn_fetchGetText(url) {
+    return fn_fetchRequest(url, { method: 'GET' }).then(response => response.text());
 }
 
 /**
@@ -239,6 +249,12 @@ function validateEmail(email) {
     return emailPattern.test(email);
 }
 
+/**
+ * 테이블 데이터 취득
+ * @param {*} formId 
+ * @param {*} callback 
+ * @returns 
+ */
 function fn_resultList(formId, callback) {
     const targetForm = $('#'+formId);
 
@@ -256,10 +272,28 @@ function fn_resultList(formId, callback) {
     }
 
     fn_fetchGetData(url).then(data => {
-        if ( callback ) callback(data.data);
+        if ( data.result ) {
+            // 페이징 처리
+            fn_drawPaging(data.data.currentPage, data.data.pageScale, data.data.totalCnt);
+
+            if ( callback ) callback(data.data);
+        }
     });
 }
 
-function calculatePagination(page, pageScale, totalCnt) {
-    
+/**
+ * 페이징 처리
+ * @param {*} currentPage 
+ * @param {*} pageScale 
+ * @param {*} totalCnt 
+ */
+function fn_drawPaging(currentPage, pageScale, totalCnt) {
+
+    const url = `/pagination?currentPage=${currentPage}&pageScale=${pageScale}&totalCnt=${totalCnt}`;
+
+    fn_fetchGetText(url).then(html => {
+
+        $('#pagination').empty();
+        $('#pagination').append(html);
+    });
 }
