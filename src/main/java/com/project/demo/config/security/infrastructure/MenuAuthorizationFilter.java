@@ -47,8 +47,8 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
         HttpSession session = request.getSession(false);
         UserSessionDTO userSessionDTO = (session != null) ? (UserSessionDTO) session.getAttribute(SESSION_KEY.FRONT) : null;
 
-        // /error URL은 검증 하지 않음
-        if ( !requestURI.startsWith(EXCLUDE_URL.ERROR) ) {
+        // /error, /pagination URL은 검증 하지 않음
+        if ( !requestURI.startsWith(EXCLUDE_URL.ERROR) && !requestURI.startsWith(EXCLUDE_URL.PAGE) ) {
             // 메뉴 존재 여부 확인
             if ( !menuService.isMenuExist(requestURI) ) {
                 log.warn(">>> 존재하지 않는 URL 요청: {}", requestURI);

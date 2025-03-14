@@ -38,7 +38,7 @@
                                 <input type="text" class="form-control w-auto" id="searchKeyword" name="searchKeyword" maxlength="50">
                             </div>
                             <div class="col-auto">
-                                <button type="submit" class="btn btn-dark">검색</button>
+                                <button type="button" class="btn btn-dark" onclick="searchList();">검색</button>
                             </div>
                         </div>
                         <input type="hidden" name="page" id="page">
@@ -75,7 +75,9 @@
                                 </tr>
                                 <tr class="tr_info">
                                     <td class="text-center rownum"></td>
-                                    <td class="title"></td>
+                                    <td>
+                                        <a href="javascript:;" class="text-dark fw-bold text-decoration-none title"></a>
+                                    </td>
                                     <td class="text-center writerNm"></td>
                                     <td class="text-center regDt"></td>
                                     <td class="text-center viewCnt"></td>
@@ -84,12 +86,19 @@
                         </table>
                     </div>
 
+                    <!-- paging -->
+                    <div id="pagination"></div>
+
                     <th:block th:if="${loginInfo}">
                         <div class="d-flex justify-content-end mt-3 me-4">
                             <a href="/board/regist" class="btn btn-dark rounded-pill px-4 py-2" th:text="#{button.regist}"></a>
                         </div>
                     </th:block>
                 </main>
+
+                <!-- modal -->
+                <input type="hidden" id="dateValidation" th:value="#{error.search_date}">
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
             </div>
             <!-- ./ container -->
         </div>

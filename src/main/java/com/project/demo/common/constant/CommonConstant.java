@@ -81,6 +81,9 @@ public class CommonConstant {
         /** 에러페이지 */
         public static final String ERROR = "/error";
 
+        /** pagination */
+        public static final String PAGE = "/pagination";
+
         /** API */
         public static final String API = "/api";
 
@@ -91,6 +94,6 @@ public class CommonConstant {
         public static final String LOGIN = "/login";
 
         /** 리스트 적용 */
-        public static final List<String> EXCLUDE_URL_LIST = List.of(ERROR, API);
+        public static final List<String> EXCLUDE_URL_LIST = List.of(ERROR, API, PAGE);
     }
 }
