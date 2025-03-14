@@ -19,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -62,6 +63,7 @@ public class BoardEntity {
     @Column(name = "upd_seq")
     private Long updSeq;
 
+    @Builder
     public BoardEntity(Long boardSeq, FileMstrEntity fileMstr, String title, String content, Integer viewCnt, DelYn delYn, LocalDateTime regDt, Long regSeq, LocalDateTime updDt, Long updSeq) {
 
         this.boardSeq = boardSeq;

@@ -3,12 +3,17 @@ package com.project.demo.api.board.application;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.api.board.application.dto.BoardCreateDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
+import com.project.demo.api.board.domain.BoardEntity;
 import com.project.demo.api.board.infrastructure.BoardRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
+import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final MsgUtil msgUtil;
 
     public ApiResponse<Map<String, Object>> findAll(BoardRequestDTO dto) {
 
@@ -38,7 +44,23 @@ public class BoardService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> BoardService::findAll: ", e);
-            return ApiResponse.error();
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+        }
+    }
+
+    public ApiResponse<Long> create(BoardCreateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            BoardEntity entity = boardRepository.save(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getBoardSeq());
+        } catch (Exception e) {
+            log.error(">>>> BoardService::create: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
 }

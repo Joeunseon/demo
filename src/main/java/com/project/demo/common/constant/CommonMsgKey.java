@@ -11,7 +11,8 @@ public enum CommonMsgKey {
     FAILED("error.basic"),
     FAILED_VALIDATION("error.validation"),
     FAILED_LENGTH("error.length"),
-    FAILED_DUPLICATION("error.duplication");
+    FAILED_DUPLICATION("error.duplication"),
+    FAILED_FORBIDDEN("error.forbidden");
 
     private final String key;
 }
