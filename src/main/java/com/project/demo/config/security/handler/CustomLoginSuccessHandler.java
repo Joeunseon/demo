@@ -6,9 +6,11 @@ import java.time.LocalDateTime;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.project.demo.api.user.application.UserService;
 import com.project.demo.common.constant.LoginMsgKey;
+import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.util.MsgUtil;
 import com.project.demo.config.security.application.dto.CustomUserDetails;
@@ -47,7 +49,13 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         if ( userDetails.getLastPwdDt() == null || userDetails.getLastPwdDt().isBefore(LocalDateTime.now().minusMonths(3)) ) {
             response.sendRedirect("/user/password");
         } else {
-            response.sendRedirect("/");
+            String redirectUrl = (String) request.getParameter(MODEL_KEY.REDIRECT_URL);
+
+            if ( StringUtils.hasText(redirectUrl) ) {
+                response.sendRedirect(redirectUrl);
+            } else {
+                response.sendRedirect("/");
+            }
         }
     }
 }

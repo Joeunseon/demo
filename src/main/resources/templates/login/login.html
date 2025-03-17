@@ -12,6 +12,7 @@
                         <h2 class="text-center mb-4">로그인</h2>
                         
                         <form th:action="@{/api/login}" method="post">
+                            <input type="hidden" id="redirectUrl" name="redirectUrl" th:value="${redirectUrl}">
                             <div class="mb-3">
                                 <label for="userId" class="form-label">아이디</label>
                                 <input type="text" id="userId" name="userId" class="form-control" maxlength="50" required="required" autocomplete="off">
