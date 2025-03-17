@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import com.project.demo.api.board.application.dto.BoardDetailDTO;
 import com.project.demo.api.board.application.dto.BoardListDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
 import com.project.demo.api.board.domain.QBoardEntity;
 import com.project.demo.api.user.domain.QUserEntity;
+import com.project.demo.common.constant.DelYn;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -26,6 +28,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         QBoardEntity board = QBoardEntity.boardEntity;
         QUserEntity user = QUserEntity.userEntity;
         BooleanBuilder builder = new BooleanBuilder();
+
+        builder.and(board.delYn.eq(DelYn.N));
 
         if ( StringUtils.hasText(dto.getSearchStartDt()) )
             builder.and(board.regDt.goe(LocalDate.parse(dto.getSearchStartDt()).atStartOfDay()));
@@ -67,6 +71,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         BooleanBuilder builder = new BooleanBuilder();
 
         dto.calculateOffSet();
+
+        builder.and(board.delYn.eq(DelYn.N));
 
         if ( StringUtils.hasText(dto.getSearchStartDt()) )
             builder.and(board.regDt.goe(LocalDate.parse(dto.getSearchStartDt()).atStartOfDay()));
@@ -112,5 +118,26 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                             .limit(dto.getPageScale())
                             .offset(dto.getOffSet())
                             .fetch();
+    }
+
+    public BoardDetailDTO findDetailById(Long boardSeq) {
+        QBoardEntity board = QBoardEntity.boardEntity;
+        QUserEntity user = QUserEntity.userEntity;
+
+        return queryFactory.select(Projections.constructor(BoardDetailDTO.class,
+                                board.boardSeq,
+                                board.title,
+                                JPAExpressions.select(user.userNm)
+                                        .from(user)
+                                        .where(user.userSeq.eq(board.regSeq)),
+                                board.content,
+                                board.regDt,
+                                board.regSeq,
+                                board.viewCnt
+                            ))
+                            .from(board)
+                            .where(board.boardSeq.eq(boardSeq)
+                            .and(board.delYn.eq(DelYn.N)))
+                            .fetchOne();
     }
 }

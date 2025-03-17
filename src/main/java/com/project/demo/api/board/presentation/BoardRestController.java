@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.board.application.BoardService;
 import com.project.demo.api.board.application.dto.BoardCreateDTO;
+import com.project.demo.api.board.application.dto.BoardDetailDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.validation.ValidationSequence;
@@ -18,6 +20,7 @@ import com.project.demo.common.validation.ValidationSequence;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Board API", description = "게시판 API")
@@ -34,6 +37,13 @@ public class BoardRestController {
     public ApiResponse<Map<String, Object>> findAll(@Parameter(description = "게시판 목록 조회 진행을 위한 DTO") BoardRequestDTO dto) {
 
         return boardService.findAll(dto);
+    }
+
+    @GetMapping("/board/{boardSeq}")
+    @Operation(summary = "게시글 상세 조회 API", description = "게시판 SEQ를 전달 받아 게시글 상세를 조회합니다.")
+    public ApiResponse<BoardDetailDTO> findById(@Parameter(description = "조회할 게시글 SEQ") @PathVariable("boardSeq") @Min(value = 0, message = "{error.request}") Long boardSeq) {
+
+        return boardService.findById(boardSeq);
     }
 
     @PostMapping("/board")

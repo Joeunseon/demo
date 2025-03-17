@@ -63,6 +63,17 @@ let ui = {
 
             $this.data('toastEditor', editor);
         });
+    },
+    toastViewer: function toastViewer(content) {
+        $('.toast-viewer').each(function () {
+            let $this = $(this);
+
+            let viewer = toastui.Editor.factory({
+                el: this,
+                viewer: true,
+                initialValue: content
+            });
+        });
     }
 }
 
@@ -101,8 +112,12 @@ function fn_fetchRequest(url, options = {}) {
  */
 function fn_handleError(err) {
     console.error('Error occurred:', err.message);
-    $('#alertModal').find('.modal-body').text(err.message);
-    $('#alertModal').modal('show');
+    if ( $('#alertModal').length > 0 ) {
+        $('#alertModal').find('.modal-body').text(err.message);
+        $('#alertModal').modal('show');
+    } else {
+        alert(err.message);
+    }
     throw err; // 재처리를 위해 에러를 다시 던짐
 }
 
