@@ -77,6 +77,9 @@ public class CommonConstant {
 
         /** 페이지 스케일 */
         public static final String PAGE_SCALE = "pageScale";
+
+        /** DATA */
+        public static final String DATA = "data";
     }
 
     /** 제외할 URL 목록 */

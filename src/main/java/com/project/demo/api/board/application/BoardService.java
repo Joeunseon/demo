@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.api.board.application.dto.BoardCreateDTO;
+import com.project.demo.api.board.application.dto.BoardDetailDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
 import com.project.demo.api.board.domain.BoardEntity;
 import com.project.demo.api.board.infrastructure.BoardRepository;
@@ -44,6 +45,17 @@ public class BoardService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> BoardService::findAll: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+        }
+    }
+
+    public ApiResponse<BoardDetailDTO> findById(Long boardSeq) {
+
+        try {
+
+            return ApiResponse.success(boardRepository.findDetailById(boardSeq));
+        } catch (Exception e) {
+            log.error(">>>> BoardService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
         }
     }

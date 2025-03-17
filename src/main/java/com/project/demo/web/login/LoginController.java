@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonConstant.RESULT;
-
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +24,14 @@ public class LoginController {
             model.addAttribute(RESULT.MSG_KEY, msgKey);
 
         try {
-            if ( StringUtils.hasText(request.getHeader("Referer")) )
-                model.addAttribute(MODEL_KEY.REDIRECT_URL, new URI(request.getHeader("Referer")).getPath());
+            if ( StringUtils.hasText(request.getHeader("Referer")) ) {
+                URI uri = new URI(request.getHeader("Referer"));
+                String pathWithQuery = uri.getPath();
+                if ( StringUtils.hasText(uri.getQuery()) )
+                    pathWithQuery += "?" + uri.getQuery();
+                
+                model.addAttribute(MODEL_KEY.REDIRECT_URL, pathWithQuery);
+            }
         } catch (URISyntaxException e) {
             log.error(">>>> login: ", e);
         }
