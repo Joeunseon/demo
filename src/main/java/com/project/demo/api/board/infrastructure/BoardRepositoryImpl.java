@@ -140,4 +140,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                             .and(board.delYn.eq(DelYn.N)))
                             .fetchOne();
     }
+
+    public Long updateViewCnt(Long boardSeq) {
+
+        QBoardEntity board = QBoardEntity.boardEntity;
+
+        return queryFactory.update(board)
+                .set(board.viewCnt, Expressions.numberTemplate(Integer.class, "{0} + 1", board.viewCnt))
+                .where(board.boardSeq.eq(boardSeq)
+                .and(board.delYn.eq(DelYn.N)))
+                .execute();
+    }
 }

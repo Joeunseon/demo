@@ -29,6 +29,9 @@ public class CommonConstant {
     public static class SESSION_KEY {
         /** 프런트 */
         public static final String FRONT = "SESSION_KEY_FRONT";
+
+        /** 게시판 */
+        public static final String BOARD = "SESSION_KEY_BOARD";
     }
 
     /** Cache 키 */
