@@ -54,6 +54,9 @@ public class CommonConstant {
 
     /** Model 속성 키 */
     public static class MODEL_KEY {
+        /** 리다이렉트 URL */
+        public static final String REDIRECT_URL = "redirectUrl";
+
         /** 메뉴 리스트 */
         public static final String MENU_LIST = "menuList";
 
