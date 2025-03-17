@@ -13,4 +13,6 @@ public interface BoardRepositoryCustom {
     List<BoardListDTO> findBySearch(BoardRequestDTO dto);
 
     BoardDetailDTO findDetailById(Long boardSeq);
+
+    Long updateViewCnt(Long boardSeq);
 }

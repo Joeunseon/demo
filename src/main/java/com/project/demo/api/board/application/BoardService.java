@@ -2,9 +2,11 @@ package com.project.demo.api.board.application;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.demo.api.board.application.dto.BoardCreateDTO;
 import com.project.demo.api.board.application.dto.BoardDetailDTO;
@@ -13,9 +15,12 @@ import com.project.demo.api.board.domain.BoardEntity;
 import com.project.demo.api.board.infrastructure.BoardRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
+import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.util.MsgUtil;
+import com.project.demo.common.util.SessionUtil;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,6 +62,25 @@ public class BoardService {
         } catch (Exception e) {
             log.error(">>>> BoardService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Void> updateViewCnt(Long boardSeq, HttpSession session) {
+
+        try {
+            Set<Long> viewedBoards = SessionUtil.getSessionSet(session, SESSION_KEY.BOARD, Long.class);
+            
+            boolean isFirstView = viewedBoards.add(boardSeq);
+            session.setAttribute(SESSION_KEY.BOARD, viewedBoards);
+            if ( isFirstView ) { 
+                boardRepository.updateViewCnt(boardSeq);
+            }
+
+            return ApiResponse.success();
+        } catch (Exception e) {
+            log.error(">>>> BoardService::updateViewCnt: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
 
