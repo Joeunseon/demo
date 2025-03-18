@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import com.project.demo.api.board.application.dto.BoardDetailDTO;
 import com.project.demo.api.board.application.dto.BoardListDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
+import com.project.demo.api.board.domain.BoardEntity;
 import com.project.demo.api.board.domain.QBoardEntity;
 import com.project.demo.api.user.domain.QUserEntity;
 import com.project.demo.common.constant.DelYn;
@@ -162,6 +163,20 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .set(board.updDt, LocalDateTime.now())
                 .set(board.updSeq, userSeq)
                 .where(board.boardSeq.eq(boardSeq))
+                .execute();
+    }
+
+    public Long updateById(BoardEntity entity) {
+
+        QBoardEntity board = QBoardEntity.boardEntity;
+
+        return queryFactory.update(board)
+                .set(board.title, entity.getTitle())
+                .set(board.content, entity.getContent())
+                .set(board.updDt, entity.getUpdDt())
+                .set(board.updSeq, entity.getUpdSeq())
+                .where(board.boardSeq.eq(entity.getBoardSeq())
+                        .and(board.delYn.eq(entity.getDelYn())))
                 .execute();
     }
 }

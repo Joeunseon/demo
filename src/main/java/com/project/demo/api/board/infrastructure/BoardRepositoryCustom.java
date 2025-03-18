@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.demo.api.board.application.dto.BoardDetailDTO;
 import com.project.demo.api.board.application.dto.BoardListDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
+import com.project.demo.api.board.domain.BoardEntity;
 
 public interface BoardRepositoryCustom {
 
@@ -17,4 +18,6 @@ public interface BoardRepositoryCustom {
     Long updateViewCnt(Long boardSeq);
 
     Long softDelete(Long boardSeq, Long userSeq);
+
+    Long updateById(BoardEntity entity);
 }
