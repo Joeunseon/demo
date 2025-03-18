@@ -34,8 +34,8 @@
                     <div class="d-flex justify-content-end mt-3 me-4 mb-3">
                         <a href="/board/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.list}"></a>
                         <th:block th:if="${loginInfo}">
-                            <a th:href="@{/board/edit(boardSeq=${boardSeq})}" class="btn btn-dark rounded-pill px-4 py-2 me-1" th:text="#{button.edit}"></a>
-                            <button type="button" class="btn btn-dark rounded-pill px-4 py-2" th:text="#{button.delete}"></button>
+                            <a th:href="@{/board/edit(boardSeq=${boardSeq})}" class="btn btn-dark rounded-pill px-4 py-2 me-1 editable" th:text="#{button.edit}"></a>
+                            <button type="button" class="btn btn-dark rounded-pill px-4 py-2 editable" th:text="#{button.delete}" onclick="deleteConfirm();"></button>
                         </th:block>
                     </div>
                 </main>

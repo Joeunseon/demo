@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.board.application.BoardService;
 import com.project.demo.api.board.application.dto.BoardCreateDTO;
-import com.project.demo.api.board.application.dto.BoardDetailDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.BaseDTO;
 import com.project.demo.common.validation.ValidationSequence;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,14 +43,14 @@ public class BoardRestController {
     }
 
     @GetMapping("/board/{boardSeq}")
-    @Operation(summary = "게시글 상세 조회 API", description = "게시판 SEQ를 전달 받아 게시글 상세를 조회합니다.")
-    public ApiResponse<BoardDetailDTO> findById(@Parameter(description = "조회할 게시글 SEQ") @PathVariable("boardSeq") @Min(value = 0, message = "{error.request}") Long boardSeq, HttpSession session) {
+    @Operation(summary = "게시글 상세 조회 API", description = "게시글 SEQ를 전달 받아 게시글 상세를 조회합니다.")
+    public ApiResponse<Map<String, Object>> findById(@Parameter(description = "조회할 게시글 SEQ") @PathVariable("boardSeq") @Min(value = 0, message = "{error.request}") Long boardSeq, HttpSession session, BaseDTO baseDTO) {
 
         ApiResponse<Void> viewCntResponse = boardService.updateViewCnt(boardSeq, session);
         if ( viewCntResponse.getStatus() != HttpStatus.OK )
             return ApiResponse.error(viewCntResponse.getStatus(), viewCntResponse.getMessage());
 
-        return boardService.findById(boardSeq);
+        return boardService.findById(boardSeq, baseDTO);
     }
 
     @PostMapping("/board")
@@ -57,5 +58,12 @@ public class BoardRestController {
     public ApiResponse<Long> create(@Parameter(description = "게시글 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody BoardCreateDTO dto) {
 
         return boardService.create(dto);
+    }
+
+    @DeleteMapping("/board/{boardSeq}")
+    @Operation(summary = "게시글 삭제 API", description = "게시글 SEQ를 전달 받아 게시글 삭제를 진행합니다.")
+    public ApiResponse<Void> delete(@Parameter(description = "삭제할 게시글 SEQ") @PathVariable("boardSeq") @Min(value = 0, message = "{error.request}") Long boardSeq, BaseDTO baseDTO) {
+
+        return boardService.delete(boardSeq, baseDTO);
     }
 }

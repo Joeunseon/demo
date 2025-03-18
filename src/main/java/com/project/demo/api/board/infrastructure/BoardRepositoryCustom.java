@@ -15,4 +15,6 @@ public interface BoardRepositoryCustom {
     BoardDetailDTO findDetailById(Long boardSeq);
 
     Long updateViewCnt(Long boardSeq);
+
+    Long softDelete(Long boardSeq, Long userSeq);
 }

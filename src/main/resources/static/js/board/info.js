@@ -2,8 +2,9 @@
  * Info.js (board)
  */
 const ENDPOINTS = {
-    info: '/api/board/'
-}
+    api: '/api/board/',
+    list: '/board/list'
+};
 
 $(document).ready(function () {
     infoInit();
@@ -12,22 +13,26 @@ $(document).ready(function () {
 function infoInit() {
     const boardSeq = $('#boardSeq').val();
     if ( boardSeq ) {
-        fn_fetchGetData(`${ENDPOINTS.info}${boardSeq}`).then(data => {
+        fn_fetchGetData(`${ENDPOINTS.api}${boardSeq}`).then(data => {
             if ( data.result ) {
-                if ( data.data != null ) {
-                    const result = data.data;
+                if ( data.data.data != null ) {
+                    const result = data.data.data;
                     $('.title').text(result.title);
                     $('.writerNm').text(result.writerNm);
                     $('.regDt').text(result.regDt);
                     $('.viewCnt').text(result.viewCnt);
                     ui.toastViewer(result.content);
-                } else {
-                    $('#alertModal').find('.modal-body').text($('#errorRequest').val());
-                    $('#alertModal').modal('show');
-                    $('#alertModal').on('hidden.bs.modal', function () {
-                        history.back();
-                    });
                 }
+
+                if ( !data.data.editable ) {
+                    $('.editable').remove();
+                }
+            } else {
+                $('#alertModal').find('.modal-body').text($('#errorRequest').val());
+                $('#alertModal').modal('show');
+                $('#alertModal').on('hidden.bs.modal', function () {
+                    history.back();
+                });
             }
         });
     } else {
@@ -37,4 +42,24 @@ function infoInit() {
             history.back();
         });
     }
+}
+
+function deleteConfirm() {
+    $('#confirmModal .modal-body').html($('#deleteConfirm').val());
+    $('#confirmModal .saveBtn').off('click').on('click', softDelete);
+    $('#confirmModal').modal('show');
+}
+
+function softDelete() {
+    const boardSeq = $('#boardSeq').val();
+
+    fn_fetchDeleteData(`${ENDPOINTS.api}${boardSeq}`).then(data => {
+        if ( data.result ) {
+            $('#alertModal').find('.modal-body').text(data.message);
+            $('#alertModal').modal('show');
+            $('#alertModal').on('hidden.bs.modal', function () {
+                location.href = `${ENDPOINTS.list}`;
+            });
+        }
+    });
 }
