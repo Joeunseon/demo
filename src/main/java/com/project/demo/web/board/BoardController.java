@@ -46,4 +46,17 @@ public class BoardController {
         return "/board/info";
     }
 
+    @GetMapping("/edit")
+    public String edit(@RequestParam(value = "boardSeq", required = false) Long boardSeq, ModelMap model) {
+
+        List<PagePlugin> plugins = new ArrayList<>();
+        plugins.add(PagePlugin.EDITOR);
+
+        model.addAttribute(MODEL_KEY.PAGE_PLUGIN, plugins);
+
+        model.addAttribute("boardSeq", boardSeq);
+
+        return "/board/edit";
+    }
+
 }

@@ -146,7 +146,7 @@ VALUES('게시판 상세 API', '/api/board/{boardSeq}', (SELECT menu_seq FROM me
 -- 게시판 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('게시판 수정 API', '/api/board/{boardSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '게시판 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
+VALUES('게시판 수정 API', '/api/board', (SELECT menu_seq FROM menus WHERE menu_nm = '게시판 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
 -- 게시판 삭제 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -200,7 +200,7 @@ VALUES('메뉴 상세 API', '/api/menu/{menuSeq}', (SELECT menu_seq FROM menus W
 -- 메뉴 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('메뉴 수정 API', '/api/menu/{menuSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
+VALUES('메뉴 수정 API', '/api/menu', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
 -- 메뉴 순서 변경 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -241,7 +241,7 @@ VALUES('권한 상세 API', '/api/role/{roleSeq}', (SELECT menu_seq FROM menus W
 -- 권한 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('권한 수정 API', '/api/role/{roleSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '권한 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
+VALUES('권한 수정 API', '/api/role', (SELECT menu_seq FROM menus WHERE menu_nm = '권한 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
 -- 권한 삭제 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -282,7 +282,7 @@ VALUES('사용자 상세 API', '/api/user/{userSeq}', (SELECT menu_seq FROM menu
 -- 사용자 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('사용자 수정 API', '/api/user/{userSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '사용자 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
+VALUES('사용자 수정 API', '/api/user', (SELECT menu_seq FROM menus WHERE menu_nm = '사용자 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
 -- 사용자 삭제 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -315,7 +315,7 @@ VALUES('로그 상세 API', '/api/log/{logSeq}', (SELECT menu_seq FROM menus WHE
 -- 로그 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('로그 수정 API', '/api/log/{logSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '로그 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
+VALUES('로그 수정 API', '/api/log', (SELECT menu_seq FROM menus WHERE menu_nm = '로그 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
 
 -- 관리자 도구
 INSERT INTO menus

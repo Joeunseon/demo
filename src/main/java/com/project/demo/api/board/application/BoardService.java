@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.demo.api.board.application.dto.BoardCreateDTO;
 import com.project.demo.api.board.application.dto.BoardDetailDTO;
 import com.project.demo.api.board.application.dto.BoardRequestDTO;
+import com.project.demo.api.board.application.dto.BoardUpdateDTO;
 import com.project.demo.api.board.domain.BoardEntity;
 import com.project.demo.api.board.infrastructure.BoardRepository;
 import com.project.demo.common.ApiResponse;
@@ -139,6 +140,34 @@ public class BoardService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> BoardService::delete: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Long> update(BoardUpdateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            BaseDTO baseDTO = new BaseDTO();
+            baseDTO.setUserSession(dto.getUserSessionDTO());
+
+            ApiResponse<Map<String, Object>> info = findById(dto.getBoardSeq(), baseDTO);
+
+            if ( info.getData() == null )
+                return ApiResponse.error(info.getStatus(), info.getMessage());
+            
+            if ( !(Boolean) info.getData().get(MODEL_KEY.EDITABLE) )
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            
+            boardRepository.updateById(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
+            
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), dto.getBoardSeq());
+        } catch (Exception e) {
+            log.error(">>>> BoardService::update: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
