@@ -1,6 +1,7 @@
 package com.project.demo.api.board.infrastructure;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -149,6 +150,18 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .set(board.viewCnt, Expressions.numberTemplate(Integer.class, "{0} + 1", board.viewCnt))
                 .where(board.boardSeq.eq(boardSeq)
                 .and(board.delYn.eq(DelYn.N)))
+                .execute();
+    }
+
+    public Long softDelete(Long boardSeq, Long userSeq) {
+
+        QBoardEntity board = QBoardEntity.boardEntity;
+
+        return queryFactory.update(board)
+                .set(board.delYn, DelYn.Y)
+                .set(board.updDt, LocalDateTime.now())
+                .set(board.updSeq, userSeq)
+                .where(board.boardSeq.eq(boardSeq))
                 .execute();
     }
 }

@@ -83,6 +83,9 @@ public class CommonConstant {
 
         /** DATA */
         public static final String DATA = "data";
+
+        /** 수정/삭제 권한 */
+        public static final String EDITABLE = "editable";
     }
 
     /** 제외할 URL 목록 */

@@ -14,7 +14,9 @@ import com.project.demo.api.board.application.dto.BoardRequestDTO;
 import com.project.demo.api.board.domain.BoardEntity;
 import com.project.demo.api.board.infrastructure.BoardRepository;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
+import com.project.demo.common.constant.CommonConstant.ROLE_KEY;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.util.MsgUtil;
@@ -54,11 +56,24 @@ public class BoardService {
         }
     }
 
-    public ApiResponse<BoardDetailDTO> findById(Long boardSeq) {
+    public ApiResponse<Map<String, Object>> findById(Long boardSeq, BaseDTO dto) {
 
         try {
+            Map<String, Object> data = new HashMap<>();
+            BoardDetailDTO info = boardRepository.findDetailById(boardSeq);
 
-            return ApiResponse.success(boardRepository.findDetailById(boardSeq));
+            if ( info == null )
+                return ApiResponse.error(HttpStatus.NO_CONTENT, null, msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
+
+            data.put(MODEL_KEY.DATA, info);
+
+            boolean isOwnerOrAdmin = false;
+            if ( dto != null && dto.getUserSessionDTO() != null ) { 
+                isOwnerOrAdmin = ( info.getRegSeq() == dto.getUserSessionDTO().getUserSeq() || dto.getUserSessionDTO().getRoleSeq() == ROLE_KEY.ADMIN || dto.getUserSessionDTO().getRoleSeq() == ROLE_KEY.SYSTEM );
+            }
+            data.put(MODEL_KEY.EDITABLE, isOwnerOrAdmin);
+
+            return ApiResponse.success(data);
         } catch (Exception e) {
             log.error(">>>> BoardService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
@@ -96,6 +111,34 @@ public class BoardService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getBoardSeq());
         } catch (Exception e) {
             log.error(">>>> BoardService::create: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Void> delete(Long boardSeq, BaseDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            ApiResponse<Map<String, Object>> info = findById(boardSeq, dto);
+
+            if ( info.getData() == null )
+                return ApiResponse.error(info.getStatus(), info.getMessage());
+
+            BoardDetailDTO boardDetail = (BoardDetailDTO) info.getData().get(MODEL_KEY.DATA);
+            
+            if ( (boardDetail != null && boardDetail.getRegSeq() != dto.getUserSessionDTO().getUserSeq()) || (dto.getUserSessionDTO().getRoleSeq() != ROLE_KEY.SYSTEM && dto.getUserSessionDTO().getRoleSeq() != ROLE_KEY.ADMIN) )
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+
+            // 논리 삭제
+            boardRepository.softDelete(boardSeq, dto.getUserSessionDTO().getUserSeq());
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> BoardService::delete: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

@@ -22,7 +22,9 @@ public class GlobalRestControllerAdvice {
     public void initBinder(WebDataBinder binder, HttpServletRequest request) {
         Object target = binder.getTarget();
 
-        if ( target instanceof BaseDTO baseDTO ) {
+        if ( target != null && target.getClass() != BaseDTO.class && BaseDTO.class.isAssignableFrom(target.getClass()) ) {
+            BaseDTO baseDTO = (BaseDTO) target;
+
             HttpSession session = request.getSession(false);
             UserSessionDTO userSessionDTO = (session != null) ? 
                 (UserSessionDTO) session.getAttribute(SESSION_KEY.FRONT) : null;
