@@ -4,7 +4,8 @@
 
 const ENDPOINTS = {
     signup: '/api/signup',
-    check: '/api/signup/check-duplicate'
+    check: '/api/signup/check-duplicate',
+    login: '/login'
 };
 const form = document.getElementById('signupForm');
 
@@ -116,7 +117,7 @@ function signup() {
             
             if ( data.result ) {
                 $('#alertModal').on('hidden.bs.modal', function () {
-                    location.href = '/login';
+                    location.href = ENDPOINTS.login;
                 });
             }
         });
