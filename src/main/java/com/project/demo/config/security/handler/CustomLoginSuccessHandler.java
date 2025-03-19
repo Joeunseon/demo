@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.project.demo.api.user.application.UserService;
 import com.project.demo.common.constant.LoginMsgKey;
+import com.project.demo.common.constant.CommonConstant.EXCLUDE_URL;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.util.MsgUtil;
@@ -51,7 +52,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         } else {
             String redirectUrl = (String) request.getParameter(MODEL_KEY.REDIRECT_URL);
 
-            if ( StringUtils.hasText(redirectUrl) ) {
+            // redirectUrl (로그인, 회원가입 페이지 제외)
+            if ( StringUtils.hasText(redirectUrl) && !redirectUrl.startsWith(EXCLUDE_URL.LOGIN) && !redirectUrl.startsWith(EXCLUDE_URL.SIGNUP) ) {
                 response.sendRedirect(redirectUrl);
             } else {
                 response.sendRedirect("/");
