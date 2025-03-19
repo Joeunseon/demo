@@ -27,6 +27,7 @@ public class BoardController {
 
         List<PagePlugin> plugins = new ArrayList<>();
         plugins.add(PagePlugin.EDITOR);
+        plugins.add(PagePlugin.FILE);
 
         model.addAttribute(MODEL_KEY.PAGE_PLUGIN, plugins);
 

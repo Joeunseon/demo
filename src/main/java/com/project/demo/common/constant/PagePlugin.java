@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PagePlugin {
 
-    EDITOR("TOAST");
+    EDITOR("TOAST"), FILE("DROPZONE");
 
     private final String description;
 

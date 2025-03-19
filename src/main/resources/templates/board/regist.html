@@ -23,10 +23,13 @@
                             <textarea id="content" name="content" style="display: none;"></textarea>
                             <div class="toast-editor"></div>
                         </form>
+
+                        <!-- DROPZONE file -->
+                        <div th:include="file/regist :: regist" th:remove="tag"></div>
                     </div>
 
                     <th:block th:if="${loginInfo}">
-                        <div class="d-flex justify-content-end mt-3 me-4 mb-3">
+                        <div class="d-flex justify-content-end mt-3 me-4 mb-4">
                             <a href="/board/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.cancel}"></a>
                             <button type="button" class="btn btn-dark rounded-pill px-4 py-2" onclick="boardValidity();" th:text="#{button.regist}"></button>
                         </div>
