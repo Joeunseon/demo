@@ -37,7 +37,7 @@ $(document).ready(function () {
                 oThis.on('successmultiple', function (files, response) {
                     if ( response.result ) {
                         if ( response.data != null ) 
-                            $('#fileSeq').val(data.data);
+                            $('#fileSeq').val(response.data);
 
                         if (oThis.callback)  oThis.callback();
                     }

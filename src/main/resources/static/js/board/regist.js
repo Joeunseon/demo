@@ -36,7 +36,7 @@ function boardConfrim() {
     if ( confirmMsg && confirmMsg.trime !== '' ) {
 
         $('#confirmModal .modal-body').text(confirmMsg);
-        $('#confirmModal .saveBtn').off('click').on('click', board);
+        $('#confirmModal .saveBtn').off('click').on('click', uploadFiles(board));
         $('#confirmModal').modal('show');
     } 
 }
