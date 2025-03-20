@@ -346,6 +346,15 @@ VALUES ('Swagger Resources All', '/swagger-resources/**', (SELECT menu_seq FROM 
 INSERT INTO menus (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq) 
 VALUES ('Swagger WebJars', '/webjars/**', (SELECT menu_seq FROM menus WHERE menu_nm = 'Swagger API UI' LIMIT 1), 4, 6, 'TOOL', 1);
 
+-- 공통 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES ('공통 API', NULL, (SELECT menu_seq FROM menus WHERE menu_nm = '관리자 도구' LIMIT 1), 3, 2, 'TOOL', 1);
+-- 파일 등록 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES ('파일 등록 API', '/api/file', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 1, 'CREATE', 1);
+
 
 /**
 * 메뉴 권한 등록
