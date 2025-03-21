@@ -48,7 +48,7 @@ public class BoardRestController {
     @Operation(summary = "게시글 상세 조회 API", description = "게시글 SEQ를 전달 받아 게시글 상세를 조회합니다.")
     public ApiResponse<Map<String, Object>> findById(@Parameter(description = "조회할 게시글 SEQ") @PathVariable("boardSeq") @Min(value = 0, message = "{error.request}") Long boardSeq, HttpSession session, BaseDTO baseDTO) {
 
-        ApiResponse<Void> viewCntResponse = boardService.updateViewCnt(boardSeq, session);
+        ApiResponse<Void> viewCntResponse = boardService.updateViewCnt(boardSeq, session, baseDTO);
         if ( viewCntResponse.getStatus() != HttpStatus.OK )
             return ApiResponse.error(viewCntResponse.getStatus(), viewCntResponse.getMessage());
 

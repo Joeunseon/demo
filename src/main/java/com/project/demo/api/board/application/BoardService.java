@@ -85,15 +85,26 @@ public class BoardService {
     }
 
     @Transactional(readOnly = false)
-    public ApiResponse<Void> updateViewCnt(Long boardSeq, HttpSession session) {
+    public ApiResponse<Void> updateViewCnt(Long boardSeq, HttpSession session, BaseDTO dto) {
 
         try {
             Set<Long> viewedBoards = SessionUtil.getSessionSet(session, SESSION_KEY.BOARD, Long.class);
             
+            // session check
             boolean isFirstView = viewedBoards.add(boardSeq);
             session.setAttribute(SESSION_KEY.BOARD, viewedBoards);
+
             if ( isFirstView ) { 
-                boardRepository.updateViewCnt(boardSeq);
+                boolean isOwner = false;
+                
+                // owner check
+                if ( dto != null && dto.getUserSessionDTO() != null ) {
+                    BoardEntity entity = boardRepository.findById(boardSeq).orElse(null);
+                    isOwner = (entity != null && entity.getRegSeq().equals(dto.getUserSessionDTO().getUserSeq()));
+                } 
+
+                if ( !isOwner )
+                    boardRepository.updateViewCnt(boardSeq);
             }
 
             return ApiResponse.success();

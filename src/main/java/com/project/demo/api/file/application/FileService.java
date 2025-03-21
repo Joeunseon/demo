@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.demo.api.file.application.dto.FileDtlListDTO;
 import com.project.demo.api.file.domain.FileDtlEntity;
 import com.project.demo.api.file.domain.FileMstrEntity;
 import com.project.demo.api.file.infrastructure.FileDtlRepository;
@@ -31,6 +32,17 @@ public class FileService {
 
     private final MsgUtil msgUtil;
     private final FileUtil fileUtil;
+
+    public ApiResponse<List<FileDtlListDTO>> findById(Long fileSeq) {
+
+        try {
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), fileDtlRepository.findByFileSeq(fileSeq));
+        } catch (Exception e) {
+            log.error(">>>> FileService::findById: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+        }
+    }
 
     @Transactional(readOnly = false)
     public ApiResponse<Long> create(MultipartFile[] files, BaseDTO dto) {

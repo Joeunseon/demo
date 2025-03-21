@@ -26,9 +26,12 @@
                         </div>
 
                         <!-- TOAST UI Viewer (content) -->
-                        <div class="toast-viewer border rounded-3 p-3 bg-light"></div>
+                        <div class="toast-viewer border rounded-3 p-3 bg-light mb-3"></div>
 
                         <input type="hidden" id="boardSeq" th:value="${boardSeq}">
+
+                        <!-- file -->
+                        <div th:include="file/info :: info" th:remove="tag"></div>
                     </div>
 
                     <div class="d-flex justify-content-end mt-3 me-4 mb-3">
