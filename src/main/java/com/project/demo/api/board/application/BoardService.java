@@ -14,6 +14,8 @@ import com.project.demo.api.board.application.dto.BoardRequestDTO;
 import com.project.demo.api.board.application.dto.BoardUpdateDTO;
 import com.project.demo.api.board.domain.BoardEntity;
 import com.project.demo.api.board.infrastructure.BoardRepository;
+import com.project.demo.api.file.domain.FileMstrEntity;
+import com.project.demo.api.file.infrastructure.FileMstrRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
@@ -33,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final FileMstrRepository fileMstrRepository;
     private final MsgUtil msgUtil;
 
     public ApiResponse<Map<String, Object>> findAll(BoardRequestDTO dto) {
@@ -100,6 +103,7 @@ public class BoardService {
         }
     }
 
+    @Transactional(readOnly = false)
     public ApiResponse<Long> create(BoardCreateDTO dto) {
 
         try {
@@ -107,7 +111,16 @@ public class BoardService {
                 return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
             }
 
-            BoardEntity entity = boardRepository.save(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
+            FileMstrEntity fileEntity = null;
+
+            // file check
+            if ( dto.getFileSeq() != null ) {
+                fileEntity = fileMstrRepository.findById(dto.getFileSeq())
+                                .orElse(null);
+            }
+
+            // board table insert
+            BoardEntity entity = boardRepository.save(dto.toEntity(dto.getUserSessionDTO().getUserSeq(), fileEntity));
 
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getBoardSeq());
         } catch (Exception e) {
