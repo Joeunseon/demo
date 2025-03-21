@@ -128,6 +128,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         return queryFactory.select(Projections.constructor(BoardDetailDTO.class,
                                 board.boardSeq,
+                                board.fileMstr.fileSeq,
                                 board.title,
                                 JPAExpressions.select(user.userNm)
                                         .from(user)

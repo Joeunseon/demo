@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.project.demo.api.file.domain.FileDtlEntity;
 
 @Repository
-public interface FileDtlRepository extends JpaRepository<FileDtlEntity, Long> {
+public interface FileDtlRepository extends JpaRepository<FileDtlEntity, Long>, FileDtlRepositoryCustom {
 
 }

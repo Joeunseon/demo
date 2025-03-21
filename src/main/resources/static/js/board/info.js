@@ -17,6 +17,7 @@ function infoInit() {
             if ( data.result ) {
                 if ( data.data.data != null ) {
                     const result = data.data.data;
+                    fileInfo(result.fileSeq);
                     $('.title').text(result.title);
                     $('.writerNm').text(result.writerNm);
                     $('.regDt').text(result.regDt);

@@ -1,7 +1,7 @@
 /**
  * Regist.js (file)
  */
-const ENDPOINT = '/api/file';
+const FILE_ENDPOINT = '/api/file';
 let myDropzone;
 
 $(document).ready(function () {
@@ -16,7 +16,7 @@ $(document).ready(function () {
         }
 
         myDropzone = new Dropzone(dropzoneElement, {
-            url: ENDPOINT, // 업로드 서버 URL
+            url: FILE_ENDPOINT, // 업로드 서버 URL
             method: 'post',
             autoProcessQueue: false, // 자동 업로드 여부
             clickable: true, // 클릭 기능 여부

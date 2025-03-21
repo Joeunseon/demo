@@ -354,6 +354,19 @@ VALUES ('공통 API', NULL, (SELECT menu_seq FROM menus WHERE menu_nm = '관리�
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES ('파일 등록 API', '/api/file', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 1, 'CREATE', 1);
+-- 파일 상세 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES ('파일 상세 API', '/api/file/{fileSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 2, 'READ', 1);
+-- 파일 개별 다운로드 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES ('파일 개별 다운로드 API', '/api/file/download/{dtlSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 3, 'READ', 1);
+-- 파일 압축 다운로드 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES ('파일 압축 다운로드 API', '/api/file/download/zip', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 4, 'READ', 1);
+
 
 
 /**
@@ -376,5 +389,5 @@ ORDER BY m.menu_seq;
 INSERT INTO menu_role (menu_seq, role_seq, reg_seq)
 SELECT m.menu_seq, 4, 1
 FROM menus m
-WHERE m.menu_nm IN ('ROOT', '로그인', '로그인 API', '로그아웃 API', '회원가입', '회원가입 API', '회원가입 중복체크 API')
+WHERE m.menu_nm IN ('ROOT', '로그인', '로그인 API', '로그아웃 API', '회원가입', '회원가입 API', '회원가입 중복체크 API', '게시판', '게시판 목록', '게시판 상세', '게시판 목록 API', '게시판 상세 API', '암호화 관리', '암호화 API', '복호화 API', '파일 상세 API')
 ORDER BY m.menu_seq;

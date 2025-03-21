@@ -34,7 +34,7 @@ public class FileDtlCreateDTO {
     @Schema(description = "파일 사이즈")
     private Long fileSize;
 
-    @Schema(description = "파일 정렬렬 순서")
+    @Schema(description = "파일 정렬 순서")
     private Integer fileOrder;
 
     @Builder
