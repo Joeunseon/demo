@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,6 +83,23 @@ public class FileUtil {
         }
 
         return fileList;
+    }
+
+    /**
+     * 파일 다운로드
+     * @param filePath
+     * @return
+     * @throws Exception
+     */
+    public Resource downloadFile(String filePath) throws Exception {
+
+        Path path = Paths.get(filePath);
+
+        if ( !Files.exists(path) || !Files.isReadable(path) ) {
+            log.error("[fileUtil.downloadFile] NOT_FOUND : " + filePath);
+        }
+
+        return new InputStreamResource(Files.newInputStream(path));
     }
 
     /**

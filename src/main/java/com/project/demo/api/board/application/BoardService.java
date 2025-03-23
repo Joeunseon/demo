@@ -56,7 +56,7 @@ public class BoardService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> BoardService::findAll: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
 
@@ -80,7 +80,7 @@ public class BoardService {
             return ApiResponse.success(data);
         } catch (Exception e) {
             log.error(">>>> BoardService::findById: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
 
