@@ -1,9 +1,15 @@
 package com.project.demo.api.file.application;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +22,7 @@ import com.project.demo.api.file.infrastructure.FileMstrRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.constant.DelYn;
 import com.project.demo.common.util.FileUtil;
 import com.project.demo.common.util.MsgUtil;
 
@@ -33,14 +40,36 @@ public class FileService {
     private final MsgUtil msgUtil;
     private final FileUtil fileUtil;
 
-    public ApiResponse<List<FileDtlListDTO>> findById(Long fileSeq) {
+    public ApiResponse<List<FileDtlListDTO>> findAllById(Long fileSeq) {
 
         try {
 
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), fileDtlRepository.findByFileSeq(fileSeq));
         } catch (Exception e) {
-            log.error(">>>> FileService::findById: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            log.error(">>>> FileService::findAllById: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ResponseEntity<Resource> fileDown(Long dtlSeq) {
+
+        try {
+            FileDtlEntity fileDtlEntity = fileDtlRepository.findById(dtlSeq).orElse(null);
+
+            if ( fileDtlEntity != null && fileDtlEntity.getDelYn().equals(DelYn.N) ) {
+                return ResponseEntity.ok()
+                            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                            .header(HttpHeaders.CONTENT_DISPOSITION,
+                                    "attachment; filename=\"" + URLEncoder.encode(fileDtlEntity.getOriNm(), StandardCharsets.UTF_8) + "\"")
+                            .body(fileUtil.downloadFile(fileDtlEntity.getFilePath()));
+            }
+
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT).body(null);
+        } catch (Exception e) {
+            log.error(">>>> FileService::fileDown: ", e);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -71,7 +100,7 @@ public class FileService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getFileSeq());
         } catch (Exception e) {
             log.error(">>>> FileService::create: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
 }

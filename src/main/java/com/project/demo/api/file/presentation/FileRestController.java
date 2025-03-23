@@ -2,6 +2,8 @@ package com.project.demo.api.file.presentation;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +35,16 @@ public class FileRestController {
 
     @GetMapping("/file/{fileSeq}")
     @Operation(summary = "파일 목록 조회 API", description = "파일 SEQ를 전달 받아 파일 목록을 조회합니다.")
-    public ApiResponse<List<FileDtlListDTO>> findById(@Parameter(description = "조회할 파일 SEQ") @PathVariable("fileSeq") @Min(value = 0, message = "{error.request}") Long fileSeq) {
+    public ApiResponse<List<FileDtlListDTO>> findAllById(@Parameter(description = "조회할 파일 SEQ") @PathVariable("fileSeq") @Min(value = 0, message = "{error.request}") Long fileSeq) {
 
-        return fileService.findById(fileSeq);
+        return fileService.findAllById(fileSeq);
+    }
+
+    @GetMapping("/file/download/{dtlSeq}")
+    @Operation(summary = "파일 개별 다운로드 API", description = "파일 상세 SEQ 전달 받아 파일 다운로드를 진행합니다.")
+    public ResponseEntity<Resource> fileDown(@Parameter(description ="다운로드할 파일 상세 SEQ") @PathVariable("dtlSeq") @Min(value = 0, message = "{error.request}") Long dtlSeq) {
+
+        return fileService.fileDown(dtlSeq);
     }
 
     @PostMapping("/file")
