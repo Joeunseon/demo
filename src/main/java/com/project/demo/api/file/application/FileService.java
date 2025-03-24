@@ -1,10 +1,12 @@
 package com.project.demo.api.file.application;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -68,6 +70,31 @@ public class FileService {
                     .status(HttpStatus.NO_CONTENT).body(null);
         } catch (Exception e) {
             log.error(">>>> FileService::fileDown: ", e);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    public ResponseEntity<Resource> fileDownZip(Long fileSeq) {
+        
+        try {
+            List<FileDtlListDTO> fileList = fileDtlRepository.findByFileSeq(fileSeq);
+
+            if ( fileList != null && fileList.size() > 0 ) {
+                ByteArrayOutputStream zipStream = fileUtil.downloadFileZip(fileList);
+                ByteArrayResource resource = new ByteArrayResource(zipStream.toByteArray());
+    
+                return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"files.zip\"")
+                            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                            .contentLength(resource.contentLength())
+                            .body(resource);
+            }
+
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT).body(null);
+        } catch (Exception e) {
+            log.error(">>>> FileService::fileDownZip: ", e);
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

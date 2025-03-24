@@ -22,6 +22,7 @@ public class FileDtlRepositoryImpl implements FileDtlRepositoryCustom {
         return queryFactory.select(Projections.constructor(FileDtlListDTO.class,
                                 fileDtl.dtlSeq,
                                 fileDtl.oriNm,
+                                fileDtl.filePath,
                                 fileDtl.fileSize,
                                 fileDtl.fileOrder
                             ))

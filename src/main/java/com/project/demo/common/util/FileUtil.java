@@ -1,6 +1,8 @@
 package com.project.demo.common.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -18,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.demo.api.file.application.dto.FileDtlCreateDTO;
+import com.project.demo.api.file.application.dto.FileDtlListDTO;
 import com.project.demo.api.file.domain.FileDtlEntity;
 import com.project.demo.api.file.domain.FileMstrEntity;
 
@@ -100,6 +105,35 @@ public class FileUtil {
         }
 
         return new InputStreamResource(Files.newInputStream(path));
+    }
+
+    public ByteArrayOutputStream downloadFileZip(List<FileDtlListDTO> list) throws Exception {
+
+        ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+        ZipOutputStream zipOut = new ZipOutputStream(byteOutStream);
+
+        for (FileDtlListDTO info : list) {
+            Path filePath = Paths.get(info.getFilePath());
+            File fileToZip = filePath.toFile();
+
+            if ( !fileToZip.exists() ) continue;
+
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(info.getOriNm());
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fis.read(buffer)) > 0) {
+                zipOut.write(buffer, 0, len);
+            }
+
+            fis.close();
+        }
+
+        zipOut.finish();
+
+        return byteOutStream;
     }
 
     /**
