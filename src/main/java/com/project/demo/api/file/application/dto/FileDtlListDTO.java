@@ -17,6 +17,9 @@ public class FileDtlListDTO {
     @Schema(description = "원본 파일 명")
     private String oriNm;
 
+    @Schema(description = "파일 저장 경로")
+    private String filePath;
+
     @Schema(description = "파일 사이즈")
     private Long fileSize;
 

@@ -28,6 +28,10 @@ function fileInfo(fileSeq) {
             
                         $('.fileList').append(infoClone);
                     });
+
+                    if ( data.data.length < 2 ) {
+                        $('#zipDownloadBtn').remove();
+                    }
                 } else {
                     $('#fileInfo').remove();
                 }
@@ -39,5 +43,9 @@ function fileInfo(fileSeq) {
 }
 
 function fileDownZip() {
-    
+    const fileSeq = $('#zipDownloadBtn').data('fileSeq');
+
+    if ( fileSeq ) {
+        location.href = `${FILE_ENDPOINTS.zipDown}?fileSeq=${fileSeq}`;
+    }
 }

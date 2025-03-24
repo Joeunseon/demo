@@ -47,6 +47,13 @@ public class FileRestController {
         return fileService.fileDown(dtlSeq);
     }
 
+    @GetMapping("/file/download/zip")
+    @Operation(summary = "파일 압축 다운로드 API", description = "파일 SEQ 전달 받아 압축 파일 다운로드를 진행합니다.")
+    public ResponseEntity<Resource> fileDownZip(@RequestParam(value = "fileSeq", required = false) Long fileSeq) {
+
+        return fileService.fileDownZip(fileSeq);
+    }
+
     @PostMapping("/file")
     @Operation(summary = "파일 등록(업로드) API", description = "등록할 파일의 정보를 전달 받아 파일을 등록(업로드)합니다.")
     public ApiResponse<Long> create(@RequestParam("file") MultipartFile[] files, BaseDTO dto) {
