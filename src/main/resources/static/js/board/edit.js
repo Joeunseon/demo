@@ -23,6 +23,11 @@ function infoInit() {
                     
                     let editor = $('.toast-editor').data('toastEditor');
                     editor.setHTML(result.content, true);
+
+                    if ( result.fileSeq ) {
+                        fileInit(result.fileSeq);
+                        $('#fileSeq').val(result.fileSeq);
+                    }
                 }
             } else {
                 $('#alertModal').find('.modal-body').text($('#errorRequest').val());
@@ -69,7 +74,9 @@ function boardConfrim() {
     if ( confirmMsg && confirmMsg.trime !== '' ) {
 
         $('#confirmModal .modal-body').text(confirmMsg);
-        $('#confirmModal .saveBtn').off('click').on('click', board);
+        $('#confirmModal .saveBtn').off('click').on('click', function () {
+            uploadFiles(board);
+        });
         $('#confirmModal').modal('show');
     } 
 }

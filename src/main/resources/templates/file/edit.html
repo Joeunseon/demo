@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="edit">
+        <div>
+            <div class="d-flex align-items-center mt-3 mb-3">
+                <label for="fileBtn" class="form-label fw-bold me-2 mb-0">첨부파일</label>
+                <button id="fileBtn" class="btn btn-secondary dz-clickable">내 PC</button>
+            </div>
+
+            <form action="/api/file" class="dropzone border border-secondary border-2 rounded p-5 text-center bg-light">
+                <div class="dz-message">여기에 첨부할 파일을 드래그하거나 클릭하여 업로드하세요.</div>
+            </form>
+
+            <div class="mt-4">
+                <ul class="list-group fileList">
+                    <li class="list-group-item d-flex align-items-center li_info">
+                        <span class="text-decoration-none text-primary me-2 oriNm"></span>
+                        <span class="text-muted small fileSize me-2"></span>
+                        <button type="button" class="btn btn-sm btn-outline-dark" onclick="delLi(this);">삭제</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script src="/js/file/edit.js"></script>
+    </div>
+</html>

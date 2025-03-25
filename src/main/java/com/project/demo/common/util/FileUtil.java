@@ -42,7 +42,7 @@ public class FileUtil {
      * @return
      * @throws Exception
      */
-    public List<FileDtlEntity> uploadFile(MultipartFile[] files, FileMstrEntity entity) throws Exception {
+    public List<FileDtlEntity> uploadFile(MultipartFile[] files, FileMstrEntity entity , Integer fileOrder) throws Exception {
         
         // 파일 경로
         String basePath = getBasePath();
@@ -51,7 +51,6 @@ public class FileUtil {
 
         List<FileDtlEntity> fileList = new ArrayList<>();
 
-        Integer fileOrder = 1;
         for (MultipartFile file : files) {
             // 원본 파일명
             String orignalFileNm = file.getOriginalFilename();

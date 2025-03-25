@@ -366,6 +366,10 @@ VALUES ('파일 개별 다운로드 API', '/api/file/download/{dtlSeq}', (SELECT
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES ('파일 압축 다운로드 API', '/api/file/download/zip', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 4, 'READ', 1);
+-- 파일 수정 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES ('파일 수정 API', '/api/file', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 5, 'UPDATE', 1);
 
 
 

@@ -13,6 +13,7 @@
                     <div class="p-3">
                         <form id="boardForm">
                             <input type="hidden" id="boardSeq" name="boardSeq" th:value="${boardSeq}">
+                            <input type="hidden" id="fileSeq" name="fileSeq">
                             <!-- 제목 입력 필드 -->
                             <div class="mb-3">
                                 <label for="title" class="form-label fw-bold">제목</label>
@@ -24,6 +25,9 @@
                             <textarea id="content" name="content" style="display: none;"></textarea>
                             <div class="toast-editor"></div>
                         </form>
+
+                        <!-- DROPZONE file -->
+                        <div th:include="file/edit :: edit" th:remove="tag"></div>
                     </div>
 
                     <th:block th:if="${loginInfo}">

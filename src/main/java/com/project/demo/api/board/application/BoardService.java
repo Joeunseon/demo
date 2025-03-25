@@ -186,8 +186,17 @@ public class BoardService {
             
             if ( !(Boolean) info.getData().get(MODEL_KEY.EDITABLE) )
                 return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+
+            FileMstrEntity fileEntity = null;
+
+            // file check
+            if ( dto.getFileSeq() != null ) {
+                fileEntity = fileMstrRepository.findById(dto.getFileSeq())
+                                .orElse(null);
+            }
             
-            boardRepository.updateById(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
+            // board update
+            boardRepository.updateById(dto.toEntity(dto.getUserSessionDTO().getUserSeq(), fileEntity));
             
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), dto.getBoardSeq());
         } catch (Exception e) {
