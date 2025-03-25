@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <h3 class="mb-3 ms-3">암호화 관리</h3>
+                    
+                    <!-- accordion -->
+                    <div class="accordion p-3" id="encryptionAccordion">
+                        <!-- Jasypt -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingJasypt">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJasypt" aria-expanded="true" aria-controls="collapseJasypt">
+                                    🔐 Jasypt 암호화/복호화
+                                </button>
+                            </h2>
+                            <div id="collapseJasypt" class="accordion-collapse collapse show" aria-labelledby="headingJasypt" data-bs-parent="#encryptionAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="jasyptInput" class="form-label">평문 문자열</label>
+                                            <textarea class="form-control" id="jasyptInput" rows="3"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="jasyptPassword" class="form-label">비밀번호 (Password)</label>
+                                            <input type="text" class="form-control" id="jasyptPassword">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="jasyptAlgorithm" class="form-label">알고리즘</label>
+                                            <select class="form-select" id="jasyptAlgorithm">
+                                                <option selected>PBEWithMD5AndDES</option>
+                                                <option>PBEWithSHA1AndDESede</option>
+                                                <option>PBEWithSHA256And128BitAES-CBC-BC</option>
+                                                <option>PBEWithSHA256And256BitAES-CBC-BC</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button type="button" class="btn btn-dark">암호화</button>
+                                            <button type="button" class="btn btn-secondary">복호화</button>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">결과</label>
+                                            <div class="input-group">
+                                                <textarea class="form-control" rows="3" readonly></textarea>
+                                                <button type="button" class="btn btn-outline-secondary">복사</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BCrypt -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingBCrypt">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBCrypt" aria-expanded="false" aria-controls="collapseBCrypt">
+                                    🔑 Spring Security BCrypt 암호화
+                                </button>
+                            </h2>
+                            <div id="collapseBCrypt" class="accordion-collapse collapse" aria-labelledby="headingBCrypt" data-bs-parent="#encryptionAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="bcryptInput" class="form-label">평문 비밀번호</label>
+                                            <input type="text" class="form-control" id="bcryptInput">
+                                        </div>
+                                        <div class="mb-3">
+                                            <button type="button" class="btn btn-dark">BCrypt 암호화</button>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">해시 결과</label>
+                                            <div class="input-group">
+                                                <textarea class="form-control" rows="3" readonly></textarea>
+                                                <button type="button" class="btn btn-outline-secondary">복사</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Base64 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingBase64">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBase64" aria-expanded="false" aria-controls="collapseBase64">
+                                    🧬 Base64 인코딩/디코딩
+                                </button>
+                            </h2>
+                            <div id="collapseBase64" class="accordion-collapse collapse" aria-labelledby="headingBase64" data-bs-parent="#encryptionAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">입력 문자열</label>
+                                            <textarea class="form-control" rows="3"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button type="button" class="btn btn-dark">인코딩</button>
+                                            <button type="button" class="btn btn-secondary">디코딩</button>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">결과</label>
+                                            <div class="input-group">
+                                                <textarea class="form-control" rows="3" readonly></textarea>
+                                                <button type="button" class="btn btn-outline-secondary">복사</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SHA 해시 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSHA">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSHA" aria-expanded="false" aria-controls="collapseSHA">
+                                    🔎 SHA256 / SHA512 / MD5 해시
+                                </button>
+                            </h2>
+                            <div id="collapseSHA" class="accordion-collapse collapse" aria-labelledby="headingSHA" data-bs-parent="#encryptionAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">입력 문자열</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">알고리즘 선택</label>
+                                            <select class="form-select">
+                                                <option selected>SHA-256</option>
+                                                <option>SHA-512</option>
+                                                <option>MD5</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button type="button" class="btn btn-dark">해시 변환</button>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">결과</label>
+                                            <div class="input-group">
+                                                <textarea class="form-control" rows="3" readonly></textarea>
+                                                <button type="button" class="btn btn-outline-secondary">복사</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RSA -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingRSA">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRSA" aria-expanded="false" aria-controls="collapseRSA">
+                                    🔒 RSA 공개키/개인키 암호화
+                                </button>
+                            </h2>
+                            <div id="collapseRSA" class="accordion-collapse collapse" aria-labelledby="headingRSA" data-bs-parent="#encryptionAccordion">
+                                <div class="accordion-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">공개키 또는 개인키</label>
+                                            <textarea class="form-control" rows="3" placeholder="-----BEGIN PUBLIC KEY----- ..."></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">입력 문자열</label>
+                                            <textarea class="form-control" rows="3"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button type="button" class="btn btn-dark">암호화</button>
+                                            <button type="button" class="btn btn-secondary">복호화</button>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">결과</label>
+                                            <div class="input-group">
+                                                <textarea class="form-control" rows="3" readonly></textarea>
+                                                <button type="button" class="btn btn-outline-secondary">복사</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./ accordion -->
+
+                    <div class="p-3 mb-3">
+                        ※ 입력하신 데이터는 서버에서 암호화/복호화 처리되며, 처리 후 저장되지 않습니다.
+                    </div>
+                </main>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+    </div>
+    <!-- ./ warp -->
+</body>
+</html>
