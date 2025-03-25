@@ -156,14 +156,14 @@ VALUES('게시판 삭제 API', '/api/board/{boardSeq}', (SELECT menu_seq FROM me
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('암호화 관리', '/encryption', 1, 2, 40, 'MENU', 1);
--- 암호화 API 
+-- 암호화 API (jasypt)
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('암호화 API', '/api/encryption', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 1, 'READ', 1);
--- 복호화 API
+VALUES('암호화 API (jasypt)', '/api/jasypt/encrypt', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 1, 'CREATE', 1);
+-- 복호화 API (jasypt)
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('암호화 API', '/api/decryption', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 2, 'READ', 1);
+VALUES('암호화 API (jasypt)', '/api/jasypt/encrypt', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 2, 'CREATE', 1);
 
 -- 메뉴 관리
 INSERT INTO menus
