@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.demo.api.file.application.dto.FileDtlListDTO;
+import com.project.demo.api.file.application.dto.FileDtlUpdateDTO;
 import com.project.demo.api.file.domain.FileDtlEntity;
 import com.project.demo.api.file.domain.FileMstrEntity;
 import com.project.demo.api.file.infrastructure.FileDtlRepository;
@@ -117,7 +118,7 @@ public class FileService {
                                                                             .build());
 
             // 2. file upload
-            List<FileDtlEntity> list = fileUtil.uploadFile(files, entity);
+            List<FileDtlEntity> list = fileUtil.uploadFile(files, entity, 1);
 
             // 3. file_dtl table insert
             if ( list != null && list.size() > 0 ) {
@@ -127,6 +128,56 @@ public class FileService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getFileSeq());
         } catch (Exception e) {
             log.error(">>>> FileService::create: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<Long> update(MultipartFile[] files, FileDtlUpdateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null )
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+
+            Long fileSeq = dto.getFileSeq();
+            FileMstrEntity entity = null;
+
+            Integer fileOrder = null;
+            if ( fileSeq != null ) {
+                fileDtlRepository.softDelete(dto);
+
+                entity = fileMstrRepository.findById(fileSeq).orElse(null);
+            }
+
+            if (dto.getFileSeq() != null && dto.getDtlSeq() != null && dto.getDtlSeq().length > 0) {
+                // 유지할 fileOrder 가져오기
+                Integer maxOrder = fileDtlRepository.findMaxOrderByFilSeq(dto.getFileSeq());
+                if (maxOrder != null) {
+                    fileOrder = maxOrder + 1;
+                }
+            }
+
+            if ( files != null && files.length > 0 ) {
+                if ( fileSeq == null ) {
+                    entity = fileMstrRepository.save(FileMstrEntity.builder()
+                                                        .regDt(LocalDateTime.now())
+                                                        .regSeq(dto.getUserSessionDTO().getUserSeq())
+                                                        .build());
+
+                    fileSeq = entity.getFileSeq();
+                }
+
+                List<FileDtlEntity> fileDtlList = fileUtil.uploadFile(files, entity, fileOrder == null ? 1 : fileOrder);
+                fileDtlRepository.saveAll(fileDtlList);
+            } else {
+                if ( fileSeq != null && fileOrder == null ) {
+                    fileSeq = null;
+                }
+            }
+
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), fileSeq);
+        } catch (Exception e) {
+            log.error(">>>> FileService::update: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

@@ -3,6 +3,7 @@ package com.project.demo.api.board.application.dto;
 import java.time.LocalDateTime;
 
 import com.project.demo.api.board.domain.BoardEntity;
+import com.project.demo.api.file.domain.FileMstrEntity;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.DelYn;
 import com.project.demo.common.validation.ValidationGroups.*;
@@ -27,6 +28,9 @@ public class BoardUpdateDTO extends BaseDTO {
     @Min(value = 0, message = "{error.request}", groups = First.class)
     private Long boardSeq;
 
+    @Schema(description = "파일 SEQ")
+    private Long fileSeq;
+
     @Schema(description = "수정할 게시글의 제목 (100자 이내)")
     @NotBlank(message = "{error.validation('제목')}", groups = Second.class)
     @Size(min = 1, max = 100, message ="{error.length('제목', 1, 100)}", groups = Third.class)
@@ -36,9 +40,10 @@ public class BoardUpdateDTO extends BaseDTO {
     @NotBlank(message = "{error.validation('내용')}", groups = Fourth.class)
     private String content;
 
-    public BoardEntity toEntity(Long userSeq) {
+    public BoardEntity toEntity(Long userSeq, FileMstrEntity fileEntity) {
         return BoardEntity.builder()
                     .boardSeq(boardSeq)
+                    .fileMstr(fileEntity)
                     .title(title)
                     .content(content)
                     .delYn(DelYn.N)

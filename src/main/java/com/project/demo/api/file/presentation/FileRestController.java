@@ -6,15 +6,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.demo.api.file.application.FileService;
 import com.project.demo.api.file.application.dto.FileDtlListDTO;
+import com.project.demo.api.file.application.dto.FileDtlUpdateDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 
@@ -59,5 +62,12 @@ public class FileRestController {
     public ApiResponse<Long> create(@RequestParam("file") MultipartFile[] files, BaseDTO dto) {
 
          return fileService.create(files, dto);
+    }
+
+    @PatchMapping("/file")
+    @Operation(summary = "파일 수정(업로드) API", description = "수정할 파일의 정보를 전달 받아 파일을 수정(업로드)합니다.")
+    public ApiResponse<Long> update(@RequestPart(value = "file", required= false) MultipartFile[] files, @RequestPart(value = "dto") FileDtlUpdateDTO dto) {
+
+        return fileService.update(files, dto);
     }
 }
