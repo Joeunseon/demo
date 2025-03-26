@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.encrypt.application.EncryptionService;
+import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.validation.ValidationSequence;
@@ -36,5 +37,12 @@ public class EncryptionRestController {
     public ApiResponse<String> jasyptDecrypt(@Parameter(description = "Jasypt 복호화를 위한 DTO") @Validated(ValidationSequence.class) @RequestBody JasyptRequestDTO dto) {
 
         return encryptionService.jasyptDecrypt(dto);
+    }
+
+    @PostMapping("/bcrypt/encrypt")
+    @Operation(summary = "BCrypt 암호화 API", description = "BCrypt 정보를 전달 받아 암호화를 진행합니다.")
+    public ApiResponse<String> bcryptEncrypt(@Parameter(description = "BCrypt 암호화를 위한 DTO") @Validated(ValidationSequence.class) @RequestBody BcryptRequestDTO dto) {
+
+        return encryptionService.bcryptEncrypt(dto);
     }
 }
