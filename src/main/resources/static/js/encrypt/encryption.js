@@ -33,11 +33,33 @@ function encrypt(zone) {
                     $('#'+zone+'Result').text(data.data);
                 }
             }
+
+            $('#alertModal').find('.modal-body').text(data.message);
+            $('#alertModal').modal('show');
         });
 }
 
 function decrypt(zone) {
-    
+    const form = document.getElementById(zone+'Form');
+
+    if ( !validity(form) )
+        return;
+
+    const data = Object.fromEntries(new URLSearchParams($(form).serialize()));
+
+    fn_fetchPostData(`${ENDPOINTS.api}${zone}${ENDPOINTS.decrypt}`, data)
+        .then(data => {
+            if ( data.result ) {
+                if ( data.data != null ) {
+                    $('#'+zone+'Result').text(data.data);
+                }
+            } else {
+                $('#'+zone+'Result').text('');
+            }
+
+            $('#alertModal').find('.modal-body').text(data.message);
+            $('#alertModal').modal('show');
+        });
 }
 
 function copyResult(zone) {

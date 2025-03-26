@@ -30,4 +30,11 @@ public class EncryptionRestController {
 
         return encryptionService.jasyptEncrypt(dto);
     }
+
+    @PostMapping("/jasypt/decrypt")
+    @Operation(summary = "Jasypt 복호화 API", description = "Jasypt 정보를 전달 받아 복호화를 진행합니다.")
+    public ApiResponse<String> jasyptDecrypt(@Parameter(description = "Jasypt 복호화를 위한 DTO") @Validated(ValidationSequence.class) @RequestBody JasyptRequestDTO dto) {
+
+        return encryptionService.jasyptDecrypt(dto);
+    }
 }
