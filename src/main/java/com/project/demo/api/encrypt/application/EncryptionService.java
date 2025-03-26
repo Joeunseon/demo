@@ -2,8 +2,10 @@ package com.project.demo.api.encrypt.application;
 
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
 import com.project.demo.api.encrypt.infrastructure.JasyptUtil;
 import com.project.demo.common.ApiResponse;
@@ -44,6 +46,19 @@ public class EncryptionService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_JASYPT_DECRYPT.getKey()));
         } catch (Exception e) {
             log.error(">>>> EncryptionService::jasyptDecrypt: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<String> bcryptEncrypt(BcryptRequestDTO dto) {
+
+        try {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            String encryptStr = encoder.encode(dto.getTargetText());
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::bcryptEncrypt: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
