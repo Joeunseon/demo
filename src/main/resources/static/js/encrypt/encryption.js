@@ -4,8 +4,9 @@
 
 const ENDPOINTS = {
     api: '/api/',
-    encrypt: "/encrypt",
-    decrypt: "/decrypt"
+    encrypt: '/encrypt',
+    decrypt: '/decrypt',
+    matches: '/matches'
 };
 
 function validity(form) {
@@ -57,6 +58,25 @@ function decrypt(zone) {
                 $('#'+zone+'Result').text('');
             }
 
+            $('#alertModal').find('.modal-body').text(data.message);
+            $('#alertModal').modal('show');
+        });
+}
+
+function matche(zone) {
+
+    $('#'+zone+'SecretKey').attr('required', 'required');
+    const form = document.getElementById(zone+'Form');
+
+    let flag = validity(form);
+    $('#'+zone+'SecretKey').removeAttr('required');
+    if ( !flag ) 
+        return;
+    
+    const data = Object.fromEntries(new URLSearchParams($(form).serialize()));
+
+    fn_fetchPostData(`${ENDPOINTS.api}${zone}${ENDPOINTS.matches}`, data)
+        .then(data => {
             $('#alertModal').find('.modal-body').text(data.message);
             $('#alertModal').modal('show');
         });

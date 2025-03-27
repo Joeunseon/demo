@@ -168,6 +168,10 @@ VALUES('암호화 API (jasypt)', '/api/jasypt/encrypt', (SELECT menu_seq FROM me
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('암호화 API (bcrypt)', '/api/bcrypt/encrypt', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 3, 'CREATE', 1);
+-- 일치확인 API (bcrypt)
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('일치확인 API (bcrypt)', '/api/bcrypt/matches', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 4, 'CREATE', 1);
 
 -- 메뉴 관리
 INSERT INTO menus

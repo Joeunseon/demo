@@ -62,4 +62,16 @@ public class EncryptionService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
+
+    public ApiResponse<Void> bcryptMatches(BcryptRequestDTO dto) {
+
+        try {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            return ApiResponse.success(msgUtil.getMessage((encoder.matches(dto.getTargetText(), dto.getSecretKey()) ? EncryptionMsgKey.SUCCUESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCUESS_MATCHES_N.getKey())));
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::bcryptEncrypt: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
 }
