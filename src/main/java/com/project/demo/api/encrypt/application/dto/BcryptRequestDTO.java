@@ -11,10 +11,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "BCrypt 암호화 처리를 위한 DTO")
+@Schema(description = "BCrypt 암호화/일치확인 처리를 위한 DTO")
 public class BcryptRequestDTO {
 
-    @Schema(description = "암호화 처리 대상 텍스트")
+    @Schema(description = "암호화/일치확인 처리 대상 텍스트")
     @NotBlank(message = "{error.validation('평문 문자열')}", groups = First.class)
     private String targetText;
+
+    @Schema(description = "일치확인 처리 대상 암호화키")
+    private String secretKey;
 }

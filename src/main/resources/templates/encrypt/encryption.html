@@ -69,9 +69,14 @@
                                             <label for="bcryptTargetText" class="form-label">평문 비밀번호</label>
                                             <input type="text" class="form-control" id="bcryptTargetText" name="targetText" required="required">
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="bcryptSecretKey" class="form-label">암호화 비밀번호</label>
+                                            <textarea class="form-control" id="bcryptSecretKey" name="secretKey" rows="3"></textarea>
+                                        </div>
                                     </form>
                                         <div class="mb-3">
-                                            <button type="button" class="btn btn-dark" onclick="encrypt('bcrypt');">BCrypt 암호화</button>
+                                            <button type="button" class="btn btn-dark" onclick="encrypt('bcrypt');">암호화</button>
+                                            <button type="button" class="btn btn-secondary" onclick="matche('bcrypt');">일치 확인</button>
                                         </div>
                                         <div class="mb-3">
                                             <label for="bcryptResult" class="form-label">해시 결과</label>

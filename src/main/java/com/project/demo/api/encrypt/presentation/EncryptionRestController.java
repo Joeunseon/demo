@@ -45,4 +45,11 @@ public class EncryptionRestController {
 
         return encryptionService.bcryptEncrypt(dto);
     }
+
+    @PostMapping("/bcrypt/matches")
+    @Operation(summary = "BCrypt 일치확인 API", description = "BCrypt 정보를 전달 받아 일치 확인을 진행합니다.")
+    public ApiResponse<Void> bcryptMatches(@Parameter(description = "BCrypt 일치 확인을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody BcryptRequestDTO dto) {
+
+        return encryptionService.bcryptMatches(dto);
+    }
 }
