@@ -6,7 +6,8 @@ const ENDPOINTS = {
     api: '/api/',
     encrypt: '/encrypt',
     decrypt: '/decrypt',
-    matches: '/matches'
+    matches: '/matches',
+    encode: '/encode'
 };
 
 function validity(form) {
@@ -77,6 +78,29 @@ function matche(zone) {
 
     fn_fetchPostData(`${ENDPOINTS.api}${zone}${ENDPOINTS.matches}`, data)
         .then(data => {
+            $('#alertModal').find('.modal-body').text(data.message);
+            $('#alertModal').modal('show');
+        });
+}
+
+function encode(zone) {
+    const form = document.getElementById(zone+'Form');
+
+    if ( !validity(form) )
+        return;
+
+    const data = Object.fromEntries(new URLSearchParams($(form).serialize()));
+
+    fn_fetchPostData(`${ENDPOINTS.api}${zone}${ENDPOINTS.encode}`, data)
+        .then(data => {
+            if ( data.result ) {
+                if ( data.data != null ) {
+                    $('#'+zone+'Result').text(data.data);
+                }
+            } else {
+                $('#'+zone+'Result').text('');
+            }
+
             $('#alertModal').find('.modal-body').text(data.message);
             $('#alertModal').modal('show');
         });

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.encrypt.application.EncryptionService;
+import com.project.demo.api.encrypt.application.dto.Base64RequestDTO;
 import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
 import com.project.demo.common.ApiResponse;
@@ -51,5 +52,12 @@ public class EncryptionRestController {
     public ApiResponse<Void> bcryptMatches(@Parameter(description = "BCrypt 일치 확인을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody BcryptRequestDTO dto) {
 
         return encryptionService.bcryptMatches(dto);
+    }
+
+    @PostMapping("/base64/encode")
+    @Operation(summary = "base64 인코딩 API", description = "Base64 정보를 전달 받아 인코딩을 진행합니다.")
+    public ApiResponse<String> base64Encode(@Parameter(description = "Base64 인코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody Base64RequestDTO dto) {
+
+        return encryptionService.base64Encode(dto);
     }
 }
