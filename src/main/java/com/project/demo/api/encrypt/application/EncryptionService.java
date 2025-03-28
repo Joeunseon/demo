@@ -1,10 +1,14 @@
 package com.project.demo.api.encrypt.application;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.api.encrypt.application.dto.Base64RequestDTO;
 import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
 import com.project.demo.api.encrypt.infrastructure.JasyptUtil;
@@ -71,6 +75,18 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage((encoder.matches(dto.getTargetText(), dto.getSecretKey()) ? EncryptionMsgKey.SUCCUESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCUESS_MATCHES_N.getKey())));
         } catch (Exception e) {
             log.error(">>>> EncryptionService::bcryptEncrypt: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<String> base64Encode(Base64RequestDTO dto) {
+
+        try {
+            String encodeStr = Base64.getEncoder().encodeToString(dto.getTargetText().getBytes(StandardCharsets.UTF_8));
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encodeStr);
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::base64Encode: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
