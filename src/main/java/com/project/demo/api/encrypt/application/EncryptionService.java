@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.project.demo.api.encrypt.application.dto.Base64RequestDTO;
 import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
+import com.project.demo.api.encrypt.application.dto.HashRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
 import com.project.demo.api.encrypt.infrastructure.Base64Util;
+import com.project.demo.api.encrypt.infrastructure.HashUtil;
 import com.project.demo.api.encrypt.infrastructure.JasyptUtil;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
@@ -100,6 +102,21 @@ public class EncryptionService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_BASE64_DECODE.getKey()));
         } catch (Exception e) {
             log.error(">>>> EncryptionService::base64Decode: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<String> hashEncrypt(HashRequestDTO dto) {
+
+        try {
+            String encryptStr = HashUtil.encrypt(dto.getTargetText(), dto.getAlgorithm().getAlgorithm());
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
+        } catch (IllegalArgumentException e) {
+            log.error(">>>> EncryptionService::hashEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "hash"));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::hashEncrypt: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
