@@ -1,8 +1,5 @@
 package com.project.demo.api.encrypt.application;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.project.demo.api.encrypt.application.dto.Base64RequestDTO;
 import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
+import com.project.demo.api.encrypt.infrastructure.Base64Util;
 import com.project.demo.api.encrypt.infrastructure.JasyptUtil;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
@@ -82,11 +80,26 @@ public class EncryptionService {
     public ApiResponse<String> base64Encode(Base64RequestDTO dto) {
 
         try {
-            String encodeStr = Base64.getEncoder().encodeToString(dto.getTargetText().getBytes(StandardCharsets.UTF_8));
+            String encodeStr = Base64Util.encode(dto.getTargetText());
 
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encodeStr);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::base64Encode: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<String> base64Decode(Base64RequestDTO dto) {
+        
+        try {
+            String decodeStr = Base64Util.decode(dto.getTargetText());
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), decodeStr);
+        } catch (IllegalArgumentException e) {
+            log.error(">>>> EncryptionService::base64Decode: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_DECODE.getKey(), "base64"));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_BASE64_DECODE.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::base64Decode: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
