@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.demo.api.encrypt.application.EncryptionService;
 import com.project.demo.api.encrypt.application.dto.Base64RequestDTO;
 import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
+import com.project.demo.api.encrypt.application.dto.HashRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.validation.ValidationSequence;
@@ -66,5 +67,12 @@ public class EncryptionRestController {
     public ApiResponse<String> base64Decode(@Parameter(description = "Base64 디코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody Base64RequestDTO dto) {
 
         return encryptionService.base64Decode(dto);
+    }
+
+    @PostMapping("/hash/encrypt")
+    @Operation(summary = "Hash 암호화 API", description = "Hash 정보를 전달 받아 암호화를 진행합니다.")
+    public ApiResponse<String> hashEncrypt(@Parameter(description = "Base64 디코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody HashRequestDTO dto) {
+
+        return encryptionService.hashEncrypt(dto);
     }
 }
