@@ -60,4 +60,11 @@ public class EncryptionRestController {
 
         return encryptionService.base64Encode(dto);
     }
+
+    @PostMapping("/base64/decode")
+    @Operation(summary = "base64 디코딩 API", description = "Base64 정보를 전달 받아 디코딩을 진행합니다.")
+    public ApiResponse<String> base64Decode(@Parameter(description = "Base64 디코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody Base64RequestDTO dto) {
+
+        return encryptionService.base64Decode(dto);
+    }
 }
