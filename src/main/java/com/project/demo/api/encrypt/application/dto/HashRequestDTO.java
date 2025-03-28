@@ -14,13 +14,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Hash 암호화 처리를 위한 DTO")
+@Schema(description = "Hash 암호화/일치확인 처리를 위한 DTO")
 public class HashRequestDTO {
 
-    @Schema(description = "암호화 처리 대상 텍스트")
+    @Schema(description = "암호화/일치확인 처리 대상 텍스트")
     @NotBlank(message = "{error.validation('평문 문자열')}", groups = First.class)
     private String targetText;
 
     @Enumerated(EnumType.STRING)
     private HashAlgorithm algorithm;
+
+    @Schema(description = "일치확인 처리 대상 해시값")
+    private String targetHash;
 }

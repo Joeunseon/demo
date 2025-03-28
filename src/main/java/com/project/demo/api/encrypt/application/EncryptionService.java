@@ -120,4 +120,18 @@ public class EncryptionService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
+
+    public ApiResponse<Void> hashMatches(HashRequestDTO dto) {
+
+        try {
+            
+            return ApiResponse.success(msgUtil.getMessage((HashUtil.matches(dto.getTargetText(), dto.getTargetHash(), dto.getAlgorithm().getAlgorithm()) ? EncryptionMsgKey.SUCCUESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCUESS_MATCHES_N.getKey())));
+        } catch (IllegalArgumentException e) {
+            log.error(">>>> EncryptionService::hashMatches: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "hash"));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::hashMatches: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
 }

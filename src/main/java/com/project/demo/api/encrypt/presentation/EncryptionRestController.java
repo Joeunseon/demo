@@ -56,14 +56,14 @@ public class EncryptionRestController {
     }
 
     @PostMapping("/base64/encode")
-    @Operation(summary = "base64 인코딩 API", description = "Base64 정보를 전달 받아 인코딩을 진행합니다.")
+    @Operation(summary = "Base64 인코딩 API", description = "Base64 정보를 전달 받아 인코딩을 진행합니다.")
     public ApiResponse<String> base64Encode(@Parameter(description = "Base64 인코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody Base64RequestDTO dto) {
 
         return encryptionService.base64Encode(dto);
     }
 
     @PostMapping("/base64/decode")
-    @Operation(summary = "base64 디코딩 API", description = "Base64 정보를 전달 받아 디코딩을 진행합니다.")
+    @Operation(summary = "Base64 디코딩 API", description = "Base64 정보를 전달 받아 디코딩을 진행합니다.")
     public ApiResponse<String> base64Decode(@Parameter(description = "Base64 디코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody Base64RequestDTO dto) {
 
         return encryptionService.base64Decode(dto);
@@ -71,8 +71,15 @@ public class EncryptionRestController {
 
     @PostMapping("/hash/encrypt")
     @Operation(summary = "Hash 암호화 API", description = "Hash 정보를 전달 받아 암호화를 진행합니다.")
-    public ApiResponse<String> hashEncrypt(@Parameter(description = "Base64 디코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody HashRequestDTO dto) {
+    public ApiResponse<String> hashEncrypt(@Parameter(description = "Hash 디코딩을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody HashRequestDTO dto) {
 
         return encryptionService.hashEncrypt(dto);
+    }
+
+    @PostMapping("/hash/matches")
+    @Operation(summary = "Hash 일치확인 API", description = "Hash 정보를 전달 받아 일치 확인을 진행합니다.")
+    public ApiResponse<Void> hashMatches(@Parameter(description = "Hash 일치 확인을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody HashRequestDTO dto) {
+
+        return encryptionService.hashMatches(dto);
     }
 }
