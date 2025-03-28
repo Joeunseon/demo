@@ -17,6 +17,13 @@ public class HashUtil {
         }
     }
 
+    public static boolean matches(String plainText, String targetHash, String algorithm) throws Exception {
+
+        String hashStr = encrypt(plainText, algorithm);
+
+        return hashStr.equalsIgnoreCase(targetHash);
+    }
+
     private static String bytesToHex(byte[] bytes) {
         StringBuffer sb = new StringBuffer();
         for (byte b : bytes) {

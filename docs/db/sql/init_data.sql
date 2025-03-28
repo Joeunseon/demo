@@ -184,6 +184,10 @@ VALUES('디코딩 API (base64)', '/api/base64/decode', (SELECT menu_seq FROM men
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('암호화 API (hash)', '/api/hash/encrypt', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 7, 'CREATE', 1);
+-- 일치확인 API (hash)
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('일치확인 API (hash)', '/api/hash/matches', (SELECT menu_seq FROM menus WHERE menu_nm = '암호화 관리' LIMIT 1), 3, 8, 'CREATE', 1);
 
 -- 메뉴 관리
 INSERT INTO menus

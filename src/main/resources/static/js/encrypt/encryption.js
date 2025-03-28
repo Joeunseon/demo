@@ -84,6 +84,8 @@ function matche(zone) {
             $('#alertModal').find('.modal-body').text(data.message);
             $('#alertModal').modal('show');
         });
+
+    $('#'+zone+'Result').text('');
 }
 
 function encode(zone) {

@@ -141,9 +141,14 @@
                                                 <option value="MD5">MD5</option>
                                             </select>
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="hashSecretKey" class="form-label">해시 문자열</label>
+                                            <textarea class="form-control" id="hashSecretKey" name="targetHash" rows="3"></textarea>
+                                        </div>
                                     </form>
                                         <div class="mb-3">
                                             <button type="button" class="btn btn-dark" onclick="encrypt('hash');">해시 변환</button>
+                                            <button type="button" class="btn btn-secondary" onclick="matche('hash');">일치 확인</button>
                                         </div>
                                         <div class="mb-3">
                                             <label for="shaResult" class="form-label">결과</label>
