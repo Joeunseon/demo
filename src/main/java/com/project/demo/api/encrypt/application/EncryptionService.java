@@ -1,5 +1,7 @@
 package com.project.demo.api.encrypt.application;
 
+import java.security.spec.InvalidKeySpecException;
+
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,9 +11,11 @@ import com.project.demo.api.encrypt.application.dto.Base64RequestDTO;
 import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
 import com.project.demo.api.encrypt.application.dto.HashRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
+import com.project.demo.api.encrypt.application.dto.RSARequestDTO;
 import com.project.demo.api.encrypt.infrastructure.Base64Util;
 import com.project.demo.api.encrypt.infrastructure.HashUtil;
 import com.project.demo.api.encrypt.infrastructure.JasyptUtil;
+import com.project.demo.api.encrypt.infrastructure.RSAUtil;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.EncryptionMsgKey;
@@ -131,6 +135,22 @@ public class EncryptionService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()));
         } catch (Exception e) {
             log.error(">>>> EncryptionService::hashMatches: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<String> rsaEncrypt(RSARequestDTO dto) {
+
+        try {
+            
+            String encryptStr = RSAUtil.encrypt(dto.getTargetText(), dto.getSecretKey());
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
+        } catch (IllegalArgumentException | InvalidKeySpecException i) {
+            log.error(">>>> EncryptionService::rsaEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "RSA"));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_ENCRYPT.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::rsaEncrypt: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

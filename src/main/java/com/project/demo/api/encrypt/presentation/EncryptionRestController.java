@@ -11,6 +11,7 @@ import com.project.demo.api.encrypt.application.dto.Base64RequestDTO;
 import com.project.demo.api.encrypt.application.dto.BcryptRequestDTO;
 import com.project.demo.api.encrypt.application.dto.HashRequestDTO;
 import com.project.demo.api.encrypt.application.dto.JasyptRequestDTO;
+import com.project.demo.api.encrypt.application.dto.RSARequestDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.validation.ValidationSequence;
 
@@ -81,5 +82,12 @@ public class EncryptionRestController {
     public ApiResponse<Void> hashMatches(@Parameter(description = "Hash 일치 확인을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody HashRequestDTO dto) {
 
         return encryptionService.hashMatches(dto);
+    }
+
+    @PostMapping("/rsa/encrypt")
+    @Operation(summary = "RSA 암호화 API", description = "RSA 정보를 전달 받아 암호화를 진행합니다.")
+    public ApiResponse<String> rsaEncrypt(@Parameter(description = "RSA 암호화를 위한 DTO") @Validated(ValidationSequence.class) @RequestBody  RSARequestDTO dto) {
+
+        return encryptionService.rsaEncrypt(dto);
     }
 }
