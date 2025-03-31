@@ -154,4 +154,19 @@ public class EncryptionService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
+
+    public ApiResponse<String> rsaDecrypt(RSARequestDTO dto) {
+
+        try {
+            String decryptStr = RSAUtil.decrypt(dto.getTargetText(), dto.getSecretKey());
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), decryptStr);
+        } catch (InvalidKeySpecException e) {
+            log.error(">>>> EncryptionService::rsaEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_DECRYPT.getKey(), "RSA"));
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_DECRYPT.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> EncryptionService::rsaDecrypt: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
 }

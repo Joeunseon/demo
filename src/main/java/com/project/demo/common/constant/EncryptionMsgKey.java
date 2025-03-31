@@ -15,7 +15,8 @@ public enum EncryptionMsgKey {
     FAILED_BASE64_DECODE("eroor.encrypt.base64_decrypt"),
     FAILED_ENCRYPT("error.encrypt.failed_encrypt"),
     FAILED_HASH_ENCRYPT("error.encrypt.hash_encrypt"),
-    FAILED_RSA_ENCRYPT("error.encrypt.rsa_encrypt");
+    FAILED_RSA_ENCRYPT("error.encrypt.rsa_encrypt"),
+    FAILED_RSA_DECRYPT("error.encrypt.rsa_decrypt");
 
     private final String key;
 }
