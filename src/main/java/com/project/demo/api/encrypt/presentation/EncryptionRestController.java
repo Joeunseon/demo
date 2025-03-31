@@ -90,4 +90,11 @@ public class EncryptionRestController {
 
         return encryptionService.rsaEncrypt(dto);
     }
+
+    @PostMapping("/rsa/decrypt")
+    @Operation(summary = "RSA 복호화 API", description = "RSA 정보를 전달 받아 복호화를 진행합니다.")
+    public ApiResponse<String> rsaDecrypt(@Parameter(description = "RSA 복호화를 위한 DTO") @Validated(ValidationSequence.class) @RequestBody  RSARequestDTO dto) {
+    
+        return encryptionService.rsaDecrypt(dto);
+    }
 }
