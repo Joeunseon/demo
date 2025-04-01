@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <h3 class="mb-3 ms-3">메뉴 관리</h3>
+
+                    <div class="p-3">
+                        <div class="mb-3">
+                            <h5 class="fw-bold border rounded-3 p-3 bg-light">
+                                <span class="menuNm"></span>
+                                <span class="menuUrl"></span>
+                            </h5>
+                        </div>
+
+                        <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
+                            <div>
+                                <span>메뉴유형: </span>
+                                <span class="menuTypeDesc"></span>
+                            </div>
+                            <div>
+                                <span>활성화여부: <span class="activeYn"></span></span> 
+                                <span class="ms-2">|</span>
+                                <span class="ms-2">메뉴순서: <span class="menuOrder"></span></span>
+                            </div>
+                        </div>
+
+                        <!-- 하위 메뉴 -->
+                        <div class="mb-3">
+                            <label class="fw-bold">하위메뉴</label>
+                        </div>
+                        <div class="mb-3 accordion" id="menuAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingJasypt">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-controls=""></button>
+                                </h2>
+                                <div id="" class="accordion-collapse collapse show" aria-labelledby="headingJasypt" data-bs-parent="#menuAccordion">
+                                    <div class="accordion-body">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border rounded-3 text-center p-3 accordion_none">
+                                <span>하위 메뉴가 없습니다</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="menuSeq" th:value="${menuSeq}">
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3 me-4 mb-3">
+                        <a href="/menu/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.list}"></a>
+                    </div>
+                </main>
+
+                <!-- modal -->
+                <input type="hidden" id="errorRequest" th:value="#{error.request}">
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>

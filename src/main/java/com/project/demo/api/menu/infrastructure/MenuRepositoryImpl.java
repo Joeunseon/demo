@@ -8,7 +8,6 @@ import com.project.demo.api.menu.application.dto.MenuListDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
 import com.project.demo.api.menu.domain.QMenuEntity;
 import com.project.demo.api.menu.value.ActiveYn;
-import com.project.demo.api.menu.value.MenuType;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -49,7 +48,8 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                                                     subQuery
                                                 );
 
-        builder.and(menu.menuType.eq(MenuType.MENU));
+        //builder.and(menu.menuType.eq(MenuType.MENU));
+        builder.and(menu.parentSeq.eq(1L));
 
         if ( StringUtils.hasText(dto.getSearchKeyword()) ) {
             builder.and(menu.menuNm.like("%" + dto.getSearchKeyword() + "%")
@@ -89,7 +89,8 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                                                     subQuery
                                                 );
 
-        builder.and(menu.menuType.eq(MenuType.MENU));
+        //builder.and(menu.menuType.eq(MenuType.MENU));
+        builder.and(menu.parentSeq.eq(1L));
 
         if ( StringUtils.hasText(dto.getSearchKeyword()) ) {
             builder.and(menu.menuNm.like("%" + dto.getSearchKeyword() + "%")
@@ -102,6 +103,7 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                                     , menu.menuNm
                                     , menuUrlExpression
                                     , menu.menuOrder
+                                    , menu.menuType
                                     , menu.activeYn))
                             .from(menu)
                             .where(builder)

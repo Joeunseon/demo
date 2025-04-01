@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 
+import com.project.demo.api.menu.application.dto.MenuDetailDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
+import com.project.demo.api.menu.domain.MenuEntity;
 import com.project.demo.api.menu.infrastructure.MenuRepository;
 import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.common.ApiResponse;
@@ -61,6 +64,19 @@ public class MenuService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> MenuService::findAll: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<MenuDetailDTO> findById(Long menuSeq) {
+
+        try {
+            Optional<MenuEntity> menu = menuRepository.findById(menuSeq);
+
+            return menu.map(info -> ApiResponse.success(MenuDetailDTO.of(info)))
+                        .orElse(ApiResponse.success());
+        } catch (Exception e) {
+            log.error(">>>> MenuService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
