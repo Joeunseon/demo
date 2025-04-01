@@ -52,6 +52,7 @@ function drawResultList(data) {
             infoClone.find('.menuNm').text(info.menuNm).attr('href', `${ENDPOINTS.info}?menuSeq=${info.menuSeq}`);
             infoClone.find('.menuUrl').text(info.menuUrl);
             infoClone.find('.activeYn').text(info.activeYn);
+            infoClone.find('.menuTypeDesc').text(info.menuTypeDesc);
             infoClone.find('.menuOrder').text(info.menuOrder);
 
             $('.listFragment').find('tbody').append(infoClone);
