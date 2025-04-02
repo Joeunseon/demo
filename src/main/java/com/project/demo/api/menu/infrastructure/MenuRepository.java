@@ -14,4 +14,6 @@ public interface MenuRepository extends JpaRepository<MenuEntity, Long>, MenuRep
     List<MenuEntity> findByActiveYn(ActiveYn activeYn);
 
     List<MenuEntity> findByParentSeqOrderByMenuOrderAsc(Long parentSeq);
+
+    List<MenuEntity> findAllByOrderByMenuLevelAscParentSeqAscMenuOrderAsc();
 }

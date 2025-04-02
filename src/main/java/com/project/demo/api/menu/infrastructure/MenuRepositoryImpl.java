@@ -6,8 +6,10 @@ import org.springframework.util.StringUtils;
 
 import com.project.demo.api.menu.application.dto.MenuListDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
+import com.project.demo.api.menu.domain.MenuEntity;
 import com.project.demo.api.menu.domain.QMenuEntity;
 import com.project.demo.api.menu.value.ActiveYn;
+import com.project.demo.api.menu.value.MenuType;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -110,6 +112,17 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                             .orderBy(Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} ASC)", menu.menuOrder).asc())
                             .limit(dto.getPageScale())
                             .offset(dto.getOffSet())
+                            .fetch();
+    }
+
+    public List<MenuEntity> findAllForTreeView() {
+
+        QMenuEntity menu = QMenuEntity.menuEntity;
+
+        return queryFactory.select(menu)
+                            .from(menu)
+                            .where(menu.menuLevel.lt(4).and(menu.menuType.in(MenuType.MENU, MenuType.PAGE, MenuType.TOOL)))
+                            .orderBy(menu.menuOrder.asc(), menu.parentSeq.asc(), menu.menuOrder.asc())
                             .fetch();
     }
 }
