@@ -229,6 +229,10 @@ VALUES('메뉴 등록 API', '/api/menu', (SELECT menu_seq FROM menus WHERE menu_
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('메뉴 상세 API', '/api/menu/{menuSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 상세' LIMIT 1), 4, 1, 'READ', 1);
+-- 하위 메뉴 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('하위 메뉴 API', '/api/menus/{parentSeq}/children', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 상세' LIMIT 1), 4, 2, 'READ', 1);
 -- 메뉴 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)

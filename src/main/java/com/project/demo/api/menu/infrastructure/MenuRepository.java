@@ -12,4 +12,6 @@ import com.project.demo.api.menu.value.ActiveYn;
 public interface MenuRepository extends JpaRepository<MenuEntity, Long>, MenuRepositoryCustom {
 
     List<MenuEntity> findByActiveYn(ActiveYn activeYn);
+
+    List<MenuEntity> findByParentSeqOrderByMenuOrderAsc(Long parentSeq);
 }
