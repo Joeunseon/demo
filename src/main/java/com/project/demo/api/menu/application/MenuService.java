@@ -1,6 +1,8 @@
 package com.project.demo.api.menu.application;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 
+import com.project.demo.api.menu.application.dto.MenuChildrenDTO;
 import com.project.demo.api.menu.application.dto.MenuDetailDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
 import com.project.demo.api.menu.domain.MenuEntity;
@@ -79,5 +82,39 @@ public class MenuService {
             log.error(">>>> MenuService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
+    }
+
+    public ApiResponse<List<MenuChildrenDTO>> findAllByParentId(Long parentSeq) {
+
+        try {
+            List<MenuChildrenDTO> level3 = getChildren(parentSeq);
+
+            if ( !level3.isEmpty() ) {
+                for (MenuChildrenDTO info : level3) {
+                    List<MenuChildrenDTO> level4 = getChildren(info.getMenuSeq());
+                    
+                    if ( !level4.isEmpty() ) {
+                        info.ofChildren(level4);
+                    }
+                }
+            }
+
+            return ApiResponse.success(level3);
+        } catch (Exception e) {
+            log.error(">>>> MenuService::findAllByParentId: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    private List<MenuChildrenDTO> getChildren(Long parentSeq) {
+
+        return menuRepository.findByParentSeqOrderByMenuOrderAsc(parentSeq)
+                                .stream()
+                                .map(MenuChildrenDTO::of)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.collectingAndThen(
+                                    Collectors.toCollection(LinkedHashSet::new),
+                                    ArrayList::new
+                                ));
     }
 }
