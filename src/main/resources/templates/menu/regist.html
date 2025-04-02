@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <div class="w-75 mx-auto mt-1">
+                        <h3 class="mb-5 ms-3">메뉴 등록</h3>
+        
+                        <div class="p-3 card shadow-sm mb-3">
+                            <div class="card-body">
+                                <form id="menuForm">
+                                    <div class="mb-4">
+                                        <label for="menuNm" class="form-label fw-bold">메뉴 이름</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="menuNm" name="menuNm" required="required" maxlength="100">
+                                            <button type="button" class="btn btn-outline-secondary">중복 확인</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="menuType" class="form-label fw-bold">메뉴 유형</label>
+                                        <select class="form-select" id="menuType" name="menuType">
+                                            <option value="MENU">메뉴</option>
+                                            <option value="PAGE">페이지</option>
+                                            <option value="CREATE">등록</option>
+                                            <option value="READ">조회</option>
+                                            <option value="UPDATE">수정</option>
+                                            <option value="DELETE">삭제</option>
+                                            <option value="TOOL">도구</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="parentSeq" class="form-label fw-bold">상위 메뉴</label>
+                                        <div class="d-flex align-items-center">
+                                            <button type="button" class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#menuTreeModal">선택</button>
+                                            <input type="hidden" id="parentSeq" name="parentSeq">
+                                            <span id="parentSeqLabel" class="form-text">선택된 메뉴 없음</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="menuUrl" class="form-label fw-bold">메뉴 URL</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="menuUrl" name="menuUrl" maxlength="200">
+                                            <button type="button" class="btn btn-outline-secondary">중복 확인</button>
+                                        </div>
+                                    </div>
+        
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold d-block">활성화 여부</label>
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input" id="activeY" name="activeYn" value="Y" checked="checked">
+                                            <label class="form-check-label" for="activeY">활성화</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input" id="activeN" name="activeYn" value="N">
+                                            <label class="form-check-label" for="activeN">비활성화</label>
+                                        </div>
+                                    </div>
+        
+                                    <div>
+                                        <label for="menuOrder" class="form-label fw-bold">메뉴 순서</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="menuOrder" name="menuOrder" required="required" maxlength="4">
+                                            <button type="button" class="btn btn-outline-secondary">중복 확인</button>
+                                        </div>
+                                        <div class="form-text text-muted">
+                                            ※ 입력하지 않을 경우, 가장 마지막 순서로 자동 설정됩니다.
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <th:block th:if="${loginInfo}">
+                            <div class="d-flex justify-content-end mt-5 me-2 mb-5">
+                                <a href="/menu/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.cancel}"></a>
+                                <button type="button" class="btn btn-dark rounded-pill px-4 py-2" onclick="menuValidity();" th:text="#{button.regist}"></button>
+                            </div>
+                        </th:block>
+                    </div>
+                </main>
+
+                <!-- modal -->
+                <input type="hidden" id="validation" th:value="#{error.validation}">
+                <input type="hidden" id="saveConfrimMsg" th:value="#{save.confrim}" >
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
+                <!-- 상위 메뉴 modal -->
+                <div class="modal fade" id="menuTreeModal" tabindex="-1" aria-labelledby="menuTreeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="menuTreeModalLabel">상위 메뉴 선택</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul id="menuTree" class="list-unstyled p-3">
+                                    <li class="mb-3 mt-2 ms-3">
+                                        <button type="button" class="btn btn-sm btn-outline-dark menu-select-btn"></button>
+                                        <ul class="ms-4 child-list"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>

@@ -16,6 +16,7 @@ import org.springframework.util.AntPathMatcher;
 import com.project.demo.api.menu.application.dto.MenuChildrenDTO;
 import com.project.demo.api.menu.application.dto.MenuDetailDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
+import com.project.demo.api.menu.application.dto.MenuTreeDTO;
 import com.project.demo.api.menu.domain.MenuEntity;
 import com.project.demo.api.menu.infrastructure.MenuRepository;
 import com.project.demo.api.menu.value.ActiveYn;
@@ -116,5 +117,49 @@ public class MenuService {
                                     Collectors.toCollection(LinkedHashSet::new),
                                     ArrayList::new
                                 ));
+    }
+
+    public ApiResponse<List<MenuTreeDTO>> findAllAsTree() {
+
+        try {
+            List<MenuEntity> list = menuRepository.findAllForTreeView();
+
+            if ( !list.isEmpty() ) {
+                Map<Long, MenuTreeDTO> map = new HashMap<>();
+
+                for (MenuEntity menu : list ) {
+                    MenuTreeDTO dto = MenuTreeDTO.of(menu);
+                    map.put(menu.getMenuSeq(), dto);
+                }
+
+                List<MenuTreeDTO> roots = new ArrayList<>();
+                
+                // 계층구조로 변환
+                for (MenuEntity menu : list) {
+                    MenuTreeDTO dto = map.get(menu.getMenuSeq());
+            
+                    if (menu.getParentSeq() == null) {
+                        roots.add(dto);
+                    } else {
+                        if ( menu.getMenuLevel() < 4 ) {
+                            MenuTreeDTO parent = map.get(menu.getParentSeq());
+                            if (parent != null) {
+                                if (parent.getChildren() == null) {
+                                    parent.ofChildren(new ArrayList<>());
+                                }
+                                parent.getChildren().add(dto);
+                            }
+                        }
+                    }
+                }
+
+                return ApiResponse.success(roots);
+            }
+
+            return ApiResponse.success();
+        } catch (Exception e) {
+            log.error(">>>> MenuService::findAllAsTree: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
     }
 }

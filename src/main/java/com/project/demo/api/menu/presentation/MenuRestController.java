@@ -13,6 +13,7 @@ import com.project.demo.api.menu.application.MenuService;
 import com.project.demo.api.menu.application.dto.MenuChildrenDTO;
 import com.project.demo.api.menu.application.dto.MenuDetailDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
+import com.project.demo.api.menu.application.dto.MenuTreeDTO;
 import com.project.demo.common.ApiResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,5 +50,12 @@ public class MenuRestController {
     public ApiResponse<List<MenuChildrenDTO>> findAllByParentId(@Parameter(description = "조회할 메뉴 SEQ") @PathVariable("parentSeq") @Min(value = 0, message = "{error.request}") Long parentSeq) {
 
         return menuService.findAllByParentId(parentSeq);
+    }
+
+    @GetMapping("/menus/tree")
+    @Operation(summary = "메뉴 트리 API", description = "전체 메뉴를 계층 구조(트리)로 조회합니다.")
+    public ApiResponse<List<MenuTreeDTO>> findAllAsTree() {
+
+        return menuService.findAllAsTree();
     }
 }

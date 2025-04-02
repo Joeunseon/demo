@@ -23,4 +23,10 @@ public class MenuController {
         
         return "/menu/info";
     }
+
+    @GetMapping("/regist")
+    public String regist(ModelMap model) {
+
+        return "/menu/regist";
+    }
 }
