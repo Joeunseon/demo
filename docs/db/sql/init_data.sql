@@ -225,6 +225,10 @@ VALUES('메뉴 목록 API', '/api/menus', (SELECT menu_seq FROM menus WHERE menu
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('메뉴 등록 API', '/api/menu', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 등록' LIMIT 1), 4, 1, 'CREATE', 1);
+-- 메뉴 중복체크 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('메뉴 중복체크 API', '/api/menu/check-duplicate', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 등록' LIMIT 1), 4, 2, 'CREATE', 1);
 -- 메뉴 상세 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)

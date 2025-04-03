@@ -21,4 +21,8 @@ public interface MenuRepository extends JpaRepository<MenuEntity, Long>, MenuRep
 
     @Query("SELECT COALESCE(MAX(m.menuOrder), 0) FROM MenuEntity m WHERE m.parentSeq = :parentSeq")
     Integer findMaxMenuOrderByParentSeq(@Param("parentSeq") Long parentSeq);
+
+    Integer countByMenuNm(String menuNm);
+
+    Integer countByMenuUrl(String menuUrl);
 }
