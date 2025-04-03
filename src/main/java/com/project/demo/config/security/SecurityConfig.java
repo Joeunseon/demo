@@ -1,7 +1,5 @@
 package com.project.demo.config.security;
 
-import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,10 +9,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.util.StringUtils;
 
-import com.project.demo.api.role.application.MenuRoleService;
 import com.project.demo.config.security.application.CustomUserDetailsService;
+import com.project.demo.config.security.application.authorization.GuestUrlAuthorizationManager;
 import com.project.demo.config.security.handler.CustomLoginFailureHandler;
 import com.project.demo.config.security.handler.CustomLoginSuccessHandler;
 import com.project.demo.config.security.handler.CustomLogoutSuccessHandler;
@@ -29,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
-    private final MenuRoleService menuRoleService;
     private final CustomLoginSuccessHandler loginSuccessHandler;
     private final CustomLoginFailureHandler loginFailureHandler;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
@@ -37,24 +33,18 @@ public class SecurityConfig {
     private final MenuAuthorizationFilter menuAuthorizationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        List<String> guestUrls = menuRoleService.getGuestAccessibleUrls();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, GuestUrlAuthorizationManager guestUrlAuthorizationManager) throws Exception {
         
         http
             .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
             .addFilterBefore(menuAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(auth -> {
-                auth.requestMatchers("/error/**", "/pagination").permitAll();
-                auth.requestMatchers("/css/**", "/images/**", "/js/**").permitAll();
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/error/**", "/pagination").permitAll()
+                .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
 
-                // GUEST_ROLE 접근 URL 동적 추가
-                guestUrls.forEach(url -> {
-                    if ( StringUtils.hasText(url) )
-                        auth.requestMatchers(url).permitAll();
-                });
-
-                auth.anyRequest().authenticated();
-            })
+                // 모든 요청을 AuthorizationManager에게 위임
+                .anyRequest().access(guestUrlAuthorizationManager)
+            )
             .formLogin(login -> login 
                 .loginPage("/login")
                 .loginProcessingUrl("/api/login")

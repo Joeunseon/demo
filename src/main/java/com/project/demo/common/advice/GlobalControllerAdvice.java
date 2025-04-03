@@ -52,4 +52,9 @@ public class GlobalControllerAdvice {
             model.addAttribute(MODEL_KEY.LOGIN_INFO, userSessionDTO);
         }
     }
+
+    public void evictGuestMenuCache() {
+        // log.info(">>> GUEST ROLE 메뉴 캐시 제거");
+        menuCache.remove(ROLE_KEY.GUEST);
+    }
 }
