@@ -1,5 +1,6 @@
 package com.project.demo.api.menu.application;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -11,15 +12,19 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.StringUtils;
 
 import com.project.demo.api.menu.application.dto.MenuChildrenDTO;
+import com.project.demo.api.menu.application.dto.MenuCreateDTO;
 import com.project.demo.api.menu.application.dto.MenuDetailDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
 import com.project.demo.api.menu.application.dto.MenuTreeDTO;
 import com.project.demo.api.menu.domain.MenuEntity;
 import com.project.demo.api.menu.infrastructure.MenuRepository;
 import com.project.demo.api.menu.value.ActiveYn;
+import com.project.demo.api.menu.value.MenuType;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
@@ -159,6 +164,68 @@ public class MenuService {
             return ApiResponse.success();
         } catch (Exception e) {
             log.error(">>>> MenuService::findAllAsTree: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Long> create(MenuCreateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) 
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            
+            if ( dto.getMenuType() != MenuType.MENU && dto.getMenuType() != MenuType.TOOL && !StringUtils.hasText(dto.getMenuUrl()) ) 
+                return ApiResponse.error(msgUtil.getMessage(CommonMsgKey.FAILED_VALIDATION.getKey(), "메뉴 URL"));
+            
+            // 1. 중복 확인
+
+            // 2. 상위 메뉴 취득 (menu_level 확인)
+            MenuEntity parentMenu = menuRepository.findById(dto.getParentSeq())
+                                                    .orElse(null);
+            
+            if ( parentMenu == null )
+                return ApiResponse.error(msgUtil.getMessage(CommonMsgKey.FAILED_VALIDATION.getKey(), "상위 메뉴"));
+
+            Integer menuLevel = parentMenu.getMenuLevel() + 1;
+
+            // 3. menu_order 취득
+            Integer menuOrder = menuRepository.findMaxMenuOrderByParentSeq(dto.getParentSeq()) + (menuLevel == 2 ? 10 : 1);
+
+            // 4. 저장
+            MenuEntity entity = MenuEntity.builder()
+                                            .menuNm(dto.getMenuNm().trim())
+                                            .menuUrl(StringUtils.hasText(dto.getMenuUrl()) ? dto.getMenuUrl().trim() : null)
+                                            .parentSeq(dto.getParentSeq())
+                                            .menuLevel(menuLevel)
+                                            .menuOrder(menuOrder)
+                                            .menuType(dto.getMenuType())
+                                            .activeYn(dto.getActiveYn())
+                                            .regDt(LocalDateTime.now())
+                                            .regSeq(dto.getUserSessionDTO().getUserSeq())
+                                            .build();
+            
+            MenuEntity info = menuRepository.save(entity);
+
+            // 5. menu_level=2 menu_seq 취득
+            if ( info.getMenuLevel() == 2 ) {
+                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), info.getMenuSeq());
+            } else {
+                Long level2MenuSeq = null;
+                MenuEntity current = parentMenu;
+                while ( current != null ) {
+                    if ( current.getMenuLevel() == 2 ) {
+                        level2MenuSeq = current.getMenuSeq();
+                        break;
+                    } 
+                    current = menuRepository.findById(current.getParentSeq())
+                                            .orElse(null);
+                }
+
+                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), level2MenuSeq);
+            }
+        } catch (Exception e) {
+            log.error(">>>> MenuService::create: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

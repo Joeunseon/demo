@@ -6,15 +6,19 @@ import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.menu.application.MenuService;
 import com.project.demo.api.menu.application.dto.MenuChildrenDTO;
+import com.project.demo.api.menu.application.dto.MenuCreateDTO;
 import com.project.demo.api.menu.application.dto.MenuDetailDTO;
 import com.project.demo.api.menu.application.dto.MenuRequestDTO;
 import com.project.demo.api.menu.application.dto.MenuTreeDTO;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.validation.ValidationSequence;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -57,5 +61,12 @@ public class MenuRestController {
     public ApiResponse<List<MenuTreeDTO>> findAllAsTree() {
 
         return menuService.findAllAsTree();
+    }
+
+    @PostMapping("/menu")
+    @Operation(summary = "메뉴 등록 API", description = "등록할 메뉴의 정보를 전달 받아 메뉴을 등록합니다.")
+    public ApiResponse<Long> create(@Parameter(description = "게시글 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody MenuCreateDTO dto) {
+
+        return menuService.create(dto);
     }
 }

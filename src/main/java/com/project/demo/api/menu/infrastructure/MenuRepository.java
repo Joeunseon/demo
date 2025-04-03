@@ -3,6 +3,8 @@ package com.project.demo.api.menu.infrastructure;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.project.demo.api.menu.domain.MenuEntity;
@@ -16,4 +18,7 @@ public interface MenuRepository extends JpaRepository<MenuEntity, Long>, MenuRep
     List<MenuEntity> findByParentSeqOrderByMenuOrderAsc(Long parentSeq);
 
     List<MenuEntity> findAllByOrderByMenuLevelAscParentSeqAscMenuOrderAsc();
+
+    @Query("SELECT COALESCE(MAX(m.menuOrder), 0) FROM MenuEntity m WHERE m.parentSeq = :parentSeq")
+    Integer findMaxMenuOrderByParentSeq(@Param("parentSeq") Long parentSeq);
 }
