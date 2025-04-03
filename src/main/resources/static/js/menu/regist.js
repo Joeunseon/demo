@@ -3,6 +3,7 @@
  */
 const ENDPOINTS = {
     tree: '/api/menus/tree',
+    check: '/api/menu/check-duplicate',
     save: '/api/menu',
     info: '/menu/info'
 }
@@ -15,6 +16,14 @@ const form = document.getElementById('menuForm');
 
 $(document).ready(function () {
     treeInit();
+
+    $('#menuNm').on('focusout', function () {
+        $('#checkMenuNmBtn').data('flag', false);
+    });
+
+    $('#menuUrl').on('focusout', function () {
+        $('#checkMenuUrlBtn').data('flag', false);
+    });
 });
 
 function treeInit() {
@@ -56,6 +65,22 @@ function treeInit() {
     });
 }
 
+function checkDuplicate(id, el) {
+    if ( !$('#'+id).val() ) {
+        $('#alertModal .modal-body').text($('#validation').val().replace('{0}', $(`label[for=${id}]`).text()));
+        $('#alertModal').modal('show');
+        return;
+    }
+        
+    fn_fetchGetData(`${ENDPOINTS.check}?${id}=${$('#'+id).val()}`)
+        .then(data => {
+            $('#alertModal .modal-body').text(data.message);
+            $('#alertModal').modal('show');
+
+            $(el).data('flag', data.result);
+        });
+}
+
 function menuValidity() {
 
     if ( $('#menuType').val() != 'MENU' && $('#menuType').val() != 'TOOL' ) {
@@ -69,8 +94,20 @@ function menuValidity() {
         return;
     }
 
+    if ( !$('#checkMenuNmBtn').data('flag') ) {
+        $('#alertModal').find('.modal-body').text($('#duplication').val().replace('{0}', '메뉴 이름'));
+        $('#alertModal').modal('show');
+        return;
+    }
+
     if ( !$('#parentSeq').val() ) {
         $('#alertModal').find('.modal-body').text($('#validation').val().replace('{0}', '상위 메뉴').replace('입력', '선택'));
+        $('#alertModal').modal('show');
+        return;
+    }
+
+    if ( ($('#menuUrl').attr('required') !== undefined || $('#menuUrl').val()) && !$('#checkMenuUrlBtn').data('flag') )  {
+        $('#alertModal').find('.modal-body').text($('#duplication').val().replace('{0}', '메뉴 URL'));
         $('#alertModal').modal('show');
         return;
     }
