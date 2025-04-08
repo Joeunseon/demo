@@ -23,7 +23,7 @@ public class BoardListDTO {
     @Schema(description = "게시글의 제목")
     private String title;
 
-    @Schema(description = "게시글의 내용")
+    @Schema(description = "게시글의 작성자")
     private String writerNm;
 
     @Schema(description = "게시글 등록일시")
