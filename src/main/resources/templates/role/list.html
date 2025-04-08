@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <h3 class="mb-3 ms-3">권한 관리</h3>
+    
+                    <!-- 검색 폼 -->
+                    <form class="p-3 mb-3 ms-3 me-3 border rounded-3" id="searchForm" name="searchForm" action="/api/roles" method="GET">
+                        <div class="row g-2 align-items-center gap-3">
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="searchKeyword" class="form-label mb-0 fw-bold" style="white-space: nowrap;">검색어</label>
+                                <input type="text" class="form-control w-auto" id="searchKeyword" name="searchKeyword" maxlength="50">
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-dark" onclick="searchList();">검색</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="page" id="page">
+                    </form>
+    
+                    <!-- 목록 -->
+                    <div class="p-3 listFragment">
+                        <div class="row align-items-center mb-2">
+                            <div class="col-auto">
+                                <strong>총 <span class="totalCnt">0</span>건</strong>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 10%;">
+                                <col style="width: 25%;">
+                                <col style="width: 30%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 15%;">
+                            </colgroup>
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">권한</th>
+                                    <th scope="col">권한 설명</th>
+                                    <th scope="col">삭제 여부</th>
+                                    <th scope="col">등록자</th>
+                                    <th scope="col">등록 일자</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tr_none">
+                                    <td colspan="6" class="text-center">리스트가 없습니다.</td>
+                                </tr>
+                                <tr class="tr_info">
+                                    <td class="text-center rownum"></td>
+                                    <td>
+                                        <a href="javascript:;" class="text-dark fw-bold text-decoration-none roleNm"></a>
+                                    </td>
+                                    <td class="text-center roleDesc"></td>
+                                    <td class="text-center delYn"></td>
+                                    <td class="text-center regNm"></td>
+                                    <td class="text-center regDt"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- paging -->
+                    <div id="pagination"></div>
+
+                    <th:block th:if="${loginInfo}">
+                        <div class="d-flex justify-content-end mt-3 me-4">
+                            <a href="/role/regist" class="btn btn-dark rounded-pill px-4 py-2" th:text="#{button.regist}"></a>
+                        </div>
+                    </th:block>
+                </main>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>
