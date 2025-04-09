@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <h3 class="mb-3 ms-3">권한 상세</h3>
+
+                    <div class="p-3">
+                        <div class="mb-3">
+                            <h5 class="fw-bold border rounded-3 p-3 bg-light">
+                                <span class="roleNm"></span>
+                                <span class="roleDesc text-muted"></span>
+                            </h5>
+                        </div>
+
+                        <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
+                            <div>
+                                <span>삭제여부: </span>
+                                <span class="delYn"></span>
+                            </div>
+                            <div>
+                                <span>등록자: <span class="regNm"></span></span> 
+                                <span class="ms-2 regDt"></span>
+                                <span class="ms-2">|</span>
+                                <span>수정자: <span class="updNm"></span></span> 
+                                <span class="ms-2 updDt"></span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="roleSeq" th:value="${roleSeq}">
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3 me-4 mb-3">
+                        <a href="/role/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.list}"></a>
+                    </div>
+                </main>
+
+                <!-- modal -->
+                <input type="hidden" id="errorRequest" th:value="#{error.request}">
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>
