@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleListDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
 import com.project.demo.api.role.domain.QRoleEntity;
@@ -65,5 +66,29 @@ public class RoleRepositoryImpl implements RoleRepositoryCustom {
                             .limit(dto.getPageScale())
                             .offset(dto.getOffSet())
                             .fetch();
+    }
+
+    public RoleDetailDTO findByRoleSeq(Integer roleSeq) {
+
+        QRoleEntity role = QRoleEntity.roleEntity;
+        QUserEntity user = QUserEntity.userEntity;
+
+        return queryFactory.select(Projections.constructor(RoleDetailDTO.class, 
+                                role.roleSeq,
+                                role.roleNm,
+                                role.roleDesc,
+                                role.delYn,
+                                JPAExpressions.select(user.userNm)
+                                        .from(user)
+                                        .where(user.userSeq.eq(role.regSeq)),
+                                role.regDt,
+                                JPAExpressions.select(user.userNm)
+                                        .from(user)
+                                        .where(user.userSeq.eq(role.updSeq)),
+                                role.updDt
+                            ))
+                            .from(role)
+                            .where(role.roleSeq.eq(roleSeq))
+                            .fetchOne();
     }
 }

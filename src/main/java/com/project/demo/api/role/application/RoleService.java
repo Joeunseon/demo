@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
 import com.project.demo.api.role.infrastructure.RoleRepository;
 import com.project.demo.common.ApiResponse;
@@ -42,6 +43,17 @@ public class RoleService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> RoleService::findAll: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<RoleDetailDTO> findById(Integer roleSeq) {
+
+        try {
+            
+            return ApiResponse.success(roleRepository.findByRoleSeq(roleSeq));
+        } catch (Exception e) {
+            log.error(">>>> RoleService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
