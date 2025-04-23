@@ -51,10 +51,35 @@ function getMenus() {
         const menusUrl = ENDPOINTS.menuRole.replaceAll('{roleSeq}', roleSeq);
         fn_fetchGetData(menusUrl).then(data => {
             if ( data.result ) {
+                const tree = document.getElementById('menuTree');
+                tree.innerHTML = ''; // 초기화
                 if ( data.data != null ) {
-                    
+                    renderMenuTree(data.data, tree);
+                } else {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = '설정된 메뉴가 없습니다.';
+                    container.appendChild(li);
                 }
-            } 
+            }
         });
     }
+}
+
+function renderMenuTree(menus, container) {
+    menus.forEach(menu => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.textContent = menu.menuNm;
+
+        // 하위 메뉴가 있으면 재귀적으로 처리
+        if (menu.children && menu.children.length > 0) {
+            const ul = document.createElement('ul');
+            ul.className = 'list-group ms-3 mt-1';
+            renderMenuTree(menu.children, ul);
+            li.appendChild(ul);
+        }
+
+        container.appendChild(li);
+    });
 }
