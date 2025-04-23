@@ -44,6 +44,7 @@ public class MenuRoleTreeDTO {
     private String menuTypeNm;
 
     @Schema(description = "하위 메뉴를 담은 DTO 리스트")
+    @Builder.Default
     private List<MenuRoleTreeDTO> children = new ArrayList<>();
 
     public MenuRoleTreeDTO(MenuRoleEntity entity) {
@@ -55,5 +56,6 @@ public class MenuRoleTreeDTO {
         this.menuUrl = entity.getMenu().getMenuUrl();
         this.menuType = entity.getMenu().getMenuType();
         this.menuTypeNm = entity.getMenu().getMenuType().getDescription();
+        this.children = new ArrayList<>();
     }
 }

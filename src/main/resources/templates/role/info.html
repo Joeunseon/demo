@@ -18,7 +18,7 @@
                             </h5>
                         </div>
 
-                        <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
+                        <div class="mb-5 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
                             <div>
                                 <span>삭제여부: </span>
                                 <span class="delYn"></span>
@@ -30,6 +30,15 @@
                                 <span>수정자: <span class="updNm"></span></span> 
                                 <span class="ms-2 updDt"></span>
                             </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h5 class="mb-3 fw-bold">
+                                <span>접근 가능한 메뉴</span>
+                                <button class="btn btn-light rounded-pill px-4 py-2 me-1" th:text="#{button.edit}"></button>
+                            </h5>
+                            <ul id="menuTree" class="list-group">
+                            </ul>
                         </div>
 
                         <input type="hidden" id="roleSeq" th:value="${roleSeq}">
