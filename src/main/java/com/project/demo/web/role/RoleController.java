@@ -23,4 +23,10 @@ public class RoleController {
 
         return "/role/info";
     }
+
+    @GetMapping("/regist")
+    public String regist(ModelMap model) {
+
+        return "/role/regist";
+    }
 }
