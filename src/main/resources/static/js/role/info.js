@@ -4,6 +4,7 @@
 
 const ENDPOINTS = {
     info: '/api/role/',
+    menuRole: '/api/role/{roleSeq}/menus'
 };
 
 $(document).ready(function () {
@@ -24,6 +25,8 @@ function infoInit() {
                     $('.regDt').text(result.regDt);
                     $('.updNm').text(result.updNm);
                     $('.updDt').text(result.updDt);
+
+                    getMenus();
                 }
             } else {
                 $('#alertModal').find('.modal-body').text($('#errorRequest').val());
@@ -38,6 +41,20 @@ function infoInit() {
         $('#alertModal').modal('show');
         $('#alertModal').on('hidden.bs.modal', function () {
             history.back();
+        });
+    }
+}
+
+function getMenus() {
+    const roleSeq = $('#roleSeq').val();
+    if ( roleSeq ) { 
+        const menusUrl = ENDPOINTS.menuRole.replaceAll('{roleSeq}', roleSeq);
+        fn_fetchGetData(menusUrl).then(data => {
+            if ( data.result ) {
+                if ( data.data != null ) {
+                    
+                }
+            } 
         });
     }
 }

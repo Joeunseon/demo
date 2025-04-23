@@ -7,7 +7,9 @@ import com.project.demo.api.menu.application.dto.QMenuDisplayDTO;
 import com.project.demo.api.menu.domain.QMenuEntity;
 import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.api.menu.value.MenuType;
+import com.project.demo.api.role.domain.MenuRoleEntity;
 import com.project.demo.api.role.domain.QMenuRoleEntity;
+import com.project.demo.api.role.domain.QRoleEntity;
 import com.project.demo.common.constant.DelYn;
 import com.project.demo.common.constant.CommonConstant.ROLE_KEY;
 import com.querydsl.core.BooleanBuilder;
@@ -74,5 +76,20 @@ public class MenuRoleRepositoryImpl implements MenuRoleRepositoryCustom {
                     .and(menu.parentSeq.eq(1L)))
                 .orderBy(menu.menuOrder.asc())
                 .fetch();
+    }
+
+    public List<MenuRoleEntity> findMenusByRole(Integer roleSeq) {
+
+        QMenuEntity menu = QMenuEntity.menuEntity;
+        QRoleEntity role = QRoleEntity.roleEntity;
+        QMenuRoleEntity menuRole = QMenuRoleEntity.menuRoleEntity;
+
+        return queryFactory.select(menuRole)
+                            .from(menuRole)
+                            .join(menuRole.menu, menu).fetchJoin()
+                            .join(menuRole.role, role).fetchJoin()
+                            .where(menuRole.role.roleSeq.eq(roleSeq))
+                            .orderBy(menuRole.menu.menuLevel.asc().nullsFirst(), menu.menuOrder.asc())
+                            .fetch();
     }
 }
