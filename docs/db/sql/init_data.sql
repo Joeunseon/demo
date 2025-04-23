@@ -286,6 +286,10 @@ VALUES('권한 수정 API', '/api/role', (SELECT menu_seq FROM menus WHERE menu_
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('권한 삭제 API', '/api/role/{roleSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '권한 상세' LIMIT 1), 4, 2, 'DELETE', 1);
+-- 권한별 메뉴 조회 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('권한별 메뉴 조회 API', '/api/role/{roleSeq}/menus', (SELECT menu_seq FROM menus WHERE menu_nm = '권한 상세' LIMIT 1), 4, 3, 'READ', 1);
 
 -- 사용자 관리
 INSERT INTO menus
