@@ -9,6 +9,7 @@ import com.project.demo.api.role.application.dto.RoleListDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
 import com.project.demo.api.role.domain.QRoleEntity;
 import com.project.demo.api.user.domain.QUserEntity;
+import com.project.demo.common.constant.DelYn;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -27,6 +28,8 @@ public class RoleRepositoryImpl implements RoleRepositoryCustom {
         QRoleEntity role = QRoleEntity.roleEntity;
         BooleanBuilder builder = new BooleanBuilder();
 
+        builder.and(role.delYn.eq(DelYn.N));
+
         if ( StringUtils.hasText(dto.getSearchKeyword()) ) {
             builder.and(role.roleNm.like("%" + dto.getSearchKeyword() + "%").or(role.roleDesc.like("%" + dto.getSearchKeyword() + "%")));
         }
@@ -44,6 +47,7 @@ public class RoleRepositoryImpl implements RoleRepositoryCustom {
         BooleanBuilder builder = new BooleanBuilder();
 
         dto.calculateOffSet();
+        builder.and(role.delYn.eq(DelYn.N));
 
         if ( StringUtils.hasText(dto.getSearchKeyword()) ) {
             builder.and(role.roleNm.like("%" + dto.getSearchKeyword() + "%").or(role.roleDesc.like("%" + dto.getSearchKeyword() + "%")));

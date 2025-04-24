@@ -53,13 +53,13 @@ function getMenus() {
             if ( data.result ) {
                 const tree = document.getElementById('menuTree');
                 tree.innerHTML = ''; // 초기화
-                if ( data.data != null ) {
+                if ( data.data != null && data.data.length > 0 ) {
                     renderMenuTree(data.data, tree);
                 } else {
                     const li = document.createElement('li');
                     li.className = 'list-group-item';
                     li.textContent = '설정된 메뉴가 없습니다.';
-                    container.appendChild(li);
+                    tree.appendChild(li);
                 }
             }
         });

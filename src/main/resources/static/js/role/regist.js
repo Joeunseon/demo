@@ -7,6 +7,8 @@ const ENDPOINTS = {
     info: '/role/info'
 }
 
+const form = document.getElementById('roleForm');
+
 $(document).ready(function () {
     $('#roleNm').on('focusout', function () {
         $('#checkBtn').data('flag', false);
