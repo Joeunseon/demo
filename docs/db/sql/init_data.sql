@@ -228,7 +228,7 @@ VALUES('메뉴 등록 API', '/api/menu', (SELECT menu_seq FROM menus WHERE menu_
 -- 메뉴 중복체크 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('메뉴 중복체크 API', '/api/menu/check-duplicate', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 등록' LIMIT 1), 4, 2, 'CREATE', 1);
+VALUES('메뉴 중복체크 API', '/api/menu/check-duplicate', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 등록' LIMIT 1), 4, 2, 'READ', 1);
 -- 메뉴 상세 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
@@ -274,6 +274,10 @@ VALUES('권한 목록 API', '/api/roles', (SELECT menu_seq FROM menus WHERE menu
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('권한 등록 API', '/api/role', (SELECT menu_seq FROM menus WHERE menu_nm = '권한 등록' LIMIT 1), 4, 1, 'CREATE', 1);
+-- 권한 중복체크 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('권한 중복체크 API', '/api/role/check-duplicate', (SELECT menu_seq FROM menus WHERE menu_nm = '권한 등록' LIMIT 1), 4, 2, 'READ', 1);
 -- 권한 상세 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)

@@ -6,12 +6,16 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.api.role.application.dto.RoleCreateDTO;
 import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
+import com.project.demo.api.role.domain.RoleEntity;
 import com.project.demo.api.role.infrastructure.RoleRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.constant.DelYn;
+import com.project.demo.common.constant.MenuMsgKey;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -54,6 +58,42 @@ public class RoleService {
             return ApiResponse.success(roleRepository.findByRoleSeq(roleSeq));
         } catch (Exception e) {
             log.error(">>>> RoleService::findById: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<Void> checkDuplicate(String roleNm) {
+
+        try {
+
+            if ( roleRepository.countByRoleNmAndDelYn(roleNm.trim(), DelYn.N) > 0 )
+                return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "권한 이름"));
+            
+            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCUESS_DUPLICATION.getKey(), "권한 이름"));
+        } catch (Exception e) {
+            log.error(">>>> RoleService::checkDuplicate: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<Integer> create(RoleCreateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) 
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+
+            // 1. 중복 확인
+            ApiResponse<Void> check = checkDuplicate(dto.getRoleNm());
+
+            if ( check.getStatus() != HttpStatus.OK )
+                return ApiResponse.error(check.getStatus(), check.getMessage());
+            
+            // 2. 권한 등록
+            RoleEntity entity = roleRepository.save(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getRoleSeq());
+        } catch (Exception e) {
+            log.error(">>>> RoleService::create: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

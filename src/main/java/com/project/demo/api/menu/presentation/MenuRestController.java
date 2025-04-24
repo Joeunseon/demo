@@ -71,7 +71,7 @@ public class MenuRestController {
 
     @PostMapping("/menu")
     @Operation(summary = "메뉴 등록 API", description = "등록할 메뉴의 정보를 전달 받아 메뉴을 등록합니다.")
-    public ApiResponse<Long> create(@Parameter(description = "게시글 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody MenuCreateDTO dto) {
+    public ApiResponse<Long> create(@Parameter(description = "메뉴 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody MenuCreateDTO dto) {
 
         return menuService.create(dto);
     }
