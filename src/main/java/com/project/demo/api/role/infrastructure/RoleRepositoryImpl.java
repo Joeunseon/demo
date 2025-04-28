@@ -8,6 +8,7 @@ import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleListDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
 import com.project.demo.api.role.domain.QRoleEntity;
+import com.project.demo.api.role.domain.RoleEntity;
 import com.project.demo.api.user.domain.QUserEntity;
 import com.project.demo.common.constant.DelYn;
 import com.querydsl.core.BooleanBuilder;
@@ -94,5 +95,18 @@ public class RoleRepositoryImpl implements RoleRepositoryCustom {
                             .from(role)
                             .where(role.roleSeq.eq(roleSeq))
                             .fetchOne();
+    }
+
+    public Long updateById(RoleEntity entity) {
+
+        QRoleEntity role = QRoleEntity.roleEntity;
+
+        return queryFactory.update(role)
+                        .set(role.roleNm, entity.getRoleNm())
+                        .set(role.roleDesc, entity.getRoleDesc())
+                        .set(role.updDt, entity.getUpdDt())
+                        .set(role.updSeq, entity.getUpdSeq())
+                        .where(role.roleSeq.eq(entity.getRoleSeq()))
+                        .execute();
     }
 }

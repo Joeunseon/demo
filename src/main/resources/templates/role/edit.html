@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <div class="w-75 mx-auto mt-1">
+                        <h3 class="mb-5 ms-3">권한 수정</h3>
+        
+                        <div class="p-3 card shadow-sm mb-3">
+                            <div class="card-body">
+                                <form id="roleForm">
+                                    <div class="mb-4">
+                                        <label for="roleNm" class="form-label fw-bold">권한 이름</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="roleNm" name="roleNm" required="required" maxlength="50">
+                                            <button type="button" class="btn btn-outline-secondary" id="checkBtn" onclick="checkDuplicate();">중복 확인</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="roleDesc" class="form-label fw-bold">권한 설명</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="roleDesc" name="roleDesc" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="roleSeq" name="roleSeq" th:value="${roleSeq}">
+                                </form>
+                            </div>
+                        </div>
+
+                        <th:block th:if="${loginInfo}">
+                            <div class="d-flex justify-content-end mt-5 me-2 mb-5">
+                                <a th:href="@{/role/info(roleSeq=${roleSeq})}" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.cancel}"></a>
+                                <button type="button" class="btn btn-dark rounded-pill px-4 py-2" onclick="roleValidity();" th:text="#{button.edit}"></button>
+                            </div>
+                        </th:block>
+                    </div>
+                </main>
+
+                <!-- modal -->
+                <input type="hidden" id="validation" th:value="#{error.validation}">
+                <input type="hidden" id="duplication" th:value="#{error.duplication}">
+                <input type="hidden" id="errorRequest" th:value="#{error.request}">
+                <input type="hidden" id="saveConfrimMsg" th:value="#{save.confrim}" >
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>

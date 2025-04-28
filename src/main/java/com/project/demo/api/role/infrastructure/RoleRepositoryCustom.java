@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleListDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
+import com.project.demo.api.role.domain.RoleEntity;
 
 public interface RoleRepositoryCustom {
 
@@ -13,4 +14,6 @@ public interface RoleRepositoryCustom {
     List<RoleListDTO> findBySearch(RoleRequestDTO dto);
 
     RoleDetailDTO findByRoleSeq(Integer roleSeq);
+
+    Long updateById(RoleEntity entity);
 }

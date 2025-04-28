@@ -46,6 +46,7 @@
 
                     <div class="d-flex justify-content-end mt-3 me-4 mb-3">
                         <a href="/role/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.list}"></a>
+                        <a th:href="@{/role/edit(roleSeq=${roleSeq})}" class="btn btn-dark rounded-pill px-4 py-2 me-1 editable" th:text="#{button.edit}"></a>
                     </div>
                 </main>
 
