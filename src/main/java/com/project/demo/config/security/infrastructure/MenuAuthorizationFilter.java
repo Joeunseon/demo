@@ -63,7 +63,12 @@ public class MenuAuthorizationFilter extends OncePerRequestFilter {
             // 권한 확인
             if ( !menuRoleService.hasAccess(roleSeq, requestURI, requestMethod) ) {
                 log.warn(">>> 접근 불가 (권한 없음): {} (roleSeq={})", requestURI, roleSeq);
-                response.sendRedirect("/error/403");
+
+                if ( roleSeq == ROLE_KEY.GUEST) {
+                    response.sendRedirect(EXCLUDE_URL.LOGIN);
+                } else {
+                    response.sendRedirect("/error/403");
+                }
                 return;
             }
         }
