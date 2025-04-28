@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import com.project.demo.api.role.application.dto.MenuRoleTreeDTO;
 import com.project.demo.api.role.application.dto.RoleCreateDTO;
 import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
+import com.project.demo.api.role.application.dto.RoleUpdateDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.validation.ValidationSequence;
 
@@ -61,9 +63,9 @@ public class RoleRestController {
 
     @GetMapping("/role/check-duplicate")
     @Operation(summary = "권한 중복체크 API", description = "권한이름을 전달하면 중복 여부를 확인합니다.")
-    public ApiResponse<Void> checkDuplicate(@Parameter(description = "중복 확인 진행을 위한 권한 이름") @RequestParam("roleNm") @NotBlank(message = "{error.request}") String roleNm) {
+    public ApiResponse<Void> checkDuplicate(@Parameter(description = "중복 확인 진행을 위한 권한 이름") @RequestParam(value = "roleNm", required = true) @NotBlank(message = "{error.request}") String roleNm, @Parameter(description = "중복 확인 진행을 위한 권한 SEQ") @RequestParam(value = "roleSeq", required = false) Integer roleSeq) {
 
-        return roleService.checkDuplicate(roleNm);
+        return roleService.checkDuplicate(roleNm, roleSeq);
     }
 
     @PostMapping("/role")
@@ -71,5 +73,12 @@ public class RoleRestController {
     public ApiResponse<Integer> create(@Parameter(description = "권한 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody RoleCreateDTO dto) {
 
         return roleService.create(dto);
+    }
+
+    @PatchMapping("/role")
+    @Operation(summary = "권한 수정 API", description = "수정할 권한의 정보를 전달 받아 권한을 수정합니다.")
+    public ApiResponse<Integer> edit(@Parameter(description = "권한 수정을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody RoleUpdateDTO dto) {
+
+        return roleService.update(dto);
     }
 }

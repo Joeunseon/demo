@@ -29,4 +29,12 @@ public class RoleController {
 
         return "/role/regist";
     }
+
+    @GetMapping("/edit")
+    public String edit(@RequestParam(value = "roleSeq", required = false) Long roleSeq, ModelMap model) {
+
+        model.addAttribute("roleSeq", roleSeq);
+
+        return "/role/edit";
+    }
 }
