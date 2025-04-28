@@ -3,8 +3,9 @@
  */
 
 const ENDPOINTS = {
-    info: '/api/role/',
-    menuRole: '/api/role/{roleSeq}/menus'
+    api: '/api/role/',
+    menuRole: '/api/role/{roleSeq}/menus',
+    list: '/role/list'
 };
 
 $(document).ready(function () {
@@ -14,7 +15,7 @@ $(document).ready(function () {
 function infoInit() {
     const roleSeq = $('#roleSeq').val();
     if ( roleSeq ) {
-        fn_fetchGetData(`${ENDPOINTS.info}${roleSeq}`).then(data => {
+        fn_fetchGetData(`${ENDPOINTS.api}${roleSeq}`).then(data => {
             if ( data.result ) {
                 if ( data.data != null ) {
                     const result = data.data;
@@ -82,4 +83,26 @@ function renderMenuTree(menus, container) {
 
         container.appendChild(li);
     });
+}
+
+function deleteConfirm() {
+    $('#confirmModal .modal-body').html($('#deleteConfirm').val());
+    $('#confirmModal .saveBtn').off('click').on('click', softDelete);
+    $('#confirmModal').modal('show');
+}
+
+function softDelete() {
+    const roleSeq = $('#roleSeq').val();
+    if ( roleSeq ) { 
+        fn_fetchDeleteData(`${ENDPOINTS.api}${roleSeq}`).then(data => {
+            $('#alertModal').find('.modal-body').text(data.message);
+            $('#alertModal').modal('show');
+            
+            if ( data.result ) {
+                $('#alertModal').on('hidden.bs.modal', function () {
+                    location.href = `${ENDPOINTS.list}`;
+                });
+            }
+        });
+    }
 }

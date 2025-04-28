@@ -1,5 +1,6 @@
 package com.project.demo.api.role.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -108,5 +109,17 @@ public class RoleRepositoryImpl implements RoleRepositoryCustom {
                         .set(role.updSeq, entity.getUpdSeq())
                         .where(role.roleSeq.eq(entity.getRoleSeq()))
                         .execute();
+    }
+
+    public Long softDelete(Integer roleSeq, Long userSeq) {
+
+        QRoleEntity role = QRoleEntity.roleEntity;
+
+        return queryFactory.update(role)
+                            .set(role.delYn, DelYn.Y)
+                            .set(role.updDt, LocalDateTime.now())
+                            .set(role.updSeq, userSeq)
+                            .where(role.roleSeq.eq(roleSeq))
+                            .execute();
     }
 }

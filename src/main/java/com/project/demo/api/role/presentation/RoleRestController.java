@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
 import com.project.demo.api.role.application.dto.RoleUpdateDTO;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.BaseDTO;
 import com.project.demo.common.validation.ValidationSequence;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,5 +82,12 @@ public class RoleRestController {
     public ApiResponse<Integer> edit(@Parameter(description = "권한 수정을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody RoleUpdateDTO dto) {
 
         return roleService.update(dto);
+    }
+
+    @DeleteMapping("/role/{roleSeq}")
+    @Operation(summary = "권한 삭제 API", description = "권한 SEQ를 전달 받아 권한 삭제를 진행합니다.")
+    public ApiResponse<Void> delete(@Parameter(description = "삭제할 권한 SEQ") @PathVariable("roleSeq") @Min(value = 0, message = "{error.request}") Integer roleSeq, BaseDTO baseDTO) {
+
+        return roleService.delete(roleSeq, baseDTO);
     }
 }
