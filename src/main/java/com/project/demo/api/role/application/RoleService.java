@@ -14,6 +14,7 @@ import com.project.demo.api.role.application.dto.RoleUpdateDTO;
 import com.project.demo.api.role.domain.RoleEntity;
 import com.project.demo.api.role.infrastructure.RoleRepository;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.DelYn;
@@ -127,6 +128,29 @@ public class RoleService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), dto.getRoleSeq());
         } catch (Exception e) {
             log.error(">>>> RoleService::update: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Void> delete(Integer roleSeq, BaseDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            ApiResponse<RoleDetailDTO> info = findById(roleSeq);
+
+            if ( info.getData() == null )
+                return ApiResponse.error(info.getStatus(), info.getMessage());
+
+            // 논리 삭제
+            roleRepository.softDelete(roleSeq, dto.getUserSessionDTO().getUserSeq());
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> RoleService::delete: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

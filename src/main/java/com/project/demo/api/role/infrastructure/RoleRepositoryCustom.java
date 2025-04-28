@@ -16,4 +16,6 @@ public interface RoleRepositoryCustom {
     RoleDetailDTO findByRoleSeq(Integer roleSeq);
 
     Long updateById(RoleEntity entity);
+
+    Long softDelete(Integer roleSeq, Long userSeq);
 }
