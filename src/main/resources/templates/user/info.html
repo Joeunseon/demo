@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <h3 class="mb-3 ms-3">사용자 상세</h3>
+
+                    <div class="container-fluid p-3">
+                        <div class="row">
+                            <!-- 왼쪽: 사용자 프로필 이미지 -->
+                            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                <img id="profileImg" src="/images/img-basic-user.png" alt="User Image" class="img-fluid rounded-3 shadow profileImg" style="max-height: 400px;">
+                            </div>
+                    
+                            <!-- 오른쪽: 사용자 정보 -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <h5 class="fw-bold border rounded-3 p-3 bg-light">
+                                        <span class="userNm"></span>
+                                        <span class="userId text-muted"></span>
+                                    </h5>
+                                </div>
+                    
+                                <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
+                                    <div>
+                                        <span>권한: </span>
+                                        <span class="roleNm"></span>
+                                    </div>
+                                    <div>
+                                        <span>활성화여부: <span class="activeYn"></span></span> 
+                                        <span class="ms-2">|</span>
+                                        <span class="ms-2">가입일시: <span class="signupDt"></span></span>
+                                    </div>
+                                </div>
+                    
+                                <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
+                                    <div>
+                                        <span>사용자 E-mail: </span>
+                                        <span class="userEmail"></span>
+                                    </div>
+                                </div>
+                    
+                                <input type="hidden" id="userSeq" th:value="${userSeq}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3 me-4 mb-3">
+                        <a href="/user/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.list}"></a>
+                        <button class="btn btn-light rounded-pill px-4 py-2 me-1" th:text="#{button.password.reset}" onclick="resetConfirm();"></button>
+                        <a th:href="@{/user/edit(userSeq=${userSeq})}" class="btn btn-dark rounded-pill px-4 py-2 me-1 editable" th:text="#{button.edit}"></a>
+                    </div>
+                </main>
+
+                <!-- modal -->
+                <input type="hidden" id="errorRequest" th:value="#{error.request}">
+                <input type="hidden" id="restConfirm" th:value="#{password.reset.confirm}">
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>
