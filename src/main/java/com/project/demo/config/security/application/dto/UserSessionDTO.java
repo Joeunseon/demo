@@ -26,7 +26,7 @@ public class UserSessionDTO implements Serializable {
     public static UserSessionDTO of(UserEntity user) {
         return UserSessionDTO.builder()
                     .userSeq(user.getUserSeq())
-                    .roleSeq(user.getRoleSeq())
+                    .roleSeq(user.getRole().getRoleSeq())
                     .userId(user.getUserId())
                     .userNm(user.getUserNm())
                     .profileImg(user.getProfileImg())

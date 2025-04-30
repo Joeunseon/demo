@@ -5,15 +5,19 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.project.demo.api.role.domain.RoleEntity;
 import com.project.demo.api.user.value.ActiveYn;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,8 +33,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
 
-    @Column(name = "role_seq")
-    private Integer roleSeq;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_seq", nullable = false)
+    private RoleEntity role;
 
     @Column(name = "user_id", length = 50)
     private String userId;
@@ -68,10 +73,10 @@ public class UserEntity {
     private Long updSeq;
 
     @Builder
-    public UserEntity(Long userSeq, Integer roleSeq, String userId, String userPwd, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime signupDt, LocalDateTime lastPwdDt, LocalDateTime lastLoginDt, LocalDateTime updDt, Long updSeq) {
+    public UserEntity(Long userSeq, RoleEntity role, String userId, String userPwd, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime signupDt, LocalDateTime lastPwdDt, LocalDateTime lastLoginDt, LocalDateTime updDt, Long updSeq) {
 
         this.userSeq = userSeq;
-        this.roleSeq = roleSeq;
+        this.role = role;
         this.userId = userId;
         this.userPwd = userPwd;
         this.userNm = userNm;

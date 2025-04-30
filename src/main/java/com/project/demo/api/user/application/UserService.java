@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.infrastructure.UserRepository;
 import com.project.demo.common.ApiResponse;
@@ -56,6 +57,17 @@ public class UserService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> UserService::findAll: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<UserDetailDTO> findById(Long userSeq) {
+
+        try {
+            
+            return ApiResponse.success(userRepository.findByUserSeq(userSeq));
+        } catch (Exception e) {
+            log.error(">>>> UserService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
