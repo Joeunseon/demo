@@ -46,7 +46,7 @@ function infoInit() {
     }
 }
 
-function restConfirm() {
+function resetConfirm() {
 
     $('#confirmModal .modal-body').text($('#restConfirm').val());
     $('#confirmModal .saveBtn').off('click').on('click', pwdReset);

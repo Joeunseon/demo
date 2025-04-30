@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import com.project.demo.api.role.domain.QRoleEntity;
+import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserListDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.domain.QUserEntity;
@@ -41,7 +42,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         }
 
         if ( dto.getRoleSeq() != null )
-            builder.and(user.roleSeq.eq(dto.getRoleSeq()));
+            builder.and(user.role.roleSeq.eq(dto.getRoleSeq()));
 
         if ( dto.getActiveYn() != null )
             builder.and(user.activeYn.eq(dto.getActiveYn()));
@@ -75,7 +76,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         }
 
         if ( dto.getRoleSeq() != null )
-            builder.and(user.roleSeq.eq(dto.getRoleSeq()));
+            builder.and(user.role.roleSeq.eq(dto.getRoleSeq()));
 
         if ( dto.getActiveYn() != null )
             builder.and(user.activeYn.eq(dto.getActiveYn()));
@@ -90,11 +91,32 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 user.signupDt)
                             )
                             .from(user)
-                            .join(role).on(user.roleSeq.eq(role.roleSeq))
+                            .join(user.role, role)
                             .where(builder)
                             .orderBy(Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} ASC)", user.signupDt).desc())
                             .limit(dto.getPageScale())
                             .offset(dto.getOffSet())
                             .fetch();
+    }
+
+    public UserDetailDTO findByUserSeq(Long userSeq) {
+
+        QUserEntity user = QUserEntity.userEntity;
+        QRoleEntity role = QRoleEntity.roleEntity;
+
+        return queryFactory.select(Projections.constructor(UserDetailDTO.class,
+                                user.userSeq,
+                                role.roleNm,
+                                user.userId,
+                                user.userNm,
+                                user.userEmail,
+                                user.profileImg,
+                                user.activeYn,
+                                user.signupDt
+                            ))
+                            .from(user)
+                            .join(user.role, role)
+                            .where(user.userSeq.eq(userSeq))
+                            .fetchOne();
     }
 }

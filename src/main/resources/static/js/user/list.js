@@ -49,7 +49,7 @@ function drawResultList(data) {
         data.resultList.forEach(info => {
             let infoClone =  ELEMENTS.trInfo.clone();
             infoClone.find('.rownum').text(info.rownum);
-            infoClone.find('.userId').text(info.userId).attr('href', `${ENDPOINTS.info}?boardSeq=${info.userSeq}`);
+            infoClone.find('.userId').text(info.userId).attr('href', `${ENDPOINTS.info}?userSeq=${info.userSeq}`);
             infoClone.find('.userNm').text(info.userNm);
             infoClone.find('.roleNm').text(info.roleNm);
             infoClone.find('.activeYn').text(info.activeYn);

@@ -2,6 +2,7 @@ package com.project.demo.api.user.application.dto;
 
 import java.time.LocalDateTime;
 
+import com.project.demo.api.role.domain.RoleEntity;
 import com.project.demo.api.user.domain.UserEntity;
 import com.project.demo.api.user.value.ActiveYn;
 import com.project.demo.common.validation.ValidationGroups.*;
@@ -44,7 +45,7 @@ public class SignupRequestDTO {
 
     public UserEntity toEntity(String pwdEncrypt) {
         return UserEntity.builder()
-                    .roleSeq(3)
+                    .role(RoleEntity.builder().roleSeq(3).build())
                     .userId(userId)
                     .userPwd(pwdEncrypt)
                     .userNm(userNm)

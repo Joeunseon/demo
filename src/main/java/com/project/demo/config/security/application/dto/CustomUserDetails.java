@@ -7,6 +7,7 @@ import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.project.demo.api.role.domain.RoleEntity;
 import com.project.demo.api.user.domain.UserEntity;
 import com.project.demo.api.user.value.ActiveYn;
 
@@ -35,7 +36,7 @@ public class CustomUserDetails implements UserDetails {
     public static CustomUserDetails of(UserEntity user) {
         return CustomUserDetails.builder()
                     .userSeq(user.getUserSeq())
-                    .roleSeq(user.getRoleSeq())
+                    .roleSeq(user.getRole().getRoleSeq())
                     .userId(user.getUserId())
                     .userPwd(user.getUserPwd())
                     .userNm(user.getUserNm())
@@ -48,7 +49,7 @@ public class CustomUserDetails implements UserDetails {
     public UserEntity toEntity() {
         return UserEntity.builder()
                 .userSeq(this.userSeq)
-                .roleSeq(this.roleSeq)
+                .role(RoleEntity.builder().roleSeq(this.roleSeq).build())
                 .userId(this.userId)
                 .userPwd(this.userPwd)
                 .userNm(this.userNm)
