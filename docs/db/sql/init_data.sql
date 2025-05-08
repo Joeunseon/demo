@@ -426,6 +426,10 @@ VALUES ('파일 수정 API', '/api/file', (SELECT menu_seq FROM menus WHERE menu
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('셀렉트박스 조회 API (enum)', '/api/selectbox/enum', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 6, 'READ', 1);
+-- 셀렉트박스 조회 (code)
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('셀렉트박스 조회 API (code)', '/api/selectbox/code', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 7, 'READ', 1);
 
 
 /**

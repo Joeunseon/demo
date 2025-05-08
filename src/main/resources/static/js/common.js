@@ -86,6 +86,9 @@ let ui = {
             if ( selType == 'enum') {
                 const enumFullPath = $(oThis).data('path');
                 url += `enum?enumFullPath=${enumFullPath}`;
+            } else if ( selType == 'code') {
+                const grpCd = $(oThis).data('grpCd');
+                url += `code?grpCd=${grpCd}`;
             } else {
                 return;
             }
