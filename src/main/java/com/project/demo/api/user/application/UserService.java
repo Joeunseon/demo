@@ -4,13 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import com.project.demo.api.user.application.dto.PasswordResetDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.infrastructure.UserRepository;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.LoginMsgKey;
@@ -68,6 +72,37 @@ public class UserService {
             return ApiResponse.success(userRepository.findByUserSeq(userSeq));
         } catch (Exception e) {
             log.error(">>>> UserService::findById: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Void> passwordInit(Long userSeq, BaseDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            ApiResponse<UserDetailDTO> info = findById(userSeq);
+
+            if ( info.getStatus() != HttpStatus.OK || info.getData() == null || !StringUtils.hasText(info.getData().getUserId()) )
+                return ApiResponse.error(info.getStatus(), msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
+
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+            PasswordResetDTO resetDTO = PasswordResetDTO.builder()
+                                                        .userSeq(userSeq)
+                                                        .updSeq(dto.getUserSessionDTO().getUserSeq())
+                                                        .encodePwd(passwordEncoder.encode(info.getData().getUserId()))
+                                                        .build();
+            
+            // 비밀번호 초기화 진행
+            userRepository.passwordRest(resetDTO);
+            
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> UserService::passwordInit: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

@@ -2,6 +2,7 @@ package com.project.demo.api.user.infrastructure;
 
 import java.util.List;
 
+import com.project.demo.api.user.application.dto.PasswordResetDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserListDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
@@ -13,4 +14,6 @@ public interface UserRepositoryCustom {
     List<UserListDTO> findBySearch(UserRequestDTO dto);
 
     UserDetailDTO findByUserSeq(Long userSeq);
+
+    Long passwordRest(PasswordResetDTO dto);
 }
