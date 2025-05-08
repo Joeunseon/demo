@@ -24,15 +24,7 @@
                                     
                                     <div class="mb-4">
                                         <label for="menuType" class="form-label fw-bold">메뉴 유형</label>
-                                        <select class="form-select" id="menuType" name="menuType">
-                                            <option value="MENU">메뉴</option>
-                                            <option value="PAGE">페이지</option>
-                                            <option value="CREATE">등록</option>
-                                            <option value="READ">조회</option>
-                                            <option value="UPDATE">수정</option>
-                                            <option value="DELETE">삭제</option>
-                                            <option value="TOOL">도구</option>
-                                        </select>
+                                        <select class="form-select" id="menuType" name="menuType" data-type="enum" data-path="api.menu.value.MenuType"></select>
                                     </div>
                                     
                                     <div class="mb-4">

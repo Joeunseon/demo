@@ -29,12 +29,7 @@
                             </div>
                             <div class="col-auto d-flex align-items-center gap-2">
                                 <label for="searchCondition" class="form-label mb-0 fw-bold" style="white-space: nowrap;">구분</label>
-                                <select id="searchCondition" name="searchCondition" class="form-select">
-                                    <option value="ALL">전체</option>
-                                    <option value="TITLE">제목</option>
-                                    <option value="CONTENT">내용</option>
-                                    <option value="WRITER">작성자</option>
-                                </select>
+                                <select id="searchCondition" name="searchCondition" class="form-select" data-type="enum" data-path="common.constant.SearchCondition"></select>
                                 <input type="text" class="form-control w-auto" id="searchKeyword" name="searchKeyword" maxlength="50">
                             </div>
                             <div class="col-auto">

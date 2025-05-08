@@ -10,6 +10,7 @@ let ui = {
     init: function init() {
         this.datePicker();
         this.toastEditor();
+        this.customSelect();
     },
     datePicker: function datePicker() {
         $(document).on('focus', '.form-datepicker', function () {
@@ -72,6 +73,37 @@ let ui = {
                 el: this,
                 viewer: true,
                 initialValue: content
+            });
+        });
+    },
+    customSelect: function customSelect() {
+        $('.form-select').each(function () {
+            const oThis = this;
+            
+            const selType = $(oThis).data('type');
+            let url = '/api/selectbox/';
+
+            if ( selType == 'enum') {
+                const enumFullPath = $(oThis).data('path');
+                url += `enum?enumFullPath=${enumFullPath}`;
+            } else {
+                return;
+            }
+
+            fn_fetchGetData(url).then(data => {
+                if ( data.result ) {
+                    if ( data.data != null ) {
+                        const result = data.data;
+                        
+                        result.forEach(option => {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option.value;
+                            optionElement.textContent = option.label;
+                            
+                            $(oThis).append(optionElement);
+                        });
+                    }
+                }
             });
         });
     }

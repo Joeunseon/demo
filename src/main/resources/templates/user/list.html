@@ -21,19 +21,13 @@
                             </div>
                             <div class="col-auto d-flex align-items-center gap-2">
                                 <label for="activeYn" class="form-label mb-0 fw-bold" style="white-space: nowrap;">활성화 여부</label>
-                                <select id="activeYn" name="activeYn" class="form-select">
+                                <select id="activeYn" name="activeYn" class="form-select" data-type="enum" data-path="api.user.value.ActiveYn">
                                     <option value="">전체</option>
-                                    <option value="Y">활성화</option>
-                                    <option value="N">비활성화</option>
                                 </select>
                             </div>
                             <div class="col-auto d-flex align-items-center gap-2">
                                 <label for="customCondition" class="form-label mb-0 fw-bold" style="white-space: nowrap;">구분</label>
-                                <select id="customCondition" name="customCondition" class="form-select">
-                                    <option value="ALL">전체</option>
-                                    <option value="ID">ID</option>
-                                    <option value="NAME">성명</option>
-                                </select>
+                                <select id="customCondition" name="customCondition" class="form-select" data-type="enum" data-path="api.user.value.CustomCondition"></select>
                                 <input type="text" class="form-control w-auto" id="searchKeyword" name="searchKeyword" maxlength="50">
                             </div>
                             <div class="col-auto">
