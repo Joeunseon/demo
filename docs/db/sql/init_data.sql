@@ -327,6 +327,10 @@ VALUES('사용자 등록 API', '/api/user', (SELECT menu_seq FROM menus WHERE me
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('사용자 상세 API', '/api/user/{userSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '사용자 상세' LIMIT 1), 4, 1, 'READ', 1);
+-- 사용자 비밀번호 초기화 API (관리자)
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('사용자 비밀번호 초기화 API (관리자)', '/api/user/{userSeq}/password/init', (SELECT menu_seq FROM menus WHERE menu_nm = '사용자 상세' LIMIT 1), 4, 2, 'UPDATE', 1);
 -- 사용자 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)

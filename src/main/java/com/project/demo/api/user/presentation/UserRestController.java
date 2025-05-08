@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import com.project.demo.api.user.application.UserService;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.common.ApiResponse;
+import com.project.demo.common.BaseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,5 +42,12 @@ public class UserRestController {
     public ApiResponse<UserDetailDTO> findById(@Parameter(description = "조회할 사용자 SEQ") @PathVariable("userSeq") @Min(value = 0, message = "{error.request}") Long userSeq) {
 
         return userService.findById(userSeq);
+    }
+
+    @PatchMapping("/user/{userSeq}/password/init")
+    @Operation(summary = "사용자 비밀번호 초기화 API (관리자)", description = "사용자 SEQ을 전달 받아 사용자 비밀번호 초기화를 합니다.")
+    public ApiResponse<Void> passwordInit(@Parameter(description = "초기화할 사용자 SEQ") @PathVariable("userSeq") @Min(value = 0, message = "{error.request}") Long userSeq, BaseDTO baseDTO) {
+
+        return userService.passwordInit(userSeq, baseDTO);
     }
 }

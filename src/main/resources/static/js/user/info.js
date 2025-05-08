@@ -3,8 +3,9 @@
  */
 
 const ENDPOINTS = {
-    api: '/api/user/',
-    list: '/user/list'
+    info: '/api/user/',
+    list: '/user/list',
+    reset: '/api/user/{userSeq}/password/init'
 };
 
 $(document).ready(function () {
@@ -14,7 +15,7 @@ $(document).ready(function () {
 function infoInit() {
     const userSeq = $('#userSeq').val();
     if ( userSeq ) {
-        fn_fetchGetData(`${ENDPOINTS.api}${userSeq}`).then(data => {
+        fn_fetchGetData(`${ENDPOINTS.info}${userSeq}`).then(data => {
             if ( data.result ) {
                 if ( data.data != null ) {
                     const result = data.data;
@@ -48,11 +49,19 @@ function infoInit() {
 
 function resetConfirm() {
 
-    $('#confirmModal .modal-body').text($('#restConfirm').val());
+    $('#confirmModal .modal-body').html($('#restConfirm').val());
     $('#confirmModal .saveBtn').off('click').on('click', pwdReset);
     $('#confirmModal').modal('show');
 }
 
 function pwdReset() {
-
+    const userSeq = $('#userSeq').val();
+    if ( userSeq ) {
+        const resetUrl = ENDPOINTS.reset.replaceAll('{userSeq}', userSeq);
+        fn_fetchPatchData(resetUrl, {})
+            .then(data => {
+                $('#alertModal').find('.modal-body').text(data.message);
+                $('#alertModal').modal('show');
+            });
+    }
 }

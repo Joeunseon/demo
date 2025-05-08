@@ -1,10 +1,12 @@
 package com.project.demo.api.user.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
 
 import com.project.demo.api.role.domain.QRoleEntity;
+import com.project.demo.api.user.application.dto.PasswordResetDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserListDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
@@ -118,5 +120,17 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                             .join(user.role, role)
                             .where(user.userSeq.eq(userSeq))
                             .fetchOne();
+    }
+
+    public Long passwordRest(PasswordResetDTO dto) {
+
+        QUserEntity user = QUserEntity.userEntity;
+
+        return queryFactory.update(user)
+                            .set(user.userPwd, dto.getEncodePwd())
+                            .set(user.updDt, LocalDateTime.now())
+                            .set(user.updSeq, dto.getUpdSeq())
+                            .where(user.userSeq.eq(dto.getUserSeq()))
+                            .execute();
     }
 }
