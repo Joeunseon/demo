@@ -83,12 +83,14 @@ let ui = {
             const selType = $(oThis).data('type');
             let url = '/api/selectbox/';
 
-            if ( selType == 'enum') {
+            if ( selType == 'enum' ) {
                 const enumFullPath = $(oThis).data('path');
                 url += `enum?enumFullPath=${enumFullPath}`;
-            } else if ( selType == 'code') {
+            } else if ( selType == 'code' ) {
                 const grpCd = $(oThis).data('grpCd');
                 url += `code?grpCd=${grpCd}`;
+            } else if ( selType == 'role' ) {
+                url += 'role';
             } else {
                 return;
             }

@@ -1,12 +1,15 @@
 package com.project.demo.api.role.application;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.demo.api.common.application.dto.SelectBoxDTO;
 import com.project.demo.api.role.application.dto.RoleCreateDTO;
 import com.project.demo.api.role.application.dto.RoleDetailDTO;
 import com.project.demo.api.role.application.dto.RoleRequestDTO;
@@ -151,6 +154,20 @@ public class RoleService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> RoleService::delete: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<List<SelectBoxDTO>> getRole() {
+
+        try {
+            
+            return ApiResponse.success(roleRepository.findByDelYnOrderByRegDtAsc(DelYn.N)
+                                                        .stream()
+                                                        .map(role -> new SelectBoxDTO(String.valueOf(role.getRoleSeq()), role.getRoleNm()))
+                                                        .collect(Collectors.toList()));
+        } catch (Exception e) {
+            log.error(">>>> RoleService::getRole: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
