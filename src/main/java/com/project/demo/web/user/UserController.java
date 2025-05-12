@@ -21,4 +21,12 @@ public class UserController {
 
         return "/user/info";
     }
+
+    @GetMapping("/user/edit")
+    public String edit(@RequestParam(value = "userSeq", required = false) Long userSeq, ModelMap model) {
+
+        model.addAttribute("userSeq", userSeq);
+
+        return "/user/edit";
+    }
 }

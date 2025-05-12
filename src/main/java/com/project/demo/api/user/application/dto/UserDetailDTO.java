@@ -19,6 +19,9 @@ public class UserDetailDTO {
     @Schema(description = "사용자 SEQ")
     private Long userSeq;
 
+    @Schema(description = "권한 SEQ")
+    private Integer roleSeq;
+
     @Schema(description = "권한")
     private String roleNm;
 
@@ -41,9 +44,10 @@ public class UserDetailDTO {
     @Schema(description = "가입일시")
     private String signupDt;
 
-    public UserDetailDTO(Long userSeq, String roleNm, String userId, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime signupDt) {
+    public UserDetailDTO(Long userSeq, Integer roleSeq, String roleNm, String userId, String userNm, String userEmail, String profileImg, ActiveYn activeYn, LocalDateTime signupDt) {
 
         this.userSeq = userSeq;
+        this.roleSeq = roleSeq;
         this.roleNm = roleNm;
         this.userId = userId;
         this.userNm = userNm;
