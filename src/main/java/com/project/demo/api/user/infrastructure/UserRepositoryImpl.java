@@ -108,6 +108,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
         return queryFactory.select(Projections.constructor(UserDetailDTO.class,
                                 user.userSeq,
+                                role.roleSeq,
                                 role.roleNm,
                                 user.userId,
                                 user.userNm,

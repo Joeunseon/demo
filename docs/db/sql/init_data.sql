@@ -430,6 +430,10 @@ VALUES('셀렉트박스 조회 API (enum)', '/api/selectbox/enum', (SELECT menu_
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('셀렉트박스 조회 API (code)', '/api/selectbox/code', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 7, 'READ', 1);
+-- 셀렉트박스 조회 (role)
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('셀렉트박스 조회 API (role)', '/api/selectbox/role', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 8, 'READ', 1);
 
 
 /**
