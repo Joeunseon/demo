@@ -6,6 +6,7 @@ import com.project.demo.api.user.application.dto.PasswordResetDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserListDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
+import com.project.demo.api.user.domain.UserEntity;
 
 public interface UserRepositoryCustom {
 
@@ -16,4 +17,6 @@ public interface UserRepositoryCustom {
     UserDetailDTO findByUserSeq(Long userSeq);
 
     Long passwordRest(PasswordResetDTO dto);
+
+    Long updateById(UserEntity entity);
 }

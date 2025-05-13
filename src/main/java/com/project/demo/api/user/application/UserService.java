@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import com.project.demo.api.user.application.dto.PasswordResetDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
+import com.project.demo.api.user.application.dto.UserUpdateDTO;
 import com.project.demo.api.user.infrastructure.UserRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
@@ -103,6 +104,24 @@ public class UserService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> UserService::passwordInit: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Long> update(UserUpdateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            // 사용자 수정
+            userRepository.updateById(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
+            
+            return ApiResponse.success(dto.getUserSeq());
+        } catch (Exception e) {
+            log.error(">>>> UserService::update: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

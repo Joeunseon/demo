@@ -6,14 +6,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.user.application.UserService;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
+import com.project.demo.api.user.application.dto.UserUpdateDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
+import com.project.demo.common.validation.ValidationSequence;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -49,5 +52,12 @@ public class UserRestController {
     public ApiResponse<Void> passwordInit(@Parameter(description = "초기화할 사용자 SEQ") @PathVariable("userSeq") @Min(value = 0, message = "{error.request}") Long userSeq, BaseDTO baseDTO) {
 
         return userService.passwordInit(userSeq, baseDTO);
+    }
+
+    @PatchMapping("/user")
+    @Operation(summary = "사용자 수정 API", description = "수정할 사용자의 정보를 전달 받아 수정을 진행합니다.")
+    public ApiResponse<Long> update(@Parameter(description = "사용자 수정을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody UserUpdateDTO dto) {
+
+        return userService.update(dto);
     }
 }
