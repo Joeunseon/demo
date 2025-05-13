@@ -11,6 +11,7 @@ import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserListDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.domain.QUserEntity;
+import com.project.demo.api.user.domain.UserEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -132,6 +133,21 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                             .set(user.updDt, LocalDateTime.now())
                             .set(user.updSeq, dto.getUpdSeq())
                             .where(user.userSeq.eq(dto.getUserSeq()))
+                            .execute();
+    }
+
+    public Long updateById(UserEntity entity) {
+
+        QUserEntity user = QUserEntity.userEntity;
+
+        return queryFactory.update(user)
+                            .set(user.role, entity.getRole())
+                            .set(user.userEmail, entity.getUserEmail())
+                            .set(user.profileImg, entity.getProfileImg())
+                            .set(user.activeYn, entity.getActiveYn())
+                            .set(user.updDt, entity.getUpdDt())
+                            .set(user.updSeq, user.updSeq)
+                            .where(user.userSeq.eq(entity.getUpdSeq()))
                             .execute();
     }
 }
