@@ -27,8 +27,6 @@ public class SignupService {
     private final SignupRepository signupRepository;
     private final MsgUtil msgUtil;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
     private static final List<String> FORBIDDEN_WORDS = Arrays.asList("admin", "system", "root");
 
     /**
@@ -98,6 +96,8 @@ public class SignupService {
             ApiResponse<Void> checkEmail = checkDuplicateUserEmail(dto.getUserEmail());
             if ( checkEmail.getStatus() != HttpStatus.OK ) 
                 return checkEmail;
+
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
             UserEntity userEntity = dto.toEntity(passwordEncoder.encode(dto.getUserPwd()));
             signupRepository.save(userEntity);

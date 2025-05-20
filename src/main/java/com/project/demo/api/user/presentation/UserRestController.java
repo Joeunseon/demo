@@ -6,11 +6,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.user.application.UserService;
+import com.project.demo.api.user.application.dto.UserCreateDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.application.dto.UserUpdateDTO;
@@ -59,5 +61,12 @@ public class UserRestController {
     public ApiResponse<Long> update(@Parameter(description = "사용자 수정을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody UserUpdateDTO dto) {
 
         return userService.update(dto);
+    }
+
+    @PostMapping("/user")
+    @Operation(summary = "사용자 등록 API", description = "등록할 사용자의 정보를 전달 받아 수정을 진행합니다.")
+    public ApiResponse<Long> create(@Parameter(description = "사용자 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody UserCreateDTO dto) {
+
+        return userService.create(dto);
     }
 }
