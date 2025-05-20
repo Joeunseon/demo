@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.project.demo.api.user.application.dto.PasswordResetDTO;
+import com.project.demo.api.user.application.dto.UserCreateDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.application.dto.UserUpdateDTO;
+import com.project.demo.api.user.domain.UserEntity;
 import com.project.demo.api.user.infrastructure.UserRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
@@ -29,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserService {
 
+    private final SignupService signupService;
     private final UserRepository userRepository;
     private final MsgUtil msgUtil;
 
@@ -122,6 +125,37 @@ public class UserService {
             return ApiResponse.success(dto.getUserSeq());
         } catch (Exception e) {
             log.error(">>>> UserService::update: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Long> create(UserCreateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            // id check
+            ApiResponse<Void> checkId = signupService.checkDuplicateUserId(dto.getUserId());
+            if ( checkId.getStatus() != HttpStatus.OK )
+                return ApiResponse.error(checkId.getStatus(), checkId.getMessage());
+            
+            // E-mail check
+            if ( StringUtils.hasText(dto.getUserEmail()) ) {
+                ApiResponse<Void> checkEmail = signupService.checkDuplicateUserEmail(dto.getUserEmail());
+                if ( checkEmail.getStatus() != HttpStatus.OK ) 
+                    return ApiResponse.error(checkEmail.getStatus(), checkEmail.getMessage());
+            }
+
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+            UserEntity entity = userRepository.save(dto.toEntity(passwordEncoder.encode(dto.getUserPwd())));
+
+            return ApiResponse.success(entity.getUserSeq());
+        } catch (Exception e) {
+            log.error(">>>> UserService::create: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
