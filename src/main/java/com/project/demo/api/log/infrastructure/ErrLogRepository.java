@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.project.demo.api.log.domain.ErrLogEntity;
 
 @Repository
-public interface ErrLogRepositroy extends JpaRepository<ErrLogEntity, Long>, ErrLogRepositoryCustom {
+public interface ErrLogRepository extends JpaRepository<ErrLogEntity, Long>, ErrLogRepositoryCustom {
 
 }
