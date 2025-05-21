@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import com.project.demo.api.log.domain.ErrLogEntity;
-import com.project.demo.api.log.infrastructure.ErrLogRepositroy;
+import com.project.demo.api.log.infrastructure.ErrLogRepository;
 import com.project.demo.api.log.value.ErrLevel;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    private final ErrLogRepositroy errLogRepositroy;
+    private final ErrLogRepository errLogRepository;
 
     @ExceptionHandler(ValidationException.class)
     @ResponseBody
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
         log.info(errLog.toString());
 
         // err log 저장 (서버 내부 오류만 저장)
-        errLogRepositroy.save(errLog);
+        errLogRepository.save(errLog);
 
         return ApiResponse.error(status, ex.getMessage());
     }
