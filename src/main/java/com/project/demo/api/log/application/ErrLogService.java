@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.api.log.application.dto.LogDetailDTO;
 import com.project.demo.api.log.application.dto.LogRequestDTO;
 import com.project.demo.api.log.infrastructure.ErrLogRepository;
 import com.project.demo.common.ApiResponse;
@@ -42,6 +43,17 @@ public class ErrLogService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> ErrLogService::findAll: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<LogDetailDTO> findById(Long logSeq) {
+
+        try {
+            
+            return ApiResponse.success(errLogRepository.findByLogSeq(logSeq));
+        } catch (Exception e) {
+            log.error(">>>> ErrLogService::findById: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

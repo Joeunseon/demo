@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import com.project.demo.api.log.application.dto.LogDetailDTO;
 import com.project.demo.api.log.application.dto.LogListDTO;
 import com.project.demo.api.log.application.dto.LogRequestDTO;
 import com.project.demo.api.log.domain.QErrLogEntity;
 import com.project.demo.api.log.value.RequestMethod;
 import com.project.demo.api.log.value.ResolvedStat;
+import com.project.demo.api.user.domain.QUserEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -118,5 +121,32 @@ public class ErrLogRepositoryImpl implements ErrLogRepositoryCustom {
                             .limit(dto.getPageScale())
                             .offset(dto.getOffSet())
                             .fetch();
+    }
+
+    public LogDetailDTO findByLogSeq(Long logSeq) {
+
+        QErrLogEntity errLog = QErrLogEntity.errLogEntity;
+        QUserEntity user = QUserEntity.userEntity;
+
+        var subQuery = JPAExpressions
+                            .select(user.userId)
+                            .from(user)
+                            .where(user.userSeq.eq(errLog.requestSeq));
+
+        return queryFactory.select(Projections.constructor(LogDetailDTO.class, 
+                                    errLog.logSeq,
+                                    errLog.errCd,
+                                    errLog.errMsg,
+                                    errLog.errLevel,
+                                    errLog.occurredDt,
+                                    errLog.requestUrl,
+                                    errLog.requestMethod,
+                                    subQuery,
+                                    errLog.resolvedDt
+                                )
+                            )
+                            .from(errLog)
+                            .where(errLog.logSeq.eq(logSeq))
+                            .fetchOne();
     }
 }
