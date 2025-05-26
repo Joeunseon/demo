@@ -1,5 +1,6 @@
 package com.project.demo.api.log.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -7,6 +8,7 @@ import org.springframework.util.StringUtils;
 import com.project.demo.api.log.application.dto.LogDetailDTO;
 import com.project.demo.api.log.application.dto.LogListDTO;
 import com.project.demo.api.log.application.dto.LogRequestDTO;
+import com.project.demo.api.log.application.dto.LogResolveDTO;
 import com.project.demo.api.log.domain.QErrLogEntity;
 import com.project.demo.api.log.value.RequestMethod;
 import com.project.demo.api.log.value.ResolvedStat;
@@ -148,5 +150,25 @@ public class ErrLogRepositoryImpl implements ErrLogRepositoryCustom {
                             .from(errLog)
                             .where(errLog.logSeq.eq(logSeq))
                             .fetchOne();
+    }
+
+    public Long updateResolve(LogResolveDTO dto) {
+
+        QErrLogEntity errLog = QErrLogEntity.errLogEntity;
+
+        return queryFactory.update(errLog)
+                            .set(errLog.resolvedDt, dto.getResolvedStat() == ResolvedStat.Y ? LocalDateTime.now() : null)
+                            .where(errLog.logSeq.eq(dto.getLogSeq()))
+                            .execute();
+    }
+
+    public Long updateResolveList(LogResolveDTO dto) {
+
+        QErrLogEntity errLog = QErrLogEntity.errLogEntity;
+
+        return queryFactory.update(errLog)
+                            .set(errLog.resolvedDt, dto.getResolvedStat() == ResolvedStat.Y ? LocalDateTime.now() : null)
+                            .where(errLog.logSeq.in(dto.getLogSeqList()))
+                            .execute();
     }
 }
