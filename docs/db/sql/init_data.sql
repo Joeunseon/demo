@@ -368,6 +368,10 @@ VALUES('로그 상세 API', '/api/log/{logSeq}', (SELECT menu_seq FROM menus WHE
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('로그 수정 API', '/api/log', (SELECT menu_seq FROM menus WHERE menu_nm = '로그 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
+-- 로그 상태 수정 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('로그 상태 수정 API', '/api/log/resolve', (SELECT menu_seq FROM menus WHERE menu_nm = '로그 수정' LIMIT 1), 4, 2, 'UPDATE', 1);
 
 -- 관리자 도구
 INSERT INTO menus

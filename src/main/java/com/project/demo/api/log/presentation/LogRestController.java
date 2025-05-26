@@ -4,13 +4,16 @@ import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.log.application.ErrLogService;
 import com.project.demo.api.log.application.dto.LogDetailDTO;
 import com.project.demo.api.log.application.dto.LogRequestDTO;
+import com.project.demo.api.log.application.dto.LogResolveDTO;
 import com.project.demo.common.ApiResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,5 +43,12 @@ public class LogRestController {
     public ApiResponse<LogDetailDTO> findById(@Parameter(description = "조회할 로그 SEQ") @PathVariable("logSeq") @Min(value = 0, message = "{error.request}") Long logSeq) {
 
         return errLogService.findById(logSeq);
+    }
+
+    @PatchMapping("/log/resolve")
+    @Operation(summary = "로그 상태 수정 API", description = "로그 SEQ를 전달 받아 로그 해결 상태를 수정합니다.")
+    public ApiResponse<Void> updateResolve(@Parameter(description = "로그 해결 상태 수정을 위한 DTO") @RequestBody LogResolveDTO dto) {
+
+        return errLogService.updateResolve(dto);
     }
 }

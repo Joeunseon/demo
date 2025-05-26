@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.demo.api.log.application.dto.LogDetailDTO;
 import com.project.demo.api.log.application.dto.LogRequestDTO;
+import com.project.demo.api.log.application.dto.LogResolveDTO;
 import com.project.demo.api.log.infrastructure.ErrLogRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
@@ -54,6 +55,25 @@ public class ErrLogService {
             return ApiResponse.success(errLogRepository.findByLogSeq(logSeq));
         } catch (Exception e) {
             log.error(">>>> ErrLogService::findById: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    public ApiResponse<Void> updateResolve(LogResolveDTO dto) {
+
+        try {
+
+            if ( dto.getLogSeq() != null ) { // 단건
+
+            } else if ( dto.getLogSeqList() != null && !dto.getLogSeqList().isEmpty() ) { // 복수건
+
+            } else {
+                return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
+            }
+            
+            return ApiResponse.success();
+        } catch (Exception e) {
+            log.error(">>>> ErrLogService::updateResolve: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
