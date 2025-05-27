@@ -245,6 +245,10 @@ VALUES('메뉴 수정 API', '/api/menu', (SELECT menu_seq FROM menus WHERE menu_
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('메뉴 순서 변경 API', '/api/order', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 목록' LIMIT 1), 4, 2, 'UPDATE', 1);
+-- 메뉴 트리 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('메뉴 트리 API', '/api/menus/tree', (SELECT menu_seq FROM menus WHERE menu_nm = '메뉴 목록' LIMIT 1), 4, 3, 'READ', 1);
 
 -- 권한 관리
 INSERT INTO menus
