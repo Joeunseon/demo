@@ -111,6 +111,7 @@ public class ErrLogRepositoryImpl implements ErrLogRepositoryCustom {
                                 Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} ASC)", errLog.occurredDt),
                                 errLog.logSeq,
                                 errLog.errCd,
+                                errLog.errMsg,
                                 errLog.errLevel,
                                 errLog.requestMethod,
                                 errLog.occurredDt,
