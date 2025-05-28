@@ -26,6 +26,9 @@ public class LogListDTO {
     @Schema(description = "에러 코드")
     private String errCd;
 
+    @Schema(description = "에러 메세지")
+    private String errMsg;
+
     @Schema(description = "에러 심각도")
     private String errLevel;
 
@@ -38,11 +41,12 @@ public class LogListDTO {
     @Schema(description = "해결 상태")
     private String resolvedStat;
 
-    public LogListDTO(Long rownum, Long logSeq, String errCd, ErrLevel errLevel, String requestMethod, LocalDateTime occurredDt, LocalDateTime resolvedDt) {
+    public LogListDTO(Long rownum, Long logSeq, String errCd, String errMsg, ErrLevel errLevel, String requestMethod, LocalDateTime occurredDt, LocalDateTime resolvedDt) {
 
         this.rownum = rownum;
         this.logSeq = logSeq;
         this.errCd = errCd;
+        this.errMsg = errMsg;
         this.errLevel = (errLevel != null ? errLevel.getDescription() : null);
         this.requestMethod = requestMethod;
         this.occurredDt = (occurredDt != null ? occurredDt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : null);

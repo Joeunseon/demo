@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <h3 class="mb-3 ms-3">로그</h3>
+    
+                    <!-- 검색 폼 -->
+                    <form class="p-3 mb-3 ms-3 me-3 border rounded-3" id="searchForm" name="searchForm" action="/api/logs" method="GET">
+                        <div class="row g-2 align-items-center gap-3">
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="searchStartDt" class="form-label mb-0 fw-bold" style="white-space: nowrap;">일자</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-datepicker" id="searchStartDt" name="searchStartDt" readonly="readonly" style="width: 126px;">
+                                        <i class="bi bi-calendar position-absolute end-0 top-50 translate-middle-y me-2" style="font-size: 0.85rem;"></i>
+                                    </div>
+                                    <span>~</span>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-datepicker" id="searchEndDt" name="searchEndDt" readonly="readonly" style="width: 126px;">
+                                        <i class="bi bi-calendar position-absolute end-0 top-50 translate-middle-y me-2" style="font-size: 0.85rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="errLevel" class="form-label mb-0 fw-bold" style="white-space: nowrap;">심각도</label>
+                                <select id="errLevel" name="errLevel" class="form-select" data-type="enum" data-path="api.log.value.ErrLevel">
+                                    <option value="">전체</option>
+                                </select>
+                            </div>
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="requestMethod" class="form-label mb-0 fw-bold" style="white-space: nowrap;">발생메서드</label>
+                                <select id="requestMethod" name="requestMethod" class="form-select" data-type="enum" data-path="api.log.value.RequestMethod">
+                                </select>
+                            </div>
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="resolvedStat" class="form-label mb-0 fw-bold" style="white-space: nowrap;">해결 여부</label>
+                                <select id="resolvedStat" name="resolvedStat" class="form-select" data-type="enum" data-path="api.log.value.ResolvedStat">
+                                </select>
+                            </div>
+                            <div class="col-auto d-flex align-items-center gap-2">
+                                <label for="customCondition" class="form-label mb-0 fw-bold" style="white-space: nowrap;">구분</label>
+                                <select id="customCondition" name="customCondition" class="form-select" data-type="enum" data-path="api.log.value.CustomCondition"></select>
+                                <input type="text" class="form-control w-auto" id="searchKeyword" name="searchKeyword" maxlength="50">
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-dark" onclick="searchList();">검색</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="page" id="page">
+                    </form>
+    
+                    <!-- 목록 -->
+                    <div class="p-3 listFragment">
+                        <div class="row align-items-center mb-2">
+                            <div class="col-auto">
+                                <strong>총 <span class="totalCnt">0</span>건</strong>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col style="width: 5%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 30%;">
+                                <col style="width: 10%;">
+                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                            </colgroup>
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th scope="col">
+                                        <input type="checkbox" class="form-check-input checkAll">
+                                    </th>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">에러코드</th>
+                                    <th scope="col">심각도</th>
+                                    <th scope="col">에러 메세지</th>
+                                    <th scope="col">발생메서드</th>
+                                    <th scope="col">발생일시</th>
+                                    <th scope="col">해결여부</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tr_none">
+                                    <td colspan="8" class="text-center">리스트가 없습니다.</td>
+                                </tr>
+                                <tr class="tr_info">
+                                    <td class="text-center">
+                                        <input type="checkbox" class="form-check-input">
+                                    </td>
+                                    <td class="text-center rownum"></td>
+                                    <td class="text-center errCd"></td>
+                                    <td class="text-center errLevel"></td>
+                                    <td>
+                                        <a href="javascript:;" class="text-dark fw-bold text-decoration-none errMsg"></a>
+                                    </td>
+                                    <td class="text-center requestMethod"></td>
+                                    <td class="text-center occurredDt"></td>
+                                    <td class="text-center resolvedStat"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- paging -->
+                    <div id="pagination"></div>
+                </main>
+
+                <!-- modal -->
+                <input type="hidden" id="dateValidation" th:value="#{error.search_date}">
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>
