@@ -406,6 +406,32 @@ VALUES ('Swagger Resources All', '/swagger-resources/**', (SELECT menu_seq FROM 
 INSERT INTO menus (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq) 
 VALUES ('Swagger WebJars', '/webjars/**', (SELECT menu_seq FROM menus WHERE menu_nm = 'Swagger API UI' LIMIT 1), 4, 6, 'TOOL', 1);
 
+-- 내 정보
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES
+('내 정보', null, 1, 2, 100, 'MENU', 1);
+-- 비밀번호 확인
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES
+('비밀번호 확인', '/account/verify-password', (SELECT menu_seq FROM menus WHERE menu_nm = '내 정보' LIMIT 1), 3, 1, 'PAGE', 1);
+-- 내 정보 상세(마이페이지)
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES
+('내 정보 상세(마이페이지)', '/account/mypage', (SELECT menu_seq FROM menus WHERE menu_nm = '내 정보' LIMIT 1), 3, 2, 'PAGE', 1);
+-- 내 정보 수정
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES
+('내 정보 수정', '/account/profile/edit', (SELECT menu_seq FROM menus WHERE menu_nm = '내 정보' LIMIT 1), 3, 3, 'PAGE', 1);
+-- 비밀번호 변경
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES
+('비밀번호 변경', '/account/password', (SELECT menu_seq FROM menus WHERE menu_nm = '내 정보' LIMIT 1), 3, 4, 'PAGE', 1);
+
 -- 공통 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)

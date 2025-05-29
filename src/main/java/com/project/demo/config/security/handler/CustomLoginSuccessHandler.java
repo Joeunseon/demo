@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.project.demo.api.user.application.UserService;
 import com.project.demo.common.constant.LoginMsgKey;
+import com.project.demo.common.constant.CommonConstant.ACCOUNT_KEY;
 import com.project.demo.common.constant.CommonConstant.EXCLUDE_URL;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
@@ -48,7 +49,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         
         /** 비밀번호 변경 필요 여부 확인(3개월 후) */
         if ( userDetails.getLastPwdDt() == null || userDetails.getLastPwdDt().isBefore(LocalDateTime.now().minusMonths(3)) ) {
-            response.sendRedirect("/user/password");
+            response.sendRedirect("/account/password?accountKey=" + ACCOUNT_KEY.ACCOUNT_FORCE_PWD_CHANGE);
         } else {
             String redirectUrl = (String) request.getParameter(MODEL_KEY.REDIRECT_URL);
 
