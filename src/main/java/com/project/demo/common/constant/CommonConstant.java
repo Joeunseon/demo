@@ -108,4 +108,20 @@ public class CommonConstant {
         /** 리스트 적용 */
         public static final List<String> EXCLUDE_URL_LIST = List.of(ERROR, API, PAGE);
     }
+
+    /** Account 키 */
+    public static class ACCOUNT_KEY {
+    
+        /** 로그인 시 3개월 초과로 강제 변경 진입 */
+        public static final String ACCOUNT_FORCE_PWD_CHANGE = "ACCOUNT_FORCE_PWD_CHANGE";
+
+        /** 내 정보 메뉴에서 자발적으로 비밀번호 변경 진입 */
+        public static final String ACCOUNT_MENU_PWD_CHANGE = "ACCOUNT_MENU_PWD_CHANGE";
+
+        /** 내 정보 수정 페이지 진입 */
+        public static final String ACCOUNT_PROFILE_EDIT     = "ACCOUNT_PROFILE_EDIT";
+
+        /** 내 정보 보기 전 비밀번호 확인 요청 */
+        public static final String ACCOUNT_VERIFY = "ACCOUNT_VERIFY";
+    }
 }
