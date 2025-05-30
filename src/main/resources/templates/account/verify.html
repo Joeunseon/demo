@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid d-flex flex-column px-0 py-5 custom-container">
+                <div class="flex-grow-1 d-flex align-items-center justify-content-center">
+                    <div class="login-box border rounded p-4 shadow-sm bg-white w-25">
+                        <h2 class="text-center mb-4">비밀번호 확인</h2>
+                        
+                        <form id="accountForm">
+                            <div class="mb-3">
+                                <label for="userPwd" class="form-label">비밀번호 <span class="text-danger">*</span></label>
+                                <input type="password" id="userPwd" name="userPwd" class="form-control" maxlength="16" required="required" autocomplete="off" >
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-dark" onclick="accountValidity();" th:text="#{button.confirm}"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- modal -->
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>
