@@ -84,7 +84,8 @@ public class MenuRoleService {
             return false;
         
         return switch (menuType) {
-            case MENU, PAGE, READ, TOOL -> method.equalsIgnoreCase("GET");
+            case MENU, PAGE, READ -> method.equalsIgnoreCase("GET");
+            case TOOL -> method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("GET");
             case UPDATE -> method.equalsIgnoreCase("PATCH");
             case CREATE -> method.equalsIgnoreCase("POST");
             case DELETE -> method.equalsIgnoreCase("DELETE");

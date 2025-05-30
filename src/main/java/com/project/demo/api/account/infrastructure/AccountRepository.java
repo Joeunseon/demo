@@ -8,4 +8,5 @@ import com.project.demo.api.user.domain.UserEntity;
 @Repository
 public interface AccountRepository extends JpaRepository<UserEntity, Long>, AccountRepositoryCustom {
 
+    UserEntity findByUserSeq(Long userSeq);
 }

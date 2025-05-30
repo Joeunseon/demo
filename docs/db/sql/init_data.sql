@@ -91,11 +91,11 @@ VALUES
 -- 로그인 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('로그인 API', '/api/login', (SELECT menu_seq FROM menus WHERE menu_nm = '로그인' LIMIT 1), 3, 1, 'READ', 1);
+VALUES('로그인 API', '/api/login', (SELECT menu_seq FROM menus WHERE menu_nm = '로그인' LIMIT 1), 3, 1, 'CREATE', 1);
 -- 로그아웃 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
-VALUES('로그아웃 API', '/api/loginout', (SELECT menu_seq FROM menus WHERE menu_nm = '로그인' LIMIT 1), 3, 2, 'READ', 1);
+VALUES('로그아웃 API', '/api/loginout', (SELECT menu_seq FROM menus WHERE menu_nm = '로그인' LIMIT 1), 3, 2, 'DELETE', 1);
 
 -- 회원가입
 INSERT INTO menus
@@ -435,12 +435,12 @@ VALUES
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES
-('비밀번호 일치 확인 API', '/api/account/password/verify', (SELECT menu_seq FROM menus WHERE menu_nm = '비밀번호 일치 확인' LIMIT 1), 4, 1, 'POST', 1);
+('비밀번호 일치 확인 API', '/api/account/password/verify', (SELECT menu_seq FROM menus WHERE menu_nm = '비밀번호 일치 확인' LIMIT 1), 4, 1, 'TOOL', 1);
 -- 내 정보 상세(마이페이지) API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES
-('내 정보 상세(마이페이지) API', '/api/user/me', (SELECT menu_seq FROM menus WHERE menu_nm = '내 정보 상세(마이페이지)' LIMIT 1), 4, 1, 'GET', 1);
+('내 정보 상세(마이페이지) API', '/api/user/me', (SELECT menu_seq FROM menus WHERE menu_nm = '내 정보 상세(마이페이지)' LIMIT 1), 4, 1, 'READ', 1);
 -- 내 정보 수정 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)

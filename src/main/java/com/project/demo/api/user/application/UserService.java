@@ -20,7 +20,7 @@ import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
-import com.project.demo.common.constant.LoginMsgKey;
+import com.project.demo.common.constant.AuthMsgKey;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -41,9 +41,9 @@ public class UserService {
         Integer result = userRepository.updateLastLoginTime(userSeq);
 
         if ( result > 0 ) {
-            log.info(msgUtil.getMessage(LoginMsgKey.SUCCUESS_LAST_LOGIN.getKey(), userSeq));
+            log.info(msgUtil.getMessage(AuthMsgKey.SUCCUESS_LAST_LOGIN.getKey(), userSeq));
         } else {
-            log.warn(msgUtil.getMessage(LoginMsgKey.FAILED_LAST_LOGIN.getKey(), userSeq));
+            log.warn(msgUtil.getMessage(AuthMsgKey.FAILED_LAST_LOGIN.getKey(), userSeq));
         }
     }
 
