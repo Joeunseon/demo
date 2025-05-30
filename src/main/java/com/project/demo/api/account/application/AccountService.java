@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.demo.api.account.application.dto.AccountPasswordChangeDTO;
+import com.project.demo.api.account.application.dto.AccountPasswordVerifyDTO;
 import com.project.demo.api.account.infrastructure.AccountRepository;
 import com.project.demo.api.user.domain.UserEntity;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.AuthMsgKey;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.constant.CommonConstant.ACCOUNT_KEY;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -25,14 +27,14 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final MsgUtil msgUtil;
 
-    public ApiResponse<Void> passwordVerify(String userPwd, BaseDTO dto) {
+    public ApiResponse<String> passwordVerify(AccountPasswordVerifyDTO dto) {
         
         try {
             if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
                 return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
             }
 
-            return passwordMatch(userPwd, dto.getUserSessionDTO().getUserSeq());
+            return passwordMatch(dto.getUserPwd(), dto.getUserSessionDTO().getUserSeq());
         } catch (Exception e) {
             log.error(">>>> AccountService::passwordVerify: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
@@ -48,9 +50,9 @@ public class AccountService {
             }
 
             // 비밀번호 일치 확인
-            ApiResponse<Void> verify = passwordMatch(dto.getUserPwd(), dto.getUserSessionDTO().getUserSeq());
+            ApiResponse<String> verify = passwordMatch(dto.getUserPwd(), dto.getUserSessionDTO().getUserSeq());
             if ( verify.getStatus() != HttpStatus.OK )
-                return verify;
+                return ApiResponse.error(verify.getStatus(), verify.getMessage());
 
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -82,7 +84,7 @@ public class AccountService {
         }
     }
 
-    private ApiResponse<Void> passwordMatch(String userPwd, Long userSeq) {
+    private ApiResponse<String> passwordMatch(String userPwd, Long userSeq) {
 
         try {
             
@@ -94,7 +96,7 @@ public class AccountService {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
             if ( passwordEncoder.matches(userPwd, userEntity.getUserPwd()) )
-                return ApiResponse.success();
+                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), ACCOUNT_KEY.ACCOUNT_VERIFY);
             
             return ApiResponse.error(msgUtil.getMessage(AuthMsgKey.BAD_CREDENTIALS.getKey()));
         } catch (Exception e) {

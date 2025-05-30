@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/account")
 public class AccountController {
 
+    @GetMapping("/verify-password")
+    public String verify(ModelMap model) {
+
+        return "/account/verify";
+    }
+
     @GetMapping("/password")
     public String password(@RequestParam(value = "accountKey", required = false) String accountKey, ModelMap model) {
 

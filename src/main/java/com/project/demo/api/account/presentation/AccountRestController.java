@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.account.application.AccountService;
 import com.project.demo.api.account.application.dto.AccountPasswordChangeDTO;
+import com.project.demo.api.account.application.dto.AccountPasswordVerifyDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.validation.ValidationSequence;
@@ -30,9 +30,9 @@ public class AccountRestController {
 
     @PostMapping("/account/password/verify")
     @Operation(summary = "비밀번호 일치 확인 API", description = "사용자의 비밀번호를 전달 받아 일치 확인을 진행합니다.")
-    public ApiResponse<Void> passwordVerify(@RequestParam("userPwd") String userPwd, BaseDTO dto) {
+    public ApiResponse<String> passwordVerify(@Parameter(description = "사용자 비밀번호") @Validated(ValidationSequence.class) @RequestBody AccountPasswordVerifyDTO dto) {
         
-        return accountService.passwordVerify(userPwd, dto);
+        return accountService.passwordVerify(dto);
     }
 
     @PatchMapping("/account/password/delay")
