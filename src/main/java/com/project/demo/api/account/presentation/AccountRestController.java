@@ -35,6 +35,13 @@ public class AccountRestController {
         return accountService.passwordVerify(userPwd, dto);
     }
 
+    @PatchMapping("/account/password/delay")
+    @Operation(summary = "비밀번호 다음에 변경 API", description = "비밀번호 변경을 다음에 진행하도록 수정을 진행합니다.")
+    public ApiResponse<Void> passwordDelay(BaseDTO dto) {
+
+        return accountService.passwordDelay(dto);
+    }
+
     @PatchMapping("/account/password")
     @Operation(summary = "비밀번호 변경 API", description = "사용자의 비밀번호 변경 정보를 전달 받아 수정을 진행합니다.")
     public ApiResponse<Void> passwordUpdate(@Parameter(description = "비밀번호 변경 진행을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody AccountPasswordChangeDTO dto) {

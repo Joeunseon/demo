@@ -64,6 +64,24 @@ public class AccountService {
         }
     }
 
+    @Transactional(readOnly = false)
+    public ApiResponse<Void> passwordDelay(BaseDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            // 비밀번호 변경 시간 수정
+            accountRepository.updatePasswordDelay(dto.getUserSessionDTO().getUserSeq());
+            
+            return ApiResponse.success();
+        } catch (Exception e) {
+            log.error(">>>> AccountService::passwordDelay: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
     private ApiResponse<Void> passwordMatch(String userPwd, Long userSeq) {
 
         try {
