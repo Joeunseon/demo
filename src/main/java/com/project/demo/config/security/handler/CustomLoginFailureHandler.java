@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import com.project.demo.common.constant.LoginMsgKey;
+import com.project.demo.common.constant.AuthMsgKey;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,11 +28,11 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
         String msgKey;
         /** 로그인 실패 분기 */
         if ( exception instanceof UsernameNotFoundException ) {
-            msgKey = LoginMsgKey.USER_NOT_FOUND.getKey();
+            msgKey = AuthMsgKey.USER_NOT_FOUND.getKey();
         } else if ( exception instanceof BadCredentialsException ) {
-            msgKey = LoginMsgKey.BAD_CREDENTIALS.getKey();
+            msgKey = AuthMsgKey.BAD_CREDENTIALS.getKey();
         } else {
-            msgKey = LoginMsgKey.FAILED.getKey();
+            msgKey = AuthMsgKey.FAILED_LOGIN.getKey();
         }
 
         response.sendRedirect("/login?msgKey=" + msgKey);
