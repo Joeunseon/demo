@@ -47,8 +47,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         // 마지막 로그인시간 업데이트
         userService.updateLastLoginDt(userDetails.getUserSeq());
         
-        /** 비밀번호 변경 필요 여부 확인(3개월 후) */
-        if ( userDetails.getLastPwdDt() == null || userDetails.getLastPwdDt().isBefore(LocalDateTime.now().minusMonths(3)) ) {
+        /** 비밀번호 변경 필요 여부 확인(비밀번호 초기화 혹은 변경 3개월 후) */
+        if ( userDetails.getLastPwdDt() == null ) {
+            response.sendRedirect("/account/password?accountKey=" + ACCOUNT_KEY.ACCOUNT_INITIAL_PWD_CHANGE);
+        } else if ( userDetails.getLastPwdDt().isBefore(LocalDateTime.now().minusMonths(3)) ) {
             response.sendRedirect("/account/password?accountKey=" + ACCOUNT_KEY.ACCOUNT_FORCE_PWD_CHANGE);
         } else {
             String redirectUrl = (String) request.getParameter(MODEL_KEY.REDIRECT_URL);
