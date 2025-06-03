@@ -118,6 +118,9 @@ public class CommonConstant {
         /** 내 정보 메뉴에서 자발적으로 비밀번호 변경 진입 */
         public static final String ACCOUNT_MENU_PWD_CHANGE = "ACCOUNT_MENU_PWD_CHANGE";
 
+        /** 비밀번호 초기화 후 첫 로그인 진행 */
+        public static final String ACCOUNT_INITIAL_PWD_CHANGE = "ACCOUNT_INITIAL_PWD_CHANGE";
+
         /** 내 정보 수정 페이지 진입 */
         public static final String ACCOUNT_PROFILE_EDIT = "ACCOUNT_PROFILE_EDIT";
 
