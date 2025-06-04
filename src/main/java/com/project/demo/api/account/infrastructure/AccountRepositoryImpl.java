@@ -29,8 +29,8 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
         return queryFactory.update(user)
                             .set(user.userPwd, entity.getUserPwd())
-                            .set(user.lastPwdDt, entity.getLastLoginDt())
-                            .where(user.userSeq.eq(entity.getUpdSeq()))
+                            .set(user.lastPwdDt, entity.getLastPwdDt())
+                            .where(user.userSeq.eq(entity.getUserSeq()))
                             .execute();
     }
 }

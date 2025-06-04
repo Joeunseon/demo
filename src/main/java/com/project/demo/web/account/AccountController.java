@@ -57,4 +57,18 @@ public class AccountController {
 
         return "/account/password";
     }
+
+    @GetMapping("/profile/edit")
+    public String edit(HttpSession session, ModelMap model) {
+        Boolean verified = (Boolean) session.getAttribute(SESSION_KEY.ACCOUNT_VERIFY);
+        LocalDateTime verifyTime = (LocalDateTime) session.getAttribute(SESSION_KEY.ACCOUNT_TIME);
+
+        if ( verified != null && verified && verifyTime != null && !verifyTime.isBefore(LocalDateTime.now().minusMinutes(10)) ) {
+            model.addAttribute("accountKey", ACCOUNT_KEY.ACCOUNT_VERIFY);
+            session.setAttribute(SESSION_KEY.ACCOUNT, ACCOUNT_KEY.ACCOUNT_VERIFY);
+        }
+
+        return "/account/edit";
+    }
+
 }

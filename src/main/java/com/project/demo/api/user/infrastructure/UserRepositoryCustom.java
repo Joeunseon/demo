@@ -19,4 +19,6 @@ public interface UserRepositoryCustom {
     Long passwordRest(PasswordResetDTO dto);
 
     Long updateById(UserEntity entity);
+
+    Long udpateMe(UserEntity entity);
 }

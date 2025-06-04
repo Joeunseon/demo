@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.user.application.UserService;
+import com.project.demo.api.user.application.dto.MyUserUpdateDTO;
 import com.project.demo.api.user.application.dto.UserCreateDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
 import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.application.dto.UserUpdateDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
+import com.project.demo.common.constant.CommonConstant.ACCOUNT_KEY;
 import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.util.MsgUtil;
@@ -77,7 +79,7 @@ public class UserRestController {
     }
 
     @GetMapping("/user/me")
-    @Operation(summary = "사용자 상세 조회 API (마이페이지)", description = "사용자 상세를 조회합니다.")
+    @Operation(summary = "내 정보 상세 조회 API (마이페이지)", description = "내 정보 상세를 조회합니다.")
     public ApiResponse<UserDetailDTO> findByMe(@Parameter(description = "사용자 기본 DTO") BaseDTO dto, HttpSession session) {
 
         Boolean verified = (Boolean) session.getAttribute(SESSION_KEY.ACCOUNT_VERIFY);
@@ -89,5 +91,19 @@ public class UserRestController {
         }
 
         return userService.findByMe(dto);
+    }
+
+    @PatchMapping("/user/me")
+    @Operation(summary = "내 정보 수정 API", description = "내 정보 수정을 진행합니다.")
+    public ApiResponse<Void> updateMe(@Parameter(description = "내 정보 수정을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody MyUserUpdateDTO dto, HttpSession session) {
+
+        String accountKey = (String) session.getAttribute(SESSION_KEY.ACCOUNT);
+
+        if ( accountKey.equals(ACCOUNT_KEY.ACCOUNT_VERIFY) ) {
+            return userService.updateMe(dto);
+        }
+
+        MsgUtil msgUtil = new MsgUtil();
+        return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
     }
 }
