@@ -132,7 +132,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                             .set(user.userPwd, dto.getEncodePwd())
                             .set(user.updDt, LocalDateTime.now())
                             .set(user.updSeq, dto.getUpdSeq())
-                            .set(user.lastPwdDt, LocalDateTime.now())
+                            .setNull(user.lastPwdDt)
                             .where(user.userSeq.eq(dto.getUserSeq()))
                             .execute();
     }

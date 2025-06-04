@@ -7,6 +7,16 @@ const ENDPOINTS = {
     delay: '/api/account/password/delay'
 };
 
+$(document).on('ready', function () {
+    if ( !$('#accountKey').val() ) {
+        $('#alertModal').find('.modal-body').text($('#errorRequest').val());
+        $('#alertModal').modal('show');
+        $('#alertModal').on('hidden.bs.modal', function () {
+            location.href = `${ENDPOINTS.main}`;
+        });
+    }
+});
+
 function delay() {
 
     fn_fetchPatchData(`${ENDPOINTS.delay}`, null)

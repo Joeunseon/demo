@@ -159,4 +159,18 @@ public class UserService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }
+
+    public ApiResponse<UserDetailDTO> findByMe(BaseDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+            
+            return findById(dto.getUserSessionDTO().getUserSeq());
+        } catch (Exception e) {
+            log.error(">>>> UserService::findByMe: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
 }

@@ -1,7 +1,9 @@
 package com.project.demo.api.user.presentation;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,11 +20,15 @@ import com.project.demo.api.user.application.dto.UserRequestDTO;
 import com.project.demo.api.user.application.dto.UserUpdateDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
+import com.project.demo.common.constant.CommonConstant.SESSION_KEY;
+import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.util.MsgUtil;
 import com.project.demo.common.validation.ValidationSequence;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
@@ -68,5 +74,20 @@ public class UserRestController {
     public ApiResponse<Long> create(@Parameter(description = "사용자 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody UserCreateDTO dto) {
 
         return userService.create(dto);
+    }
+
+    @GetMapping("/user/me")
+    @Operation(summary = "사용자 상세 조회 API (마이페이지)", description = "사용자 상세를 조회합니다.")
+    public ApiResponse<UserDetailDTO> findByMe(@Parameter(description = "사용자 기본 DTO") BaseDTO dto, HttpSession session) {
+
+        Boolean verified = (Boolean) session.getAttribute(SESSION_KEY.ACCOUNT_VERIFY);
+        LocalDateTime verifyTime = (LocalDateTime) session.getAttribute(SESSION_KEY.ACCOUNT_TIME);
+
+        if ( verified == null || !verified || verifyTime == null || verifyTime.isBefore(LocalDateTime.now().minusMinutes(10)) ) {
+            MsgUtil msgUtil = new MsgUtil();
+            return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
+        }
+
+        return userService.findByMe(dto);
     }
 }
