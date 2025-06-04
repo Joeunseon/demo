@@ -32,6 +32,15 @@ public class CommonConstant {
 
         /** 게시판 */
         public static final String BOARD = "SESSION_KEY_BOARD";
+
+        /** Account */
+        public static final String ACCOUNT = "SESSION_KEY_ACCOUNT";
+
+        /** Account 검증 여부 */
+        public static final String ACCOUNT_VERIFY = "SESSION_KEY_ACCOUNT_VERIFY";
+
+        /** Account 검증 타임 */
+        public static final String ACCOUNT_TIME = "SESSION_KEY_ACCOUNT_VERIFY_TIME";
     }
 
     /** Cache 키 */
@@ -115,14 +124,8 @@ public class CommonConstant {
         /** 로그인 시 3개월 초과로 강제 변경 진입 */
         public static final String ACCOUNT_FORCE_PWD_CHANGE = "ACCOUNT_FORCE_PWD_CHANGE";
 
-        /** 내 정보 메뉴에서 자발적으로 비밀번호 변경 진입 */
-        public static final String ACCOUNT_MENU_PWD_CHANGE = "ACCOUNT_MENU_PWD_CHANGE";
-
         /** 비밀번호 초기화 후 첫 로그인 진행 */
         public static final String ACCOUNT_INITIAL_PWD_CHANGE = "ACCOUNT_INITIAL_PWD_CHANGE";
-
-        /** 내 정보 수정 페이지 진입 */
-        public static final String ACCOUNT_PROFILE_EDIT = "ACCOUNT_PROFILE_EDIT";
 
         /** 비밀번호 확인 후 진입 */
         public static final String ACCOUNT_VERIFY = "ACCOUNT_VERIFY";

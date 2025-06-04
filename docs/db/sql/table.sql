@@ -37,7 +37,7 @@ CREATE TABLE public.users (
 	profile_img text NULL,
 	active_yn public."yn" NOT NULL DEFAULT 'Y'::yn,
 	signup_dt timestamp NOT NULL DEFAULT now(),
-	last_pwd_dt timestamp  NOT NULL DEFAULT now(),
+	last_pwd_dt timestamp  NULL,
 	last_login_dt timestamp NULL,
 	upd_dt timestamp NULL,
 	upd_seq int8 NULL,

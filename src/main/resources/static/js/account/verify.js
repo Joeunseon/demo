@@ -10,9 +10,11 @@ const ENDPOINTS = {
 const form = document.getElementById('accountForm');
 
 $(document).ready(function () {
-    $('#userPwd').on('keyup', function(key) {
-        if ( key.keyCode == 13 )
-			accountValidity();
+    $('#userPwd').on('keydown', function(e) {
+        if ( e.keyCode == 13 ) {
+            e.preventDefault();
+            accountValidity();
+        }
     });
 });
 
@@ -31,7 +33,7 @@ function account() {
     fn_fetchPostData(ENDPOINTS.verify, data)
         .then(data => {
             if ( data.result ) {
-                location.href = `${ENDPOINTS.me}?accountKey=${data.data}`;
+                location.href = `${ENDPOINTS.me}`;
             } else {
                 $('#alertModal').find('.modal-body').text(data.message);
                 $('#alertModal').modal('show');

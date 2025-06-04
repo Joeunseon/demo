@@ -4,14 +4,14 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-3 mx-4 px-4 py-2 rounded">
                 <div class="container-fluid d-flex justify-content-between align-items-center">
-                    <th:block th:if="${accountKey}">
-                        <a class="navbar-brand pe-none" href="javascript:void(0);">DEMO</a>
-                    </th:block>
-                    <th:block th:unless="${accountKey}">
+                    <th:block th:if="${accountKey == null or accountKey eq 'ACCOUNT_VERIFY'}">
                         <a class="navbar-brand" href="/">DEMO</a>
                     </th:block>
+                    <th:block th:unless="${accountKey == null or accountKey eq 'ACCOUNT_VERIFY'}">
+                        <a class="navbar-brand pe-none" href="javascript:void(0);">DEMO</a>
+                    </th:block>
                     <div class="collapse navbar-collapse d-flex justify-content-center">
-                        <th:block th:unless="${accountKey}">
+                        <th:block th:if="${accountKey == null or accountKey eq 'ACCOUNT_VERIFY'}">
                             <ul class="navbar-nav" th:each="item : ${menuList}">
                                 <li class="nav-item">
                                     <a class="nav-link" th:href="${item.menuUrl}" th:text="${item.menuNm}"></a>
