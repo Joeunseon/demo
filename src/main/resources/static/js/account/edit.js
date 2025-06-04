@@ -1,17 +1,18 @@
 /**
- * Edit.js (user)
+ * Edit.js (Account)
  */
 
 const ENDPOINTS = {
-    api: '/api/user',
-    info: '/user/info'
+    api: '/api/user/me',
+    me: '/account/mypage',
+    verify: '/account/verify-password'
 };
 
-const form = document.getElementById('userForm');
+const form = document.getElementById('accountForm');
 
 $(document).ready(function () {
     setTimeout(function() {
-        infoInit();
+        meInit();
     }, 200);
 
     // 파일 이벤트
@@ -44,52 +45,47 @@ $(document).ready(function () {
     });
 });
 
-function infoInit() {
-    const userSeq = $('#userSeq').val();
-    if ( userSeq ) {
-        fn_fetchGetData(`${ENDPOINTS.api}/${userSeq}`).then(data => {
+function meInit() {
+    if ( $('#accountKey').val() == 'ACCOUNT_VERIFY' ) {
+        fn_fetchGetData(`${ENDPOINTS.api}`).then(data => {
             if ( data.result ) {
                 if ( data.data != null ) {
                     const result = data.data;
                     $('.userNm').text(result.userNm);
                     $('.userId').text(result.userId);
-                    $('#roleSeq').val(result.roleSeq);
-                    $('#active'+result.activeYn).attr('checked', true);
                     $('#userEmail').val(result.userEmail != null ? result.userEmail : '');
 
                     if ( result.profileImg != null && result.profileImg != '' ) {
                         $('.profileImg').attr('src', 'data:image/png;base64,'+result.profileImg);
+                        $('#profileImg').val(result.profileImg);
                     }
                 }
             } else {
                 $('#alertModal').find('.modal-body').text($('#errorRequest').val());
                 $('#alertModal').modal('show');
-                $('#alertModal').on('hidden.bs.modal', function () {
-                    history.back();
-                });
             }
         });
     } else {
         $('#alertModal').find('.modal-body').text($('#errorRequest').val());
         $('#alertModal').modal('show');
         $('#alertModal').on('hidden.bs.modal', function () {
-            history.back();
+            location.href = `${ENDPOINTS.verify}`;
         });
     }
 }
 
-function userConfrim() {
+function accountConfrim() {
     const confirmMsg = $('#saveConfrimMsg').val();
 
     if ( confirmMsg && confirmMsg.trime !== '' ) {
 
         $('#confirmModal .modal-body').text(confirmMsg);
-        $('#confirmModal .saveBtn').off('click').on('click', user);
+        $('#confirmModal .saveBtn').off('click').on('click', account);
         $('#confirmModal').modal('show');
     }
 }
 
-function user() {
+function account() {
     const data = Object.fromEntries(new URLSearchParams($(form).serialize()));
 
     fn_fetchPatchData(`${ENDPOINTS.api}`, data)
@@ -99,7 +95,7 @@ function user() {
             
             if ( data.result ) {
                 $('#alertModal').on('hidden.bs.modal', function () {
-                    location.href = `${ENDPOINTS.info}?userSeq=${data.data}`;
+                    location.href = `${ENDPOINTS.me}`;
                 });
             }
         });

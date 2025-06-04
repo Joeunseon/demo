@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.project.demo.api.user.application.dto.MyUserUpdateDTO;
 import com.project.demo.api.user.application.dto.PasswordResetDTO;
 import com.project.demo.api.user.application.dto.UserCreateDTO;
 import com.project.demo.api.user.application.dto.UserDetailDTO;
@@ -170,6 +171,24 @@ public class UserService {
             return findById(dto.getUserSessionDTO().getUserSeq());
         } catch (Exception e) {
             log.error(">>>> UserService::findByMe: ", e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public ApiResponse<Void> updateMe(MyUserUpdateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+            }
+
+            // 내 정보 수정 진행
+            userRepository.udpateMe(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+        } catch (Exception e) {
+            log.error(">>>> UserService::updateMe: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
         }
     }

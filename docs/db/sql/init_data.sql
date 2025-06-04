@@ -455,7 +455,7 @@ VALUES
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES
-('밀번호 다음에 변경 API', '/api/account/password/delay', (SELECT menu_seq FROM menus WHERE menu_nm = '비밀번호 변경' LIMIT 1), 4, 2, 'UPDATE', 1);
+('비밀번호 다음에 변경 API', '/api/account/password/delay', (SELECT menu_seq FROM menus WHERE menu_nm = '비밀번호 변경' LIMIT 1), 4, 2, 'UPDATE', 1);
 
 -- 공통 API
 INSERT INTO menus

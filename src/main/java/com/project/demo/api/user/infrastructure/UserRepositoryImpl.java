@@ -147,8 +147,21 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                             .set(user.profileImg, entity.getProfileImg())
                             .set(user.activeYn, entity.getActiveYn())
                             .set(user.updDt, entity.getUpdDt())
-                            .set(user.updSeq, user.updSeq)
-                            .where(user.userSeq.eq(entity.getUpdSeq()))
+                            .set(user.updSeq, entity.getUpdSeq())
+                            .where(user.userSeq.eq(entity.getUserSeq()))
+                            .execute();
+    }
+
+    public Long udpateMe(UserEntity entity) {
+
+        QUserEntity user = QUserEntity.userEntity;
+
+        return queryFactory.update(user)
+                            .set(user.userEmail, entity.getUserEmail())
+                            .set(user.profileImg, entity.getProfileImg())
+                            .set(user.updDt, entity.getUpdDt())
+                            .set(user.updSeq, entity.getUpdSeq())
+                            .where(user.userSeq.eq(entity.getUserSeq()))
                             .execute();
     }
 }
