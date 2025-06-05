@@ -71,7 +71,7 @@ public class ErrLogService {
                 return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
             }
             
-            return ApiResponse.success();
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> ErrLogService::updateResolve: ", e);
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));

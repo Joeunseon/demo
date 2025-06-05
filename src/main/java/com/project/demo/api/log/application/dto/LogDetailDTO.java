@@ -42,22 +42,27 @@ public class LogDetailDTO {
     @Schema(description = "연관된 사용자ID")
     private String requestUserId;
 
+    @Schema(description = "연관된 사용자명")
+    private String requestUserNm;
+
     @Schema(description = "해결 상태")
     private String resolvedStat;
 
     @Schema(description = "해결일시")
     private String resolvedDt;
 
-    public LogDetailDTO(Long logSeq, String errCd, String errMsg, ErrLevel errLevel, LocalDateTime occurredDt, String requestUrl, String requestMethod, String requestUserId, LocalDateTime resolvedDt) {
+    public LogDetailDTO(Long logSeq, String errCd, String errMsg, String stackTrace, ErrLevel errLevel, LocalDateTime occurredDt, String requestUrl, String requestMethod, String requestUserId, String requestUserNm, LocalDateTime resolvedDt) {
 
         this.logSeq = logSeq;
         this.errCd = errCd;
         this.errMsg = errMsg;
+        this.stackTrace = stackTrace;
         this.errLevel = (errLevel != null ? errLevel.getDescription() : null);
         this.occurredDt = (occurredDt != null ? occurredDt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : null);
         this.requestUrl = requestUrl;
         this.requestMethod = requestMethod;
         this.requestUserId = requestUserId;
+        this.requestUserNm = requestUserNm;
         this.resolvedStat = (resolvedDt != null ? ResolvedStat.Y.getDescription() : ResolvedStat.N.getDescription());
         this.resolvedDt = (resolvedDt != null ? resolvedDt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : null);
     }

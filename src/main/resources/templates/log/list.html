@@ -94,7 +94,7 @@
                                 </tr>
                                 <tr class="tr_info">
                                     <td class="text-center">
-                                        <input type="checkbox" class="form-check-input">
+                                        <input type="checkbox" class="form-check-input logSeq">
                                     </td>
                                     <td class="text-center rownum"></td>
                                     <td class="text-center errCd"></td>
@@ -112,11 +112,20 @@
 
                     <!-- paging -->
                     <div id="pagination"></div>
+
+                    <th:block th:if="${loginInfo}">
+                        <div class="d-flex justify-content-end mt-3 me-4 mb-3">
+                            <button class="btn btn-dark rounded-pill px-4 py-2" th:text="#{button.status.change}" onclick="logValidity();"></button>
+                        </div>
+                    </th:block>
                 </main>
 
                 <!-- modal -->
                 <input type="hidden" id="dateValidation" th:value="#{error.search_date}">
+                <input type="hidden" id="checkValidation" th:value="#{error.checked}">
+                <input type="hidden" id="resolveConfirm" th:value="#{resolve.confirm}">
                 <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
             </div>
             <!-- ./ container -->
         </div>
