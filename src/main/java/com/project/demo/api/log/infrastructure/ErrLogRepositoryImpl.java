@@ -9,6 +9,7 @@ import com.project.demo.api.log.application.dto.LogDetailDTO;
 import com.project.demo.api.log.application.dto.LogListDTO;
 import com.project.demo.api.log.application.dto.LogRequestDTO;
 import com.project.demo.api.log.application.dto.LogResolveDTO;
+import com.project.demo.api.log.domain.ErrLogEntity;
 import com.project.demo.api.log.domain.QErrLogEntity;
 import com.project.demo.api.log.value.RequestMethod;
 import com.project.demo.api.log.value.ResolvedStat;
@@ -161,11 +162,18 @@ public class ErrLogRepositoryImpl implements ErrLogRepositoryCustom {
     }
 
     public Long updateResolve(LogResolveDTO dto) {
-
         QErrLogEntity errLog = QErrLogEntity.errLogEntity;
 
+        ErrLogEntity log = queryFactory.selectFrom(errLog)
+            .where(errLog.logSeq.eq(dto.getLogSeq()))
+            .fetchOne();
+
+        if (log == null) return 0L;
+
+        LocalDateTime newResolvedDt = (log.getResolvedDt() == null) ? LocalDateTime.now() : null;
+
         return queryFactory.update(errLog)
-                            .set(errLog.resolvedDt, dto.getResolvedStat() == ResolvedStat.Y ? LocalDateTime.now() : null)
+                            .set(errLog.resolvedDt, newResolvedDt)
                             .where(errLog.logSeq.eq(dto.getLogSeq()))
                             .execute();
     }
@@ -174,9 +182,20 @@ public class ErrLogRepositoryImpl implements ErrLogRepositoryCustom {
 
         QErrLogEntity errLog = QErrLogEntity.errLogEntity;
 
-        return queryFactory.update(errLog)
-                            .set(errLog.resolvedDt, dto.getResolvedStat() == ResolvedStat.Y ? LocalDateTime.now() : null)
-                            .where(errLog.logSeq.in(dto.getLogSeqList()))
-                            .execute();
+        List<ErrLogEntity> logs = queryFactory.selectFrom(errLog)
+                                                .where(errLog.logSeq.in(dto.getLogSeqList()))
+                                                .fetch();
+
+        Long result = 0L;
+        for (ErrLogEntity log : logs) {
+            LocalDateTime newResolvedDt = (log.getResolvedDt() == null ? LocalDateTime.now() : null);
+
+            result += queryFactory.update(errLog)
+                        .set(errLog.resolvedDt, newResolvedDt)
+                        .where(errLog.logSeq.eq(log.getLogSeq()))
+                        .execute();
+        }
+
+        return result;
     }
 }
