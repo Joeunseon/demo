@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.demo.api.log.application.dto.LogDetailDTO;
 import com.project.demo.api.log.application.dto.LogRequestDTO;
@@ -59,14 +60,15 @@ public class ErrLogService {
         }
     }
 
+    @Transactional(readOnly = false)
     public ApiResponse<Void> updateResolve(LogResolveDTO dto) {
 
         try {
 
             if ( dto.getLogSeq() != null ) { // 단건
-
+                errLogRepository.updateResolve(dto);
             } else if ( dto.getLogSeqList() != null && !dto.getLogSeqList().isEmpty() ) { // 복수건
-
+                errLogRepository.updateResolveList(dto);
             } else {
                 return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
             }

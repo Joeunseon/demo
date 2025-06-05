@@ -46,7 +46,6 @@ function infoInit() {
                     $('.requestUrl').text(result.requestUrl);
                     $('.resolvedStat').text(result.resolvedStat);
                     $('.resolvedDt').text(result.resolvedDt ? '('+result.resolvedDt+')' : '' );
-                    $('#logSeq').data('resolvedStat', result.resolvedDt == null ? 'N' : 'Y');
                     $('.requestUserNm').text(result.requestUserNm);
                     $('.requestUserId').text(result.requestUserId ? '('+result.requestUserId+')' : '');
                     $('.stackTrace').text(result.stackTrace);
@@ -77,8 +76,7 @@ function logValidity() {
 function resolve() {
 
     const param = {
-        logSeq : $('#logSeq').val(),
-        resolvedStat : $('#logSeq').data('resolvedStat')
+        logSeq : $('#logSeq').val()
     }
 
     fn_fetchPatchData(`${ENDPOINTS.resolve}`, param)
