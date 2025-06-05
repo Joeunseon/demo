@@ -131,8 +131,13 @@ public class ErrLogRepositoryImpl implements ErrLogRepositoryCustom {
         QErrLogEntity errLog = QErrLogEntity.errLogEntity;
         QUserEntity user = QUserEntity.userEntity;
 
-        var subQuery = JPAExpressions
+        var subQueryUserId = JPAExpressions
                             .select(user.userId)
+                            .from(user)
+                            .where(user.userSeq.eq(errLog.requestSeq));
+
+        var subQueryUserNm = JPAExpressions
+                            .select(user.userNm)
                             .from(user)
                             .where(user.userSeq.eq(errLog.requestSeq));
 
@@ -140,11 +145,13 @@ public class ErrLogRepositoryImpl implements ErrLogRepositoryCustom {
                                     errLog.logSeq,
                                     errLog.errCd,
                                     errLog.errMsg,
+                                    errLog.stackTrace,
                                     errLog.errLevel,
                                     errLog.occurredDt,
                                     errLog.requestUrl,
                                     errLog.requestMethod,
-                                    subQuery,
+                                    subQueryUserId,
+                                    subQueryUserNm,
                                     errLog.resolvedDt
                                 )
                             )
