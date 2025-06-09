@@ -21,6 +21,7 @@ import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.constant.AuthMsgKey;
 import com.project.demo.common.util.MsgUtil;
 
@@ -66,7 +67,7 @@ public class UserService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> UserService::findAll: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -77,7 +78,7 @@ public class UserService {
             return ApiResponse.success(userRepository.findByUserSeq(userSeq));
         } catch (Exception e) {
             log.error(">>>> UserService::findById: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -108,7 +109,7 @@ public class UserService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> UserService::passwordInit: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -126,7 +127,7 @@ public class UserService {
             return ApiResponse.success(dto.getUserSeq());
         } catch (Exception e) {
             log.error(">>>> UserService::update: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -157,7 +158,7 @@ public class UserService {
             return ApiResponse.success(entity.getUserSeq());
         } catch (Exception e) {
             log.error(">>>> UserService::create: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -171,7 +172,7 @@ public class UserService {
             return findById(dto.getUserSessionDTO().getUserSeq());
         } catch (Exception e) {
             log.error(">>>> UserService::findByMe: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -189,7 +190,7 @@ public class UserService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> UserService::updateMe: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }

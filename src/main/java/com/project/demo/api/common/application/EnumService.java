@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import com.project.demo.api.common.application.dto.SelectBoxDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -50,9 +51,12 @@ public class EnumService {
                                             }
                                         })
                                         .collect(Collectors.toList()));
+        } catch (ClassNotFoundException e) {
+            log.error(">>>> EnumService::getEnum - 클래스 찾기 실패: ", e);
+            throw new CustomException("클래스를 찾을 수 없습니다: " + enumFillPath, HttpStatus.BAD_REQUEST, e);
         } catch (Exception e) {
             log.error(">>>> EnumService::getEnum: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }

@@ -9,6 +9,7 @@ import com.project.demo.api.code.infrastructure.CmmCdRepository;
 import com.project.demo.api.common.application.dto.SelectBoxDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class CodeService {
             return ApiResponse.success(cmmCdRepository.findSelectOptions(grpCd));
         } catch (Exception e) {
             log.error(">>>> CodeService::getCode: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }

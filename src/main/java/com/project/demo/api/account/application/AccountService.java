@@ -13,6 +13,7 @@ import com.project.demo.common.ApiResponse;
 import com.project.demo.common.BaseDTO;
 import com.project.demo.common.constant.AuthMsgKey;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.constant.CommonConstant.ACCOUNT_KEY;
 import com.project.demo.common.util.MsgUtil;
 
@@ -37,7 +38,7 @@ public class AccountService {
             return passwordMatch(dto.getUserPwd(), dto.getUserSessionDTO().getUserSeq());
         } catch (Exception e) {
             log.error(">>>> AccountService::passwordVerify: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -62,7 +63,7 @@ public class AccountService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> AccountService::passwordUpdate: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -80,7 +81,7 @@ public class AccountService {
             return ApiResponse.success();
         } catch (Exception e) {
             log.error(">>>> AccountService::passwordDelay: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -101,7 +102,7 @@ public class AccountService {
             return ApiResponse.error(msgUtil.getMessage(AuthMsgKey.BAD_CREDENTIALS.getKey()));
         } catch (Exception e) {
             log.error(">>>> AccountService::passwordMatch: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }

@@ -19,6 +19,7 @@ import com.project.demo.api.encrypt.infrastructure.RSAUtil;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.EncryptionMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::jasyptEncrypt: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw e;
         }
     }
 
@@ -54,7 +55,7 @@ public class EncryptionService {
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_JASYPT_DECRYPT.getKey()));
         } catch (Exception e) {
             log.error(">>>> EncryptionService::jasyptDecrypt: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw e;
         }
     }
 
@@ -67,7 +68,7 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::bcryptEncrypt: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw e;
         }
     }
 
@@ -79,7 +80,7 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage((encoder.matches(dto.getTargetText(), dto.getSecretKey()) ? EncryptionMsgKey.SUCCUESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCUESS_MATCHES_N.getKey())));
         } catch (Exception e) {
             log.error(">>>> EncryptionService::bcryptEncrypt: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw e;
         }
     }
 
@@ -91,7 +92,7 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encodeStr);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::base64Encode: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw e;
         }
     }
 
@@ -103,10 +104,10 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), decodeStr);
         } catch (IllegalArgumentException e) {
             log.error(">>>> EncryptionService::base64Decode: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_DECODE.getKey(), "base64"));
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_BASE64_DECODE.getKey()));
+            throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_BASE64_DECODE.getKey()), HttpStatus.BAD_REQUEST, e);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::base64Decode: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -118,10 +119,10 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
         } catch (IllegalArgumentException e) {
             log.error(">>>> EncryptionService::hashEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "hash"));
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()));
+            throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()), HttpStatus.BAD_REQUEST, e);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::hashEncrypt: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -132,10 +133,10 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage((HashUtil.matches(dto.getTargetText(), dto.getTargetHash(), dto.getAlgorithm().getAlgorithm()) ? EncryptionMsgKey.SUCCUESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCUESS_MATCHES_N.getKey())));
         } catch (IllegalArgumentException e) {
             log.error(">>>> EncryptionService::hashMatches: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "hash"));
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()));
+            throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()), HttpStatus.BAD_REQUEST, e);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::hashMatches: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -148,10 +149,10 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
         } catch (IllegalArgumentException | InvalidKeySpecException i) {
             log.error(">>>> EncryptionService::rsaEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "RSA"));
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_ENCRYPT.getKey()));
+            throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_ENCRYPT.getKey()), HttpStatus.BAD_REQUEST, i);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::rsaEncrypt: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -163,10 +164,10 @@ public class EncryptionService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), decryptStr);
         } catch (InvalidKeySpecException e) {
             log.error(">>>> EncryptionService::rsaEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_DECRYPT.getKey(), "RSA"));
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_DECRYPT.getKey()));
+            throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_DECRYPT.getKey()), HttpStatus.BAD_REQUEST, e);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::rsaDecrypt: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }

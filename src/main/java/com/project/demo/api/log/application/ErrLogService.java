@@ -14,6 +14,7 @@ import com.project.demo.api.log.infrastructure.ErrLogRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.constant.CommonMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class ErrLogService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> ErrLogService::findAll: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -56,7 +57,7 @@ public class ErrLogService {
             return ApiResponse.success(errLogRepository.findByLogSeq(logSeq));
         } catch (Exception e) {
             log.error(">>>> ErrLogService::findById: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -76,7 +77,7 @@ public class ErrLogService {
             return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> ErrLogService::updateResolve: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }

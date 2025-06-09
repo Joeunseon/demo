@@ -14,6 +14,7 @@ import com.project.demo.api.user.infrastructure.SignupRepository;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.SignupMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.util.MsgUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -105,7 +106,7 @@ public class SignupService {
             return ApiResponse.success(msgUtil.getMessage(SignupMsgKey.SUCCESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> singup: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }
