@@ -5,10 +5,9 @@ import java.io.StringWriter;
 import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import com.project.demo.api.log.domain.ErrLogEntity;
@@ -23,62 +22,82 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@ControllerAdvice
+@RestControllerAdvice(basePackages = "com.project.demo.api")
 @RequiredArgsConstructor
 @Slf4j
-public class GlobalExceptionHandler {
+public class GlobalApiExceptionHandler {
 
     private final ErrLogRepository errLogRepository;
 
+    /**
+     * 유효성 검증 실패 (ValidationException) 처리
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(ValidationException.class)
-    @ResponseBody
     public ApiResponse<?> handleValidationException(ValidationException ex) {
 
         return ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    /**
+     * 모든 예외 처리 (가장 마지막 핸들러)
+     * @param ex
+     * @param request
+     * @param httpServletRequest
+     * @return
+     */
     @ExceptionHandler(Exception.class)
-    public ApiResponse<Void> handlerException(Exception ex, WebRequest request, HttpServletRequest httpServletRequest) {
+    public ApiResponse<?> handlerException(Exception ex, WebRequest request, HttpServletRequest httpServletRequest) {
         
         // HTTP 상태 코드 취득
         HttpStatus status = getHttpStatus(ex);
         
         log.error("예외 발생: ", ex);
 
+        logErrorToDatabase(ex, httpServletRequest, status);
+
+        return ApiResponse.error(status, ex.getMessage());
+    }
+
+    /**
+     * 공통 에러 로그 저장 로직
+     * @param ex
+     * @param request
+     * @param status
+     */
+    private void logErrorToDatabase(Exception ex, HttpServletRequest request, HttpStatus status) {
         // 스택 트레이스 변환
         StringWriter sw = new StringWriter();
         ex.printStackTrace(new PrintWriter(sw));
         String stackTrace = sw.toString();
 
-        // 오류 심각도(LEVEL) 설정
-        ErrLevel errLevel = determineErrorLevel(status);
-
         // 로그인 사용자 userSeq 취득
         Long userSeq = null;
-        UserSessionDTO userSessionDTO = (UserSessionDTO) httpServletRequest.getSession().getAttribute(SESSION_KEY.FRONT);
-        if (userSessionDTO != null) {
+        UserSessionDTO userSessionDTO = (UserSessionDTO) request.getSession().getAttribute(SESSION_KEY.FRONT);
+        if ( userSessionDTO != null ) 
             userSeq = userSessionDTO.getUserSeq();
-        }
 
         ErrLogEntity errLog = ErrLogEntity.builder()
                                     .errCd(String.valueOf(status.value()))
                                     .errMsg(ex.getMessage())
                                     .stackTrace(stackTrace)
-                                    .errLevel(errLevel)
+                                    .errLevel(determineErrorLevel(status))
                                     .occurredDt(LocalDateTime.now())
-                                    .requestUrl(httpServletRequest.getRequestURI())
-                                    .requestMethod(httpServletRequest.getMethod())
+                                    .requestUrl(request.getRequestURI())
+                                    .requestMethod(request.getMethod())
                                     .requestSeq(userSeq)
                                     .build();
-
-        log.info(errLog.toString());
-
-        // err log 저장 (서버 내부 오류만 저장)
+        
+        // err log 저장
         errLogRepository.save(errLog);
-
-        return ApiResponse.error(status, ex.getMessage());
     }
 
+    /**
+     * 예외에서 HTTP 상태 코드 추출
+     * @param ex
+     * @return
+     */
     private HttpStatus getHttpStatus(Exception ex) {
         // @ResponseStatus 어노테이션이 있는 경우 해당 HTTP 상태 코드 반환
         ResponseStatus status = ex.getClass().getAnnotation(ResponseStatus.class);
@@ -94,6 +113,11 @@ public class GlobalExceptionHandler {
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
+    /**
+     * HTTP 상태 코드에 따른 에러 레벨 분류
+     * @param status
+     * @return
+     */
     public ErrLevel determineErrorLevel(HttpStatus status) {
         if ( status.is5xxServerError() ) {
             return ErrLevel.CRITICAL;

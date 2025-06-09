@@ -23,6 +23,7 @@ import com.project.demo.api.role.application.dto.MenuRoleTreeDTO;
 import com.project.demo.api.role.domain.MenuRoleEntity;
 import com.project.demo.api.role.infrastructure.MenuRoleRepository;
 import com.project.demo.common.constant.DelYn;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.util.MsgUtil;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonConstant.CACHE_KEY;
@@ -109,7 +110,7 @@ public class MenuRoleService {
             return ApiResponse.success(list);
         } catch (Exception e) {
             log.error(">>>> MenuRoleService::findMenusById: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 

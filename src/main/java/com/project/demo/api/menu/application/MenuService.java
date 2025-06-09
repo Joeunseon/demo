@@ -28,6 +28,7 @@ import com.project.demo.api.menu.value.MenuType;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.constant.MenuMsgKey;
+import com.project.demo.common.exception.CustomException;
 import com.project.demo.common.constant.CommonConstant.MODEL_KEY;
 import com.project.demo.common.util.MsgUtil;
 
@@ -74,7 +75,7 @@ public class MenuService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> MenuService::findAll: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -87,7 +88,7 @@ public class MenuService {
                         .orElse(ApiResponse.success());
         } catch (Exception e) {
             log.error(">>>> MenuService::findById: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -109,7 +110,7 @@ public class MenuService {
             return ApiResponse.success(level3);
         } catch (Exception e) {
             log.error(">>>> MenuService::findAllByParentId: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -165,7 +166,7 @@ public class MenuService {
             return ApiResponse.success();
         } catch (Exception e) {
             log.error(">>>> MenuService::findAllAsTree: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -238,7 +239,7 @@ public class MenuService {
             }
         } catch (Exception e) {
             log.error(">>>> MenuService::create: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -252,7 +253,7 @@ public class MenuService {
             return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCUESS_DUPLICATION.getKey(), "메뉴 이름"));
         } catch (Exception e) {
             log.error(">>>> MenuService::checkDuplicateMenuNm: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -266,7 +267,7 @@ public class MenuService {
             return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCUESS_DUPLICATION.getKey(), "메뉴 URL"));
         } catch (Exception e) {
             log.error(">>>> MenuService::checkDuplicateMenuUrl: ", e);
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(CommonMsgKey.FAILED.getKey()));
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 }
