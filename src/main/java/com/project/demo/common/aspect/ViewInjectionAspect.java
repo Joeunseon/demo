@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Component
 @Slf4j
-public class CommonAspect {
+public class ViewInjectionAspect {
 
     /**
      * 로딩할 자바스크립트 명을 설정
