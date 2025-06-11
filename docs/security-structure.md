@@ -12,7 +12,7 @@
 
 ## 🧩 전체 구조 요약
 - 로그인 이후 사용자 정보는 `UserSessionDTO`에 저장되어 세션을 통해 관리됩니다.
-- 각 URL은 메뉴 정보(`menus`)와 권한 정보(`menu_roles`)에 따라 접근 여부를 판단합니다.
+- 각 URL은 메뉴 정보(`menus`)와 권한 정보(`menu_role`)에 따라 접근 여부를 판단합니다.
 - GUEST 사용자는 `AuthorizationManager`와 URL 캐시를 통해 허용 여부가 판단됩니다.
 - 모든 요청은 커스텀 필터에서 **메뉴 존재 여부 및 권한 검증**을 거친 후 통과됩니다.
 
@@ -130,3 +130,9 @@ public void refreshPermitAllUrls() {
 ### 2. `GlobalRestControllerAdvice`
 - API 요청 시, DTO에 `@InitBinder`를 통해 세션에 저장된 사용자 정보를 자동 주입
 - 인증이 완료된 사용자에 한해 `BaseDTO` 상속 객체에 세션 정보를 전달하여 보안성을 높이고, 별도의 컨트롤러 코드 작성 없이 통일된 인증 기반 처리 가능
+
+<br>
+<br>
+
+## 🖇️ 프로젝트 문서
+### 📑 README 👉 [바로가기](../README.md)
