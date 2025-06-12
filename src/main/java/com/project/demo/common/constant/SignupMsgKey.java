@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum SignupMsgKey {
 
     SUCCESS("success.signup.register"),
-    SUCCUESS_ID("success.signup.id"),
-    SUCCUESS_EMAIL("success.signup.email"),
+    SUCCESS_ID("success.signup.id"),
+    SUCCESS_EMAIL("success.signup.email"),
     FAILED_ID("error.signup.id"),
     ID_PATTERN("error.signup.id_pattern"),
     ID_FORBIDDEN_WORDS("error.signup.id_forbidden_words"),

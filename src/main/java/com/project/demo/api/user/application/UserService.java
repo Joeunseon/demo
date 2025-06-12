@@ -43,7 +43,7 @@ public class UserService {
         Integer result = userRepository.updateLastLoginTime(userSeq);
 
         if ( result > 0 ) {
-            log.info(msgUtil.getMessage(AuthMsgKey.SUCCUESS_LAST_LOGIN.getKey(), userSeq));
+            log.info(msgUtil.getMessage(AuthMsgKey.SUCCESS_LAST_LOGIN.getKey(), userSeq));
         } else {
             log.warn(msgUtil.getMessage(AuthMsgKey.FAILED_LAST_LOGIN.getKey(), userSeq));
         }
@@ -106,7 +106,7 @@ public class UserService {
             // 비밀번호 초기화 진행
             userRepository.passwordRest(resetDTO);
             
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> UserService::passwordInit: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -187,7 +187,7 @@ public class UserService {
             // 내 정보 수정 진행
             userRepository.udpateMe(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> UserService::updateMe: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CommonMsgKey {
 
-    SUCCUESS("success.basic"),
+    SUCCESS("success.basic"),
     FAILED("error.basic"),
     FAILED_VALIDATION("error.validation"),
     FAILED_LENGTH("error.length"),

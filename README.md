@@ -87,7 +87,7 @@
 ## 🖇️ 프로젝트 문서
 ### 🗂️ 화면 구성
 ### 🗂️ DATABASE 👉 [바로가기](docs/db/database.md)
-### 📑 API 문서
+### 📑 API 문서 👉 [바로가기](docs/api.md)
 ### 🔐 인증/인가 처리 구조 👉 [바로가기](docs/security-structure.md)
 ### ⚙️ 실행 및 설정 가이드 👉 [바로가기](docs/setup.md)
 ### 🔄 주요 기능 흐름도 👉 [바로가기](docs/flow.md)

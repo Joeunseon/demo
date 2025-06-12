@@ -84,7 +84,7 @@ public class RoleService {
             if ( count > 0 )
                 return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "권한 이름"));
             
-            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCUESS_DUPLICATION.getKey(), "권한 이름"));
+            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCESS_DUPLICATION.getKey(), "권한 이름"));
         } catch (Exception e) {
             log.error(">>>> RoleService::checkDuplicate: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -106,7 +106,7 @@ public class RoleService {
             // 2. 권한 등록
             RoleEntity entity = roleRepository.save(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getRoleSeq());
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), entity.getRoleSeq());
         } catch (Exception e) {
             log.error(">>>> RoleService::create: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -129,7 +129,7 @@ public class RoleService {
             // 2. 권한 수정
             roleRepository.updateById(dto.toEntity(dto.getUserSessionDTO().getUserSeq()));
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), dto.getRoleSeq());
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), dto.getRoleSeq());
         } catch (Exception e) {
             log.error(">>>> RoleService::update: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -152,7 +152,7 @@ public class RoleService {
             // 논리 삭제
             roleRepository.softDelete(roleSeq, dto.getUserSessionDTO().getUserSeq());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> RoleService::delete: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);

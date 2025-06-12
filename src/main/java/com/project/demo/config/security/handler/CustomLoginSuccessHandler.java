@@ -42,7 +42,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
         session.setAttribute(SESSION_KEY.FRONT, UserSessionDTO.of(userDetails.toEntity()));
 
-        log.info(msgUtil.getMessage(AuthMsgKey.SUCCUESS_LOGIN.getKey(), userDetails.getUserNm()));
+        log.info(msgUtil.getMessage(AuthMsgKey.SUCCESS_LOGIN.getKey(), userDetails.getUserNm()));
 
         // 마지막 로그인시간 업데이트
         userService.updateLastLoginDt(userDetails.getUserSeq());

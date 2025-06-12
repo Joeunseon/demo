@@ -44,7 +44,7 @@ public class SignupService {
         if ( signupRepository.countByUserId(userId) > 0 )
             return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(SignupMsgKey.FAILED_ID.getKey()));
 
-        return ApiResponse.success(msgUtil.getMessage(SignupMsgKey.SUCCUESS_ID.getKey()));
+        return ApiResponse.success(msgUtil.getMessage(SignupMsgKey.SUCCESS_ID.getKey()));
     }
 
     /**
@@ -57,7 +57,7 @@ public class SignupService {
         if ( signupRepository.countByUserEmail(userEmail) > 0 )
             return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(SignupMsgKey.FAILED_EMAIL.getKey()));
 
-        return ApiResponse.success(msgUtil.getMessage(SignupMsgKey.SUCCUESS_EMAIL.getKey()));
+        return ApiResponse.success(msgUtil.getMessage(SignupMsgKey.SUCCESS_EMAIL.getKey()));
     }
 
     /**
