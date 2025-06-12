@@ -222,7 +222,7 @@ public class MenuService {
 
             // 5. menu_level=2 menu_seq 취득
             if ( info.getMenuLevel() == 2 ) {
-                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), info.getMenuSeq());
+                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), info.getMenuSeq());
             } else {
                 Long level2MenuSeq = null;
                 MenuEntity current = parentMenu;
@@ -235,7 +235,7 @@ public class MenuService {
                                             .orElse(null);
                 }
 
-                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), level2MenuSeq);
+                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), level2MenuSeq);
             }
         } catch (Exception e) {
             log.error(">>>> MenuService::create: ", e);
@@ -250,7 +250,7 @@ public class MenuService {
             if ( menuRepository.countByMenuNm(menuNm) > 0 )
                 return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "메뉴 이름")); 
             
-            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCUESS_DUPLICATION.getKey(), "메뉴 이름"));
+            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCESS_DUPLICATION.getKey(), "메뉴 이름"));
         } catch (Exception e) {
             log.error(">>>> MenuService::checkDuplicateMenuNm: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -264,7 +264,7 @@ public class MenuService {
             if ( menuRepository.countByMenuUrl(menuUrl) > 0 )
                 return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "메뉴 URL"));
             
-            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCUESS_DUPLICATION.getKey(), "메뉴 URL"));
+            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCESS_DUPLICATION.getKey(), "메뉴 URL"));
         } catch (Exception e) {
             log.error(">>>> MenuService::checkDuplicateMenuUrl: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);

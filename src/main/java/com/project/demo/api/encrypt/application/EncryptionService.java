@@ -37,7 +37,7 @@ public class EncryptionService {
         try {
             String encryptStr = JasyptUtil.encrypt(dto.getTargetText(), dto.getSecretKey(), dto.getAlgorithm().getAlgorithm());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), encryptStr);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::jasyptEncrypt: ", e);
             throw e;
@@ -49,7 +49,7 @@ public class EncryptionService {
         try {
             String decryptStr = JasyptUtil.decrypt(dto.getTargetText(), dto.getSecretKey(), dto.getAlgorithm().getAlgorithm());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), decryptStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), decryptStr);
         } catch (EncryptionOperationNotPossibleException e) {
             log.error(">>>> EncryptionService::jasyptDecrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_DECRYPT.getKey(), "jasypt"));
             return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, msgUtil.getMessage(EncryptionMsgKey.FAILED_JASYPT_DECRYPT.getKey()));
@@ -65,7 +65,7 @@ public class EncryptionService {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
             String encryptStr = encoder.encode(dto.getTargetText());
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), encryptStr);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::bcryptEncrypt: ", e);
             throw e;
@@ -77,7 +77,7 @@ public class EncryptionService {
         try {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-            return ApiResponse.success(msgUtil.getMessage((encoder.matches(dto.getTargetText(), dto.getSecretKey()) ? EncryptionMsgKey.SUCCUESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCUESS_MATCHES_N.getKey())));
+            return ApiResponse.success(msgUtil.getMessage((encoder.matches(dto.getTargetText(), dto.getSecretKey()) ? EncryptionMsgKey.SUCCESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCESS_MATCHES_N.getKey())));
         } catch (Exception e) {
             log.error(">>>> EncryptionService::bcryptEncrypt: ", e);
             throw e;
@@ -89,7 +89,7 @@ public class EncryptionService {
         try {
             String encodeStr = Base64Util.encode(dto.getTargetText());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encodeStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), encodeStr);
         } catch (Exception e) {
             log.error(">>>> EncryptionService::base64Encode: ", e);
             throw e;
@@ -101,7 +101,7 @@ public class EncryptionService {
         try {
             String decodeStr = Base64Util.decode(dto.getTargetText());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), decodeStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), decodeStr);
         } catch (IllegalArgumentException e) {
             log.error(">>>> EncryptionService::base64Decode: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_DECODE.getKey(), "base64"));
             throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_BASE64_DECODE.getKey()), HttpStatus.BAD_REQUEST, e);
@@ -116,7 +116,7 @@ public class EncryptionService {
         try {
             String encryptStr = HashUtil.encrypt(dto.getTargetText(), dto.getAlgorithm().getAlgorithm());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), encryptStr);
         } catch (IllegalArgumentException e) {
             log.error(">>>> EncryptionService::hashEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "hash"));
             throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()), HttpStatus.BAD_REQUEST, e);
@@ -130,7 +130,7 @@ public class EncryptionService {
 
         try {
             
-            return ApiResponse.success(msgUtil.getMessage((HashUtil.matches(dto.getTargetText(), dto.getTargetHash(), dto.getAlgorithm().getAlgorithm()) ? EncryptionMsgKey.SUCCUESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCUESS_MATCHES_N.getKey())));
+            return ApiResponse.success(msgUtil.getMessage((HashUtil.matches(dto.getTargetText(), dto.getTargetHash(), dto.getAlgorithm().getAlgorithm()) ? EncryptionMsgKey.SUCCESS_MATCHES_Y.getKey() : EncryptionMsgKey.SUCCESS_MATCHES_N.getKey())));
         } catch (IllegalArgumentException e) {
             log.error(">>>> EncryptionService::hashMatches: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "hash"));
             throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_HASH_ENCRYPT.getKey()), HttpStatus.BAD_REQUEST, e);
@@ -146,7 +146,7 @@ public class EncryptionService {
             
             String encryptStr = RSAUtil.encrypt(dto.getTargetText(), dto.getSecretKey());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), encryptStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), encryptStr);
         } catch (IllegalArgumentException | InvalidKeySpecException i) {
             log.error(">>>> EncryptionService::rsaEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_ENCRYPT.getKey(), "RSA"));
             throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_ENCRYPT.getKey()), HttpStatus.BAD_REQUEST, i);
@@ -161,7 +161,7 @@ public class EncryptionService {
         try {
             String decryptStr = RSAUtil.decrypt(dto.getTargetText(), dto.getSecretKey());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), decryptStr);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), decryptStr);
         } catch (InvalidKeySpecException e) {
             log.error(">>>> EncryptionService::rsaEncrypt: ", msgUtil.getMessage(EncryptionMsgKey.FAILED_DECRYPT.getKey(), "RSA"));
             throw new CustomException(msgUtil.getMessage(EncryptionMsgKey.FAILED_RSA_DECRYPT.getKey()), HttpStatus.BAD_REQUEST, e);

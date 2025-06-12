@@ -48,7 +48,7 @@ public class FileService {
 
         try {
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), fileDtlRepository.findByFileSeq(fileSeq));
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), fileDtlRepository.findByFileSeq(fileSeq));
         } catch (Exception e) {
             log.error(">>>> FileService::findAllById: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -126,7 +126,7 @@ public class FileService {
                 fileDtlRepository.saveAll(list);
             }
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getFileSeq());
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), entity.getFileSeq());
         } catch (Exception e) {
             log.error(">>>> FileService::create: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -175,7 +175,7 @@ public class FileService {
                 }
             }
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), fileSeq);
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), fileSeq);
         } catch (Exception e) {
             log.error(">>>> FileService::update: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);

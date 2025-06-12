@@ -60,7 +60,7 @@ public class AccountService {
             // 비밀번호 변경
             accountRepository.updatePassowrd(dto.toEntity(dto.getUserSessionDTO().getUserSeq(), passwordEncoder.encode(dto.getNewPwd())));
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> AccountService::passwordUpdate: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -97,7 +97,7 @@ public class AccountService {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
             if ( passwordEncoder.matches(userPwd, userEntity.getUserPwd()) )
-                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), ACCOUNT_KEY.ACCOUNT_VERIFY);
+                return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), ACCOUNT_KEY.ACCOUNT_VERIFY);
             
             return ApiResponse.error(msgUtil.getMessage(AuthMsgKey.BAD_CREDENTIALS.getKey()));
         } catch (Exception e) {

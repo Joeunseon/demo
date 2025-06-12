@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AuthMsgKey {
 
-    SUCCUESS_LOGIN("success.auth.login"),
-    SUCCUESS_LAST_LOGIN("success.auth.last_login_dt"),
-    SUCCUESS_LOGOUT("success.auth.logout"),
+    SUCCESS_LOGIN("success.auth.login"),
+    SUCCESS_LAST_LOGIN("success.auth.last_login_dt"),
+    SUCCESS_LOGOUT("success.auth.logout"),
     FAILED_LOGIN("error.auth.failed"),
     USER_NOT_FOUND("error.auth.user_not_found"),
     BAD_CREDENTIALS("error.auth.bad_credentials"),

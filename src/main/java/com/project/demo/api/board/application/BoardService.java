@@ -134,7 +134,7 @@ public class BoardService {
             // board table insert
             BoardEntity entity = boardRepository.save(dto.toEntity(dto.getUserSessionDTO().getUserSeq(), fileEntity));
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), entity.getBoardSeq());
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), entity.getBoardSeq());
         } catch (Exception e) {
             log.error(">>>> BoardService::create: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -162,7 +162,7 @@ public class BoardService {
             // 논리 삭제
             boardRepository.softDelete(boardSeq, dto.getUserSessionDTO().getUserSeq());
 
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()));
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()));
         } catch (Exception e) {
             log.error(">>>> BoardService::delete: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
@@ -199,7 +199,7 @@ public class BoardService {
             // board update
             boardRepository.updateById(dto.toEntity(dto.getUserSessionDTO().getUserSeq(), fileEntity));
             
-            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCUESS.getKey()), dto.getBoardSeq());
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), dto.getBoardSeq());
         } catch (Exception e) {
             log.error(">>>> BoardService::update: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);

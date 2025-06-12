@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MenuMsgKey {
 
-    SUCCUESS_DUPLICATION("success.menu.duplication"),
+    SUCCESS_DUPLICATION("success.menu.duplication"),
     FAILED_DUPLICATION("error.menu.duplication");
 
     private final String key;
