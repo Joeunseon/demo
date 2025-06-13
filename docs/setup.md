@@ -20,7 +20,7 @@ export JASYPT_ENCRYPTOR_PASSWORD=your-secret-key
 ### - lauch.json 지정
 ```json
 "env": {
-                "JASYPT_ENCRYPTOR_PASSWORD": "your-secret-key"
+          "JASYPT_ENCRYPTOR_PASSWORD": "your-secret-key"
        }
 ```
 
@@ -78,6 +78,67 @@ spring.profiles.active=local
 ```
 http://localhost:8080
 ```
+
+<br>
+
+## 6. 🌿 브랜치 전략 및 커밋 메시지 규칙
+
+<br>
+
+### 1️⃣ 브랜치 전략
+다음과 같은 브랜치 전략을 사용합니다.
+
+<br>
+
+| 브랜치명 | 용도 |
+|---------|-----|
+| `master` | 메인 브랜치 (배포/배포 직전 안정화용 브랜치) | 
+| `develop` | 일반 개발 브랜치 (배포 직전 master 브랜치로 병합) |
+| `feature_*` | 기능 개발 브랜치 |
+| `fix_*` | 버그 수정 브랜치 |
+| `chore_*` | 빌드/환경설정 브랜치 | 
+| `refactor_*` | 리팩토링 전용 브랜치 | 
+| `docs_*` | 문서 수정 브랜치 (ex, README, API 문서 등) |
+
+<br>
+
+### 2️⃣ 커밋 메시지 규칙
+커밋 메시지 구조
+```
+[타입]: [메시지 요약]
+
+[- 작업 내용 (선택 사항)]
+```
+
+<br>
+
+#### ✅ 예시 1 (간단한 변경)
+```
+fix: correct menu authorization logic
+```
+
+<br>
+
+#### ✅ 예시 2 (작업 내용 상세 기재)
+```
+feat: add board detail view feature
+
+- Add getBoardDetail method to BoardController
+- Implement business logic in BoardService
+- Apply error handling and response message settings
+```
+
+<br>
+
+#### 📝 커밋 타입
+| 타입 | 설명 |
+|-----|------|
+| `feat` | 새로운 기능 추가 |
+| `fix` | 버그 수정 | 
+| `chore` | 빌드 설정, 패키지 변경 등 기타 작업 | 
+| `refactor` | 리팩토링 (기능은 동일하나 구조 개선) | 
+| `docs` | 문서 수정 (ex, README, API 문서 등) |
+| `release` | 배포와 관련된 변경 사항 |
 
 <br>
 <br>
