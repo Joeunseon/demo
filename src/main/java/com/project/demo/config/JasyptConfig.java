@@ -3,8 +3,10 @@ package com.project.demo.config;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,14 +15,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JasyptConfig {
 
+    @Autowired
+    private Environment env;
+
     @Bean("jasyptStringEncryptor")
     public StringEncryptor stringEncryptor() {
 
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 
-        // 암호화 키 설정: 환경 변수 또는 시스템 속성에서 읽음
+        // 암호화 키 설정: 환경 변수 → 시스템 속성 → Spring Environment 순으로 읽음
         String encryptionKey = System.getenv("JASYPT_ENCRYPTOR_PASSWORD");
+
+        if (!StringUtils.hasText(encryptionKey))
+            encryptionKey = System.getProperty("jasypt.encryptor.password");
+
+        if (!StringUtils.hasText(encryptionKey))
+            encryptionKey = env.getProperty("jasypt.encryptor.password");
+        
         if ( !StringUtils.hasText(encryptionKey) ) {
             throw new IllegalStateException("JASYPT_ENCRYPTOR_PASSWORD 환경변수가 설정되지 않았습니다.");
         }
