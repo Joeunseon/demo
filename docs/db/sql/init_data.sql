@@ -494,6 +494,64 @@ INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('셀렉트박스 조회 API (role)', '/api/selectbox/role', (SELECT menu_seq FROM menus WHERE menu_nm = '공통 API' LIMIT 1), 4, 8, 'READ', 1);
 
+-- 코드 관리
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES
+('코드 관리', null, 1, 2, 110, 'MENU', 1);
+-- 코드 목록
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 목록', '/code/list', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 관리' LIMIT 1), 3, 1, 'PAGE', 1);
+-- 코드 등록
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 등록', '/code/regist', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 관리' LIMIT 1), 3, 2, 'PAGE', 1);
+-- 코드 상세
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 상세', '/code/info', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 관리' LIMIT 1), 3, 3, 'PAGE', 1);
+-- 코드 수정
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 수정', '/code/edit', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 관리' LIMIT 1), 3, 4, 'PAGE', 1);
+-- 코드 목록 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 목록 API', '/api/codes', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 목록' LIMIT 1), 4, 1, 'READ', 1);
+-- 그룹 코드 등록 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('그룹 코드 등록 API', '/api/code-group', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 등록' LIMIT 1), 4, 1, 'CREATE', 1);
+-- 코드 등록 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 등록 API', '/api/code', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 등록' LIMIT 1), 4, 2, 'CREATE', 1);
+-- 그룹 코드 상세 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('그룹 코드 상세 API', '/api/code-group/{grpSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 상세' LIMIT 1), 4, 1, 'READ', 1);
+-- 코드 상세 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 상세 API', '/api/code/{cdSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 상세' LIMIT 1), 4, 2, 'READ', 1);
+-- 그룹 코드 수정 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('그룹 코드 수정 API', '/api/code-group', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 수정' LIMIT 1), 4, 1, 'UPDATE', 1);
+-- 코드 수정 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 수정 API', '/api/code', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 수정' LIMIT 1), 4, 2, 'UPDATE', 1);
+-- 그룹 코드 삭제 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('그룹 코드 삭제 API', '/api/code-group/{grpSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 상세' LIMIT 1), 4, 3, 'DELETE', 1);
+-- 코드 삭제 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 삭제 API', '/api/code/{cdSeq}', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 상세' LIMIT 1), 4, 4, 'DELETE', 1);
+
 
 /**
 * 메뉴 권한 등록
