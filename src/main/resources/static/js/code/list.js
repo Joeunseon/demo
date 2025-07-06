@@ -1,5 +1,5 @@
 /**
- * List.js (board)
+ * List.js (code)
  */
 
 const ELEMENTS = {
@@ -30,6 +30,7 @@ $(document).ready(function () {
 });
 
 function listInit() {
+    $('#page').val(1);
     fn_resultList('searchForm', drawResultList);
 }
 
@@ -49,9 +50,15 @@ function drawResultList(data) {
             infoClone.find('.rownum').text(info.rownum);
             infoClone.find('.grpCd').text(info.grpCd).attr('href', `${ENDPOINTS.info}?grpSeq=${info.grpSeq}`);
             infoClone.find('.grpNm').text(info.grpNm).attr('href', `${ENDPOINTS.info}?grpSeq=${info.grpSeq}`);
-            infoClone.find('.cd').text(info.cd).attr('href', `${ENDPOINTS.info}?cdSeq=${info.cdSeq}`);
-            infoClone.find('.cdNm').text(info.cdNm).attr('href', `${ENDPOINTS.info}?cdSeq=${info.cdSeq}`);
-            infoClone.find('.useYn').text(info.useYn);
+            if ( info.cdSeq ) {
+                infoClone.find('.cd').text(info.cd).attr('href', `${ENDPOINTS.info}?cdSeq=${info.cdSeq}`);
+                infoClone.find('.cdNm').text(info.cdNm).attr('href', `${ENDPOINTS.info}?cdSeq=${info.cdSeq}`);
+                infoClone.find('.useYn').text(info.codeUseYn);
+            } else {
+                infoClone.find('.cd').attr('href', 'javascript:void(0);');
+                infoClone.find('.cdNm').attr('href', 'javascript:void(0);');
+                infoClone.find('.useYn').text(info.grpUseYn);
+            }
 
             $('.listFragment').find('tbody').append(infoClone);
         });

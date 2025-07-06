@@ -2,11 +2,17 @@ package com.project.demo.api.code.infrastructure;
 
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
+import com.project.demo.api.code.application.dto.CodeListDTO;
+import com.project.demo.api.code.application.dto.CodeRequestDTO;
 import com.project.demo.api.code.domain.QCmmCdEntity;
 import com.project.demo.api.code.domain.QCmmCdGrpEntity;
 import com.project.demo.api.code.value.UseYn;
 import com.project.demo.api.common.application.dto.SelectBoxDTO;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +38,65 @@ public class CmmCdRepositoryImpl implements CmmCdRepositoryCustom {
                                 .and(cmmCdGrp.grpCd.eq(grpCd))
                             )
                             .orderBy(cmmCd.regDt.asc())
+                            .fetch();
+    }
+
+    public Long countBySearch(CodeRequestDTO dto) {
+
+        QCmmCdEntity cmmCd = QCmmCdEntity.cmmCdEntity;
+        QCmmCdGrpEntity cmmCdGrp = QCmmCdGrpEntity.cmmCdGrpEntity;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if ( StringUtils.hasText(dto.getSearchKeyword()) ) {
+            String keyword = dto.getSearchKeyword();
+            builder.and(cmmCdGrp.grpCd.containsIgnoreCase(keyword)
+                .or(cmmCdGrp.grpNm.containsIgnoreCase(keyword))
+                .or(cmmCd.cd.containsIgnoreCase(keyword))
+                .or(cmmCd.cdNm.containsIgnoreCase(keyword))
+            );
+        }
+
+        return queryFactory.select(cmmCdGrp.count())
+                            .from(cmmCdGrp)
+                            .leftJoin(cmmCd).on(cmmCdGrp.grpSeq.eq(cmmCd.cmmCdGrp.grpSeq))
+                            .where(builder)
+                            .fetchFirst();
+    }
+
+    public List<CodeListDTO> findBySearch(CodeRequestDTO dto) {
+
+        QCmmCdEntity cmmCd = QCmmCdEntity.cmmCdEntity;
+        QCmmCdGrpEntity cmmCdGrp = QCmmCdGrpEntity.cmmCdGrpEntity;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        dto.calculateOffSet();
+
+        if ( StringUtils.hasText(dto.getSearchKeyword()) ) {
+            String keyword = dto.getSearchKeyword();
+            builder.and(cmmCdGrp.grpCd.containsIgnoreCase(keyword)
+                .or(cmmCdGrp.grpNm.containsIgnoreCase(keyword))
+                .or(cmmCd.cd.containsIgnoreCase(keyword))
+                .or(cmmCd.cdNm.containsIgnoreCase(keyword))
+            );
+        }
+
+        return queryFactory.select(Projections.constructor(CodeListDTO.class,
+                                Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} ASC)", cmmCdGrp.regDt),
+                                cmmCdGrp.grpSeq,
+                                cmmCdGrp.grpCd,
+                                cmmCdGrp.grpNm,
+                                cmmCdGrp.useYn,
+                                cmmCd.cdSeq,
+                                cmmCd.cd,
+                                cmmCd.cdNm,
+                                cmmCd.useYn
+                            ))
+                            .from(cmmCdGrp)
+                            .leftJoin(cmmCd).on(cmmCdGrp.grpSeq.eq(cmmCd.cmmCdGrp.grpSeq))
+                            .where(builder)
+                            .orderBy(Expressions.numberTemplate(Long.class, "ROW_NUMBER() OVER(ORDER BY {0} ASC)", cmmCdGrp.regDt).desc())
+                            .limit(dto.getPageScale())
+                            .offset(dto.getOffSet())
                             .fetch();
     }
 }
