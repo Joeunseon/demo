@@ -88,7 +88,11 @@ let ui = {
                 url += `enum?enumFullPath=${enumFullPath}`;
             } else if ( selType == 'code' ) {
                 const grpCd = $(oThis).data('grpCd');
-                url += `code?grpCd=${grpCd}`;
+                if ( grpCd ) {
+                    url += `code?grpCd=${grpCd}`;
+                } else {
+                    url += 'code'
+                }
             } else if ( selType == 'role' ) {
                 url += 'role';
             } else {

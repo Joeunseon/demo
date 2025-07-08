@@ -14,4 +14,10 @@ public class CodeController {
 
         return "/code/list";
     }
+
+    @GetMapping("/regist")
+    public String regist(ModelMap model) {
+
+        return "/code/regist";
+    }
 }

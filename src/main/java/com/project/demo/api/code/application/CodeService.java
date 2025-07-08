@@ -6,8 +6,10 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.project.demo.api.code.application.dto.CodeRequestDTO;
+import com.project.demo.api.code.infrastructure.CmmCdGrpRepository;
 import com.project.demo.api.code.infrastructure.CmmCdRepository;
 import com.project.demo.api.common.application.dto.SelectBoxDTO;
 import com.project.demo.common.ApiResponse;
@@ -24,14 +26,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CodeService {
 
+    private final CmmCdGrpRepository cmmCdGrpRepository;
     private final CmmCdRepository cmmCdRepository;
     private final MsgUtil msgUtil;
 
     public ApiResponse<List<SelectBoxDTO>> getCode(String grpCd) {
 
         try {
-
-            return ApiResponse.success(cmmCdRepository.findSelectOptions(grpCd));
+            if ( StringUtils.hasText(grpCd) ) {
+                return ApiResponse.success(cmmCdRepository.findSelectOptions(grpCd));
+            } else {
+                return ApiResponse.success(cmmCdGrpRepository.findSelectOptions());
+            }
         } catch (Exception e) {
             log.error(">>>> CodeService::getCode: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
