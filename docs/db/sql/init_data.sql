@@ -527,6 +527,10 @@ VALUES('그룹 코드 등록 API', '/api/code-group', (SELECT menu_seq FROM menu
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
 VALUES('코드 등록 API', '/api/code', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 등록' LIMIT 1), 4, 2, 'CREATE', 1);
+-- 권한 중복체크 API
+INSERT INTO menus
+(menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)
+VALUES('코드 중복체크 API', '/api/code/check-duplicate', (SELECT menu_seq FROM menus WHERE menu_nm = '코드 등록' LIMIT 1), 4, 3, 'READ', 1);
 -- 그룹 코드 상세 API
 INSERT INTO menus
 (menu_nm, menu_url, parent_seq, menu_level, menu_order, menu_type, reg_seq)

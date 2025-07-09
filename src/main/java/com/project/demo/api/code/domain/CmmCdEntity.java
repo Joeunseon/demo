@@ -18,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -61,6 +62,7 @@ public class CmmCdEntity {
     @Column(name = "upd_seq")
     private Long updSeq;
 
+    @Builder
     public CmmCdEntity(Integer cdSeq, CmmCdGrpEntity cmmCdGrp, String cd, String cdNm, String cdDesc, UseYn useYn, LocalDateTime regDt, Long regSeq, LocalDateTime updDt, Long updSeq) {
 
         this.cdSeq = cdSeq;

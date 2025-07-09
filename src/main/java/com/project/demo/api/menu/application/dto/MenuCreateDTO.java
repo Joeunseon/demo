@@ -3,10 +3,10 @@ package com.project.demo.api.menu.application.dto;
 import com.project.demo.api.menu.value.ActiveYn;
 import com.project.demo.api.menu.value.MenuType;
 import com.project.demo.common.BaseDTO;
+import com.project.demo.common.validation.ValidationGroups.Fifth;
 import com.project.demo.common.validation.ValidationGroups.First;
 import com.project.demo.common.validation.ValidationGroups.Fourth;
 import com.project.demo.common.validation.ValidationGroups.Second;
-import com.project.demo.common.validation.ValidationGroups.Seventh;
 import com.project.demo.common.validation.ValidationGroups.Sixth;
 import com.project.demo.common.validation.ValidationGroups.Third;
 
@@ -42,12 +42,12 @@ public class MenuCreateDTO extends BaseDTO {
     private Long parentSeq;
 
     @Schema(description = "메뉴 유형")
-    @NotNull(message = "{error.validation('메뉴 유형')}", groups = Sixth.class)
+    @NotNull(message = "{error.validation('메뉴 유형')}", groups = Fifth.class)
     @Enumerated(EnumType.STRING)
     private MenuType menuType;
 
     @Schema(description = "활성화 여부")
-    @NotNull(message = "{error.validation('활성화 여부')}", groups = Seventh.class)
+    @NotNull(message = "{error.validation('활성화 여부')}", groups = Sixth.class)
     @Enumerated(EnumType.STRING)
     private ActiveYn activeYn;
 }
