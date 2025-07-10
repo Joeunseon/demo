@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/layout">
+<body>
+    <!-- warp -->
+    <div class="warp">
+        <!-- container-block -->
+        <div id="container-block" layout:fragment="contents" th:remove="tag">
+            <!-- container -->
+            <div class="container-fluid custom-container">
+                <main>
+                    <th:block th:if="${grpSeq}">
+                        <h3 class="mb-3 ms-3">그룹 코드 상세</h3>
+
+                        <div class="p-3">
+                            <div class="mb-3">
+                                <h5 class="fw-bold border rounded-3 p-3 bg-light">
+                                    <span class="grpNm"></span>
+                                    <span class="grpCd text-muted"></span>
+                                </h5>
+                            </div>
+    
+                            <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
+                                <div>
+                                    <span>코드 설명: </span>
+                                    <span class="grpDesc"></span>
+                                </div>
+                                <div>
+                                    <span>사용여부: <span class="useYn"></span></span>
+                                </div>
+                            </div>
+    
+                            <!-- 코드 -->
+                            <div class="mb-3">
+                                <label class="fw-bold">하위 코드</label>
+                            </div>
+                            <div class="code_div">
+                                <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold bg-light code_info">
+                                    <div>
+                                        <span class="cdNm"></span>
+                                        <span class="cd text-muted"></span>
+                                    </div>
+                                    <div>
+                                        <span>코드 설명: </span>
+                                        <span class="cdDesc"></span>
+                                        <span class="ms-2">|</span>
+                                        <span class="ms-2">사용여부: <span class="useYn"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="code_none mb-3 fw-bold border rounded-3 p-3 bg-light">
+                                <span>하위 코드가 없습니다</span>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${cdSeq}">
+                        <h3 class="mb-3 ms-3">코드 상세</h3>
+
+                        <div class="p-3">
+                            <div class="mb-3">
+                                <h5 class="fw-bold border rounded-3 p-3 bg-light">
+                                    <span class="cdNm"></span>
+                                    <span class="cd text-muted"></span>
+                                </h5>
+                            </div>
+    
+                            <div class="mb-3 d-flex justify-content-between text-muted border rounded-3 p-3 fw-bold">
+                                <div>
+                                    <span>코드 설명: </span>
+                                    <span class="cdDesc"></span>
+                                </div>
+                                <div>
+                                    <span>사용여부: <span class="useYn"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                    
+                    <input type="hidden" id="cdSeq" th:value="${cdSeq}">
+                    <input type="hidden" id="grpSeq" th:value="${grpSeq}">
+
+                    <div class="d-flex justify-content-end mt-3 me-4 mb-3">
+                        <a href="/code/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.list}"></a>
+                    </div>
+                </main>
+
+                <!-- modal -->
+                <input type="hidden" id="errorRequest" th:value="#{error.request}">
+                <div th:include="common/modal :: alert" th:remove="tag"></div>
+                <div th:include="common/modal :: confirm" th:remove="tag"></div>
+            </div>
+            <!-- ./ container -->
+        </div>
+        <!-- ./ container-block -->
+     </div>
+     <!-- ./ warp -->
+</body>
+</html>
