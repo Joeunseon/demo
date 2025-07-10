@@ -39,7 +39,7 @@ public class CommonRestController {
 
     @GetMapping("/selectbox/code")
     @Operation(summary = "셀렉트박스 조회 API (code)", description = "그룹코드를 전달 받아 옵션 목록을 조회합니다.")
-    public ApiResponse<List<SelectBoxDTO>> getCode(@Parameter(description = "select box option 조회를 위한 그룹코드") @RequestParam(value = "grpCd") String grpCd) {
+    public ApiResponse<List<SelectBoxDTO>> getCode(@Parameter(description = "select box option 조회를 위한 그룹코드") @RequestParam(value = "grpCd", required = false) String grpCd) {
 
         return codeService.getCode(grpCd);
     }

@@ -129,15 +129,15 @@ public class CodeService {
         try {
             if ( codeType == CodeType.GRP ) {
                 if ( cmmCdGrpRepository.countByGrpNm(cdNm) > 0 )
-                    return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "코드명")); 
+                    return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "코드 이름")); 
             }
 
             if ( codeType == CodeType.CD ) {
                 if ( cmmCdRepository.countByCdNm(cdNm) > 0 )
-                    return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "코드명"));
+                    return ApiResponse.error(HttpStatus.BAD_REQUEST, msgUtil.getMessage(MenuMsgKey.FAILED_DUPLICATION.getKey(), "코드 이름"));
             }
 
-            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCESS_DUPLICATION.getKey(), "코드명"));
+            return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCESS_DUPLICATION.getKey(), "코드 이름"));
         } catch (Exception e) {
             log.error(">>>> CodeService::checkDuplicateCdNm: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
