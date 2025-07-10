@@ -42,7 +42,7 @@ public class CodeRestController {
         return codeService.findAll(dto);
     }
 
-    @PostMapping("/api/code-group")
+    @PostMapping("/code-group")
     @Operation(summary = "그룹 코드 등록 API", description = "등록할 그룹 코드의 정보를 전달 받아 그룹 코드를 등록합니다.")
     public ApiResponse<Integer> createGrp(@Parameter(description = "그룹 코드 등록을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody CodeCreateDTO dto) {
 
