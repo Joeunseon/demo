@@ -15,7 +15,7 @@ public class CmmCdGrpRepositoryImpl implements CmmCdGrpRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<SelectBoxDTO> findSelectOptions() {
+    public List<SelectBoxDTO> findAllOrderByRegDtAsc() {
 
         QCmmCdGrpEntity cmmCdGrp = QCmmCdGrpEntity.cmmCdGrpEntity;
 

@@ -8,7 +8,7 @@ import com.project.demo.api.common.application.dto.SelectBoxDTO;
 
 public interface CmmCdRepositoryCustom {
 
-    List<SelectBoxDTO> findSelectOptions(String grpCd);
+    List<SelectBoxDTO> findAllByGrpCd(String grpCd);
 
     Long countBySearch(CodeRequestDTO dto);
 

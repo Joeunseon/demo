@@ -22,7 +22,7 @@ public class CmmCdRepositoryImpl implements CmmCdRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<SelectBoxDTO> findSelectOptions(String grpCd) {
+    public List<SelectBoxDTO> findAllByGrpCd(String grpCd) {
 
         QCmmCdEntity cmmCd = QCmmCdEntity.cmmCdEntity;
         QCmmCdGrpEntity cmmCdGrp = QCmmCdGrpEntity.cmmCdGrpEntity;

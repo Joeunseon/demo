@@ -5,15 +5,18 @@ import java.util.Map;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.api.code.application.CodeService;
+import com.project.demo.api.code.application.dto.CdDetailDTO;
 import com.project.demo.api.code.application.dto.CodeCheckDuplicateDTO;
 import com.project.demo.api.code.application.dto.CodeCreateDTO;
 import com.project.demo.api.code.application.dto.CodeRequestDTO;
+import com.project.demo.api.code.application.dto.GrpDetailDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
 import com.project.demo.common.util.MsgUtil;
@@ -22,6 +25,7 @@ import com.project.demo.common.validation.ValidationSequence;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Code API", description = "코드 API")
@@ -40,6 +44,20 @@ public class CodeRestController {
     public ApiResponse<Map<String, Object>> findAll(@Parameter(description = "코드 목록 조회 진행을 위한 DTO") CodeRequestDTO dto) {
         
         return codeService.findAll(dto);
+    }
+
+    @GetMapping("/code-group/{grpSeq}")
+    @Operation(summary = "그룹코드 상세 조회 API", description = "그룹코드 SEQ를 전달 받아 그룹코드 상세를 조회합니다.")
+    public ApiResponse<GrpDetailDTO> findByGrp(@Parameter(description = "조회할 그룹코드 SEQ") @PathVariable("grpSeq") @Min(value = 0, message = "{error.request}") Integer grpSeq) {
+
+        return codeService.findByGrp(grpSeq);
+    }
+
+    @GetMapping("/code/{cdSeq}")
+     @Operation(summary = "그룹코드 상세 조회 API", description = "코드 SEQ를 전달 받아 코드 상세를 조회합니다.")
+    public ApiResponse<CdDetailDTO> findByCd(@Parameter(description = "조회할 코드 SEQ") @PathVariable("cdSeq") @Min(value = 0, message = "{error.request}") Integer cdSeq) {
+
+        return codeService.findByCd(cdSeq);
     }
 
     @PostMapping("/code-group")
