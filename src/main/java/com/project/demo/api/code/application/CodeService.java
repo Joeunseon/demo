@@ -3,14 +3,18 @@ package com.project.demo.api.code.application;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.project.demo.api.code.application.dto.CdDetailDTO;
 import com.project.demo.api.code.application.dto.CodeCreateDTO;
 import com.project.demo.api.code.application.dto.CodeRequestDTO;
+import com.project.demo.api.code.application.dto.GrpDetailDTO;
 import com.project.demo.api.code.domain.CmmCdEntity;
 import com.project.demo.api.code.domain.CmmCdGrpEntity;
 import com.project.demo.api.code.infrastructure.CmmCdGrpRepository;
@@ -40,9 +44,9 @@ public class CodeService {
 
         try {
             if ( StringUtils.hasText(grpCd) ) {
-                return ApiResponse.success(cmmCdRepository.findSelectOptions(grpCd));
+                return ApiResponse.success(cmmCdRepository.findAllByGrpCd(grpCd));
             } else {
-                return ApiResponse.success(cmmCdGrpRepository.findSelectOptions());
+                return ApiResponse.success(cmmCdGrpRepository.findAllOrderByRegDtAsc());
             }
         } catch (Exception e) {
             log.error(">>>> CodeService::getCode: ", e);
@@ -67,6 +71,52 @@ public class CodeService {
             return ApiResponse.success(dataMap);
         } catch (Exception e) {
             log.error(">>>> CodeService::findAll: ", e);
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
+        }
+    }
+
+    public ApiResponse<GrpDetailDTO> findByGrp(Integer grpSeq) {
+
+        try {
+            // 1. 그룹코드 조회
+            Optional<CmmCdGrpEntity> grpOptional = cmmCdGrpRepository.findById(Long.valueOf(grpSeq));
+
+            if ( !grpOptional.isEmpty() ) {
+                CmmCdGrpEntity grpEntity = grpOptional.get();
+
+                // 2. 그룹코드 DTO 생성
+                GrpDetailDTO grpDetailDTO = GrpDetailDTO.of(grpEntity);
+
+                // 3. 하위 코드 리스트 조회
+                List<CmmCdEntity> cdEntityList = cmmCdRepository.findByCmmCdGrp(grpEntity);
+
+                // 4. 하위 코드 DTO 변환
+                List<CdDetailDTO> children = cdEntityList.stream()
+                                                        .map(CdDetailDTO::of)
+                                                        .collect(Collectors.toList());
+                
+                // 5. 하위 코드 리스트 설정
+                grpDetailDTO.ofChildren(children);
+
+                return ApiResponse.success(grpDetailDTO);
+            }
+
+            return ApiResponse.success();
+        } catch (Exception e) {
+            log.error(">>>> CodeService::findByGrp: ", e);
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
+        }
+    }
+
+    public ApiResponse<CdDetailDTO> findByCd(Integer cdSeq) {
+
+        try {
+            Optional<CmmCdEntity> cdOptional = cmmCdRepository.findById(Long.valueOf(cdSeq));
+
+            return cdOptional.map(info -> ApiResponse.success(CdDetailDTO.of(info)))
+                            .orElse(ApiResponse.success());
+        } catch (Exception e) {
+            log.error(">>>> CodeService::findByCd: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }

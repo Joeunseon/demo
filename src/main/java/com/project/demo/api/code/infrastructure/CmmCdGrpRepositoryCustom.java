@@ -6,5 +6,5 @@ import com.project.demo.api.common.application.dto.SelectBoxDTO;
 
 public interface CmmCdGrpRepositoryCustom {
 
-    public List<SelectBoxDTO> findSelectOptions();
+    public List<SelectBoxDTO> findAllOrderByRegDtAsc();
 }
