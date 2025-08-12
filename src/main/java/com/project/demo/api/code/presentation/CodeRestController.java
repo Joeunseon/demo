@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import com.project.demo.api.code.application.dto.CdDetailDTO;
 import com.project.demo.api.code.application.dto.CodeCheckDuplicateDTO;
 import com.project.demo.api.code.application.dto.CodeCreateDTO;
 import com.project.demo.api.code.application.dto.CodeRequestDTO;
+import com.project.demo.api.code.application.dto.CodeUpdateDTO;
 import com.project.demo.api.code.application.dto.GrpDetailDTO;
 import com.project.demo.common.ApiResponse;
 import com.project.demo.common.constant.CommonMsgKey;
@@ -85,5 +87,19 @@ public class CodeRestController {
             return codeService.checkDuplicateCdNm(dto.getCdNm(), dto.getCodeType());
 
         return ApiResponse.error(msgUtil.getMessage(CommonMsgKey.FAILED_REQUEST.getKey()));
+    }
+
+    @PatchMapping("/code-group")
+    @Operation(summary = "그룹 코드 수정 API", description = "수정할 그룹 코드의 정보를 전달 받아 그룹 코드를 수정합니다.")
+    public ApiResponse<Integer> editGrp(@Parameter(description = "그룹 코드 수정을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody CodeUpdateDTO dto) {
+
+        return codeService.updateGrp(dto);
+    }
+
+    @PatchMapping("/code")
+    @Operation(summary = "그룹 코드 수정 API", description = "수정할 코드의 정보를 전달 받아 코드를 수정합니다.")
+    public ApiResponse<Integer> editCd(@Parameter(description = "코드 수정을 위한 DTO") @Validated(ValidationSequence.class) @RequestBody CodeUpdateDTO dto) {
+
+        return codeService.updateCd(dto);
     }
 }

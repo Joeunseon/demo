@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import com.project.demo.api.code.application.dto.CdDetailDTO;
 import com.project.demo.api.code.application.dto.CodeCreateDTO;
 import com.project.demo.api.code.application.dto.CodeRequestDTO;
+import com.project.demo.api.code.application.dto.CodeUpdateDTO;
 import com.project.demo.api.code.application.dto.GrpDetailDTO;
 import com.project.demo.api.code.domain.CmmCdEntity;
 import com.project.demo.api.code.domain.CmmCdGrpEntity;
@@ -190,6 +191,36 @@ public class CodeService {
             return ApiResponse.success(msgUtil.getMessage(MenuMsgKey.SUCCESS_DUPLICATION.getKey(), "코드 이름"));
         } catch (Exception e) {
             log.error(">>>> CodeService::checkDuplicateCdNm: ", e);
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
+        }
+    }
+
+    public ApiResponse<Integer> updateGrp(CodeUpdateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) 
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+
+            cmmCdGrpRepository.updateById(dto.toGrpEntity(dto.getUserSessionDTO().getUserSeq()));
+            
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), dto.getGrpSeq());
+        } catch (Exception e) {
+            log.error(">>>> CodeService::updateGrp: ", e);
+            throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
+        }
+    }
+
+    public ApiResponse<Integer> updateCd(CodeUpdateDTO dto) {
+
+        try {
+            if ( dto.getUserSessionDTO() == null || dto.getUserSessionDTO().getUserSeq() == null ) 
+                return ApiResponse.error(HttpStatus.FORBIDDEN, msgUtil.getMessage(CommonMsgKey.FAILED_FORBIDDEN.getKey()));
+
+            cmmCdRepository.updateById(dto.toCdEntity(dto.getUserSessionDTO().getUserSeq()));
+
+            return ApiResponse.success(msgUtil.getMessage(CommonMsgKey.SUCCESS.getKey()), dto.getCdSeq());
+        } catch (Exception e) {
+            log.error(">>>> CodeService::updateCd: ", e);
             throw new CustomException(msgUtil.getMessage(CommonMsgKey.FAILED.getKey()), HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }

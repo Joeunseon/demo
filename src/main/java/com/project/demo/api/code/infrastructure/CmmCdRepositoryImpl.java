@@ -6,6 +6,7 @@ import org.springframework.util.StringUtils;
 
 import com.project.demo.api.code.application.dto.CodeListDTO;
 import com.project.demo.api.code.application.dto.CodeRequestDTO;
+import com.project.demo.api.code.domain.CmmCdEntity;
 import com.project.demo.api.code.domain.QCmmCdEntity;
 import com.project.demo.api.code.domain.QCmmCdGrpEntity;
 import com.project.demo.api.code.value.UseYn;
@@ -98,5 +99,21 @@ public class CmmCdRepositoryImpl implements CmmCdRepositoryCustom {
                             .limit(dto.getPageScale())
                             .offset(dto.getOffSet())
                             .fetch();
+    }
+
+    public Long updateById(CmmCdEntity entity) {
+
+        QCmmCdEntity cmmCd = QCmmCdEntity.cmmCdEntity;
+
+        return queryFactory.update(cmmCd)
+                            .set(cmmCd.cmmCdGrp.grpCd, entity.getCmmCdGrp().getGrpCd())
+                            .set(cmmCd.cd, entity.getCd())
+                            .set(cmmCd.cdNm, entity.getCdNm())
+                            .set(cmmCd.cdDesc, entity.getCdDesc())
+                            .set(cmmCd.useYn, entity.getUseYn())
+                            .set(cmmCd.updDt, entity.getUpdDt())
+                            .set(cmmCd.updSeq, entity.getUpdSeq())
+                            .where(cmmCd.cdSeq.eq(entity.getCdSeq()))
+                            .execute();
     }
 }
