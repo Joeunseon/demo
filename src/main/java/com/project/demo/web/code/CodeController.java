@@ -30,4 +30,13 @@ public class CodeController {
 
         return "/code/regist";
     }
+
+    @GetMapping("/edit")
+    public String edit(@RequestParam(value = "grpSeq", required = false) Integer grpSeq, @RequestParam(value = "cdSeq", required = false) Integer cdSeq, ModelMap model) {
+
+        model.addAttribute("grpSeq", grpSeq);
+        model.addAttribute("cdSeq", cdSeq);
+        
+        return "/code/edit";
+    }
 }

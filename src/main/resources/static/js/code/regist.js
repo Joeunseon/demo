@@ -15,7 +15,7 @@ $(document).ready(function () {
     $('input[name=codeType]').on('change', function() {
         const codeType = $('input[name=codeType]:checked').val();
 
-        if ( codeType == 'grp' ) {
+        if ( codeType == 'GRP' ) {
             $('#grpSeq').closest('div').hide();
         } else {
             $('#grpSeq').closest('div').show();
