@@ -80,6 +80,12 @@
 
                     <div class="d-flex justify-content-end mt-3 me-4 mb-3">
                         <a href="/code/list" class="btn btn-secondary rounded-pill px-4 py-2 me-1" th:text="#{button.list}"></a>
+                        <th:block th:if="${grpSeq}">
+                            <a th:href="@{/code/edit(grpSeq=${grpSeq})}"  class="btn btn-dark rounded-pill px-4 py-2 me-1" th:text="#{button.edit}"></a>
+                        </th:block>
+                        <th:block th:if="${cdSeq}">
+                            <a th:href="@{/code/edit(cdSeq=${cdSeq})}"  class="btn btn-dark rounded-pill px-4 py-2 me-1" th:text="#{button.edit}"></a>
+                        </th:block>
                     </div>
                 </main>
 
